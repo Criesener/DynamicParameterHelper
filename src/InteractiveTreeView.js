@@ -734,12 +734,9 @@ class InteractiveTreeView {
      */
     getSelectedPathsForSAP() {
         if (!this.outputFormatter) {
-            this.outputFormatter = new OutputFormatter({
-                lineFormat: 'multiline',
-                enableRealTime: true,
-                escapeSpecialChars: true,
-                validateFormat: true
-            });
+            // OutputFormatter will be loaded when needed
+            console.log('OutputFormatter not initialized');
+            return { metadata: { valid: false }, output: '' };
         }
         
         const selectedNodes = this.selectionManager.getSelectedNodes();

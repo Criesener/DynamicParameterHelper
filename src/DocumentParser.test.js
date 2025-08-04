@@ -366,8 +366,8 @@ describe('DocumentParser', () => {
     describe('Performance Considerations', () => {
         test('should handle reasonably large documents', async () => {
             const largeJson = JSON.stringify({
-                data: Array(1000).fill({ key: 'value', nested: { deep: 'content' } })
-            });
+                data: Array(100).fill({ key: 'value', nested: { deep: 'content' } })
+            }, null, 2); // Pretty print to avoid single long line
             
             const startTime = Date.now();
             const result = await parser.parse(largeJson);

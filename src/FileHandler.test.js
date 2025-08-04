@@ -216,7 +216,7 @@ describe('FileHandler', () => {
         test('should create hidden input if none provided', () => {
             fileHandler.setupFileInput();
             
-            expect(document.createElement).toHaveBeenCalledWith('input');
+            expect(jest.mocked(document.createElement)).toHaveBeenCalledWith('input');
             expect(fileHandler.fileInput.type).toBe('file');
             expect(fileHandler.fileInput.style.display).toBe('none');
             expect(fileHandler.fileInput.multiple).toBe(false);

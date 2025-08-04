@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Quick Test - Issue #4</title>
+</head>
+<body>
+    <h1>Quick Test - Issue #4: XML Namespace Handler</h1>
+    <div id="results"></div>
+    
+    <script src="src/NamespaceHandler.js"></script>
+    <script>
+        const results = document.getElementById('results');
+        
+        function log(message) {
+            const div = document.createElement('div');
+            div.innerHTML = message;
+            results.appendChild(div);
+            console.log(message.replace(/<[^>]*>/g, ''));
+        }
+        
+        try {
+            // Test NamespaceHandler creation
+            const handler = new NamespaceHandler();
+            log('✅ NamespaceHandler created successfully');
+            
+            // Test prefix generation
+            const prefix = handler.assignPrefixForDefault('http://example.com/test', new Map());
+            log(`✅ Generated prefix: ${prefix}`);
+            
+            // Test SAP formatting
+            const testMap = new Map([
+                ['http://soap.com', 'soap'],
+                ['http://example.com/ns', 'ns1']
+            ]);
+            const sapFormat = handler.formatForSAP(testMap);
+            log(`✅ SAP Format: ${sapFormat}`);
+            
+            // Test XML parsing (basic)
+            const xmlString = `<root xmlns:soap="http://soap.com" xmlns="http://default.com"><soap:body><item>test</item></soap:body></root>`;
+            const parser = new DOMParser();
+            const xmlDoc = parser.parseFromString(xmlString, 'application/xml');
+            
+            const namespaces = handler.extractNamespaces(xmlDoc);
+            log(`✅ Extracted ${namespaces.size} namespaces`);
+            
+            const sapFromXML = handler.formatForSAP(namespaces);
+            log(`✅ SAP from XML: ${sapFromXML}`);
+            
+            log('<br><strong>🎉 ISSUE #4 IMPLEMENTATION WORKING!</strong>');
+            
+        } catch (error) {
+            log(`❌ Error: ${error.message}`);
+        }
+    </script>
+</body>
+</html>

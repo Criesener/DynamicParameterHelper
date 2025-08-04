@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Issue #4 Verification - XML Namespace Handler</title>
+    <style>
+        body { font-family: monospace; margin: 20px; background: #1a1a1a; color: #00ff00; }
+        .header { color: #00ffff; font-size: 20px; margin-bottom: 20px; }
+        .success { color: #00ff00; }
+        .error { color: #ff0000; }
+        .info { color: #ffff00; }
+        .result { margin: 10px 0; padding: 5px; }
+        pre { background: #2a2a2a; padding: 10px; border-radius: 5px; overflow-x: auto; }
+        .summary { background: #2a2a2a; padding: 15px; border-radius: 5px; margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <div class="header">🔍 VERIFYING ISSUE #4: XML NAMESPACE HANDLER IMPLEMENTATION</div>
+    <div id="output"></div>
+
+    <!-- Load modules -->
+    <script src="src/NamespaceHandler.js"></script>
+    <script src="src/PathExtractor.js"></script>
+    
+    <script>
+        const output = document.getElementById('output');
+        
+        function log(message, className = '') {
+            const div = document.createElement('div');
+            div.className = `result ${className}`;
+            div.innerHTML = message;
+            output.appendChild(div);
+            console.log(message.replace(/<[^>]*>/g, ''));
+        }
+
+        function createXMLDocument(xmlString) {
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(xmlString, 'application/xml');
+            const parseError = doc.querySelector('parsererror');
+            if (parseError) {
+                throw new Error('Invalid XML: ' + parseError.textContent);
+            }
+            return doc;
+        }
+
+        function assert(condition, message) {
+            if (!condition) {
+                throw new Error(message || 'Assertion failed');
+            }
+        }
+
+        function assertEqual(actual, expected, message) {
+            if (actual !== expected) {
+                throw new Error(`${message || 'Values not equal'}: expected "${expected}", got "${actual}"`);
+            }
+        }
+        
+        class Issue4Verification {
+            constructor() {
+                this.tests = [];
+                this.results = [];
+                this.namespaceHandler = new NamespaceHandler();
+                this.pathExtractor = new PathExtractor();
+            }
+
+            test(name, testFn) {
+                this.tests.push({ name, testFn });
+            }
+
+            async runAll() {
+                log(`🧪 Running ${this.tests.length} verification tests...`, 'info');
+                log('');
+                
+                for (const { name, testFn } of this.tests) {
+                    try {
+                        const startTime = performance.now();
+                        await testFn();
+                        const duration = performance.now() - startTime;
+                        
+                        this.results.push({ name, status: 'PASS', duration });
+                        log(`✅ ${name} (${duration.toFixed(2)}ms)`, 'success');
+                    } catch (error) {
+                        this.results.push({ name, status: 'FAIL', error: error.message });
+                        log(`❌ ${name}: ${error.message}`, 'error');
+                    }
+                }
+                
+                this.printSummary();
+            }
+
+            printSummary() {
+                const passed = this.results.filter(r => r.status === 'PASS').length;
+                const failed = this.results.filter(r => r.status === 'FAIL').length;
+                const totalTime = this.results.reduce((sum, r) => sum + (r.duration || 0), 0);
+                
+                log('');
+                log(`<div class="summary">
+                    <div style="color: #00ffff; font-size: 18px; margin-bottom: 10px;">📊 ISSUE #4 VERIFICATION SUMMARY</div>
+                    <div>✅ Passed: ${passed}</div>
+                    <div>❌ Failed: ${failed}</div>
+                    <div>⏱️ Total Time: ${totalTime.toFixed(2)}ms</div>
+                    <div>📈 Success Rate: ${((passed / this.tests.length) * 100).toFixed(1)}%</div>
+                </div>`);
+                
+                if (failed === 0) {
+                    log('');
+                    log('🎉 <strong>ISSUE #4 IMPLEMENTATION VERIFIED SUCCESSFULLY!</strong>', 'success');
+                    log('✨ All acceptance criteria have been met.', 'success');
+                    return true;
+                } else {
+                    log('');
+                    log('⚠️ <strong>ISSUE #4 IMPLEMENTATION HAS FAILURES</strong>', 'error');
+                    log('🔧 Please fix the failing tests before closing the issue.', 'error');
+                    return false;
+                }
+            }
+        }
+
+        const verification = new Issue4Verification();
+
+        // ================================
+        // ACCEPTANCE CRITERIA TESTS
+        // ================================
+
+        verification.test('AC1: NamespaceHandler class exists with all required methods', () => {
+            assert(typeof NamespaceHandler === 'function', 'NamespaceHandler class should exist');
+            
+            const handler = new NamespaceHandler();
+            assert(typeof handler.extractNamespaces === 'function', 'extractNamespaces method should exist');
+            assert(typeof handler.detectDefaultNamespace === 'function', 'detectDefaultNamespace method should exist');
+            assert(typeof handler.assignPrefixForDefault === 'function', 'assignPrefixForDefault method should exist');
+            assert(typeof handler.formatForSAP === 'function', 'formatForSAP method should exist');
+            assert(typeof handler.resolveNamespace === 'function', 'resolveNamespace method should exist');
+        });
+
+        verification.test('AC2: Extract all namespace declarations', () => {
+            const xmlDoc = createXMLDocument(`
+                <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"
+                               xmlns:ns1="http://example.com/users"
+                               xmlns="http://example.com/default">
+                    <soap:Body>
+                        <ns1:GetUser>
+                            <ns1:UserId>123</ns1:UserId>
+                        </ns1:GetUser>
+                    </soap:Body>
+                </soap:Envelope>
+            `);
+            
+            const namespaces = verification.namespaceHandler.extractNamespaces(xmlDoc);
+            
+            assert(namespaces.has('http://schemas.xmlsoap.org/soap/envelope/'), 'Should extract SOAP namespace');
+            assert(namespaces.has('http://example.com/users'), 'Should extract users namespace');
+            assert(namespaces.has('http://example.com/default'), 'Should extract default namespace');
+            
+            assertEqual(namespaces.get('http://schemas.xmlsoap.org/soap/envelope/'), 'soap', 'SOAP namespace should have soap prefix');
+            assertEqual(namespaces.get('http://example.com/users'), 'ns1', 'Users namespace should have ns1 prefix');
+            
+            // Default namespace should be assigned a prefix
+            const defaultPrefix = namespaces.get('http://example.com/default');
+            assert(defaultPrefix && defaultPrefix.startsWith('ns'), 'Default namespace should be assigned ns-style prefix');
+        });
+
+        verification.test('AC3: Detect default namespaces properly', () => {
+            const xmlDoc = createXMLDocument(`
+                <root xmlns="http://example.com/root-default">
+                    <child xmlns="http://example.com/child-default">
+                        <grandchild>content</grandchild>
+                    </child>
+                </root>
+            `);
+            
+            const defaultNS = verification.namespaceHandler.detectDefaultNamespace(xmlDoc);
+            assertEqual(defaultNS, 'http://example.com/root-default', 'Should detect root-level default namespace');
+        });
+
+        verification.test('AC4: Assign prefixes for default namespaces', () => {
+            const existingMap = new Map([
+                ['http://example.com/existing', 'ns0']
+            ]);
+            
+            const prefix1 = verification.namespaceHandler.assignPrefixForDefault('http://example.com/new1', existingMap);
+            const prefix2 = verification.namespaceHandler.assignPrefixForDefault('http://example.com/new2', existingMap);
+            
+            assert(prefix1.startsWith('ns'), 'Should generate ns-style prefix');
+            assert(prefix2.startsWith('ns'), 'Should generate ns-style prefix');
+            assert(prefix1 !== prefix2, 'Should generate unique prefixes');
+            assert(prefix1 !== 'ns0', 'Should not conflict with existing prefixes');
+        });
+
+        verification.test('AC5: Format for SAP CI integration', () => {
+            const namespaceMap = new Map([
+                ['http://schemas.xmlsoap.org/soap/envelope/', 'soap'],
+                ['http://example.com/users', 'ns1'],
+                ['http://example.com/orders', 'ns2']
+            ]);
+            
+            const sapFormat = verification.namespaceHandler.formatForSAP(namespaceMap);
+            
+            assert(sapFormat.includes('soap=http://schemas.xmlsoap.org/soap/envelope/'), 'Should include SOAP namespace');
+            assert(sapFormat.includes('ns1=http://example.com/users'), 'Should include users namespace');
+            assert(sapFormat.includes('ns2=http://example.com/orders'), 'Should include orders namespace');
+            assert(sapFormat.includes(';'), 'Should use semicolon separator');
+            assert(!sapFormat.endsWith(';'), 'Should not end with semicolon');
+            
+            // Verify format: "prefix1=uri1;prefix2=uri2"
+            const parts = sapFormat.split(';');
+            assert(parts.length === 3, 'Should have 3 namespace parts');
+            parts.forEach(part => {
+                assert(part.includes('='), 'Each part should contain = separator');
+                assert(!part.startsWith('='), 'Should not start with =');
+                assert(!part.endsWith('='), 'Should not end with =');
+            });
+        });
+
+        verification.test('AC6: Resolve namespace for specific elements', () => {
+            const xmlDoc = createXMLDocument(`
+                <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"
+                               xmlns="http://example.com/default">
+                    <soap:Body>
+                        <GetUser>
+                            <UserId>123</UserId>
+                        </GetUser>
+                    </soap:Body>
+                </soap:Envelope>
+            `);
+            
+            const soapBody = xmlDoc.getElementsByTagName('Body')[0];
+            const getUser = xmlDoc.getElementsByTagName('GetUser')[0];
+            
+            const soapBodyNS = verification.namespaceHandler.resolveNamespace(soapBody);
+            assertEqual(soapBodyNS.uri, 'http://schemas.xmlsoap.org/soap/envelope/', 'Should resolve SOAP namespace');
+            assertEqual(soapBodyNS.prefix, 'soap', 'Should have soap prefix');
+            
+            const getUserNS = verification.namespaceHandler.resolveNamespace(getUser);
+            assertEqual(getUserNS.uri, 'http://example.com/default', 'Should resolve default namespace');
+        });
+
+        // ================================
+        // EDGE CASE TESTS
+        // ================================
+
+        verification.test('EDGE: Multiple default namespaces at different levels', () => {
+            const xmlDoc = createXMLDocument(`
+                <root xmlns="http://example.com/root">
+                    <level1 xmlns="http://example.com/level1">
+                        <level2 xmlns="http://example.com/level2">
+                            <content>text</content>
+                        </level2>
+                    </level1>
+                </root>
+            `);
+            
+            const namespaces = verification.namespaceHandler.extractNamespaces(xmlDoc);
+            
+            assert(namespaces.has('http://example.com/root'), 'Should extract root namespace');
+            assert(namespaces.has('http://example.com/level1'), 'Should extract level1 namespace');
+            assert(namespaces.has('http://example.com/level2'), 'Should extract level2 namespace');
+            
+            // All should have unique prefixes
+            const prefixes = [
+                namespaces.get('http://example.com/root'),
+                namespaces.get('http://example.com/level1'),
+                namespaces.get('http://example.com/level2')
+            ];
+            
+            const uniquePrefixes = new Set(prefixes);
+            assertEqual(uniquePrefixes.size, 3, 'All prefixes should be unique');
+        });
+
+        verification.test('EDGE: Special characters in namespace URIs', () => {
+            const namespaceMap = new Map([
+                ['http://example.com/ns;with=special&chars', 'ns1']
+            ]);
+            
+            const sapFormat = verification.namespaceHandler.formatForSAP(namespaceMap);
+            
+            // Special characters should be encoded
+            assert(sapFormat.includes('ns1=http://example.com/ns%3Bwith%3Dspecial&chars'), 'Should encode special characters');
+        });
+
+        // ================================
+        // INTEGRATION TESTS
+        // ================================
+
+        verification.test('INTEGRATION: PathExtractor uses NamespaceHandler', () => {
+            const xmlDoc = createXMLDocument(`
+                <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"
+                               xmlns="http://example.com/default">
+                    <soap:Body>
+                        <GetUser>
+                            <UserId>123</UserId>
+                        </GetUser>
+                    </soap:Body>
+                </soap:Envelope>
+            `);
+            
+            // Test that PathExtractor now uses NamespaceHandler
+            const paths = verification.pathExtractor.extractXPaths(xmlDoc);
+            assert(paths.length > 0, 'PathExtractor should extract paths');
+            
+            // Test SAP format generation
+            const sapFormat = verification.pathExtractor.getSAPNamespaceFormat(xmlDoc);
+            assert(sapFormat.length > 0, 'Should generate SAP namespace format');
+            assert(sapFormat.includes('soap=http://schemas.xmlsoap.org/soap/envelope/'), 'SAP format should include SOAP namespace');
+            
+            log(`   📋 Generated SAP format: <code>${sapFormat}</code>`, 'info');
+        });
+
+        verification.test('INTEGRATION: Complete SAP CI workflow', () => {
+            const xmlDoc = createXMLDocument(`
+                <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"
+                               xmlns:auth="http://example.com/auth"
+                               xmlns="http://example.com/default">
+                    <soap:Header>
+                        <auth:Authentication>
+                            <auth:Token>secret</auth:Token>
+                        </auth:Authentication>
+                    </soap:Header>
+                    <soap:Body>
+                        <GetUserRequest>
+                            <UserId>123</UserId>
+                        </GetUserRequest>
+                    </soap:Body>
+                </soap:Envelope>
+            `);
+            
+            // Extract paths and generate SAP CI parameters
+            const paths = verification.pathExtractor.extractXPaths(xmlDoc);
+            const sapNamespaces = verification.pathExtractor.getSAPNamespaceFormat(xmlDoc);
+            
+            assert(paths.length > 0, 'Should extract XPath expressions');
+            assert(sapNamespaces.length > 0, 'Should generate SAP namespace format');
+            
+            // Verify SAP format contains all expected namespaces
+            assert(sapNamespaces.includes('soap=http://schemas.xmlsoap.org/soap/envelope/'), 'Should include SOAP namespace');
+            assert(sapNamespaces.includes('auth=http://example.com/auth'), 'Should include auth namespace');
+            
+            // Default namespace should be assigned a prefix
+            const defaultParts = sapNamespaces.split(';').filter(part => part.includes('http://example.com/default'));
+            assert(defaultParts.length === 1, 'Should include default namespace with assigned prefix');
+            
+            log(`   📋 Complete SAP CI format: <code>${sapNamespaces}</code>`, 'info');
+            log(`   📈 Generated ${paths.length} XPath expressions`, 'info');
+        });
+
+        // ================================
+        // PERFORMANCE TESTS
+        // ================================
+
+        verification.test('PERFORMANCE: Large document with many namespaces', () => {
+            // Generate large XML with many namespaces
+            let xmlContent = '<root';
+            for (let i = 0; i < 20; i++) {
+                xmlContent += ` xmlns:ns${i}="http://example.com/ns${i}"`;
+            }
+            xmlContent += ' xmlns="http://example.com/default">';
+            
+            for (let i = 0; i < 50; i++) {
+                xmlContent += `<ns${i % 10}:element${i}>content${i}</ns${i % 10}:element${i}>`;
+            }
+            
+            xmlContent += '</root>';
+            
+            const xmlDoc = createXMLDocument(xmlContent);
+            
+            const startTime = performance.now();
+            const namespaces = verification.namespaceHandler.extractNamespaces(xmlDoc);
+            const sapFormat = verification.namespaceHandler.formatForSAP(namespaces);
+            const duration = performance.now() - startTime;
+            
+            assert(namespaces.size >= 20, 'Should extract all namespaces');
+            assert(sapFormat.length > 0, 'Should generate SAP format');
+            assert(duration < 100, `Should process quickly, took ${duration.toFixed(2)}ms`);
+            
+            log(`   📊 Processed ${namespaces.size} namespaces in ${duration.toFixed(2)}ms`, 'info');
+        });
+
+        // ================================
+        // RUN VERIFICATION
+        // ================================
+
+        log('🚀 Starting Issue #4 verification...', 'info');
+        log('');
+
+        verification.runAll().then(success => {
+            if (success) {
+                log('');
+                log('🎯 <strong>VERIFICATION RESULT: ISSUE #4 IS READY TO CLOSE</strong>', 'success');
+                log('✨ All acceptance criteria have been implemented and verified.', 'success');
+                log('🔧 The XML Namespace Handler is fully functional and integrated.', 'success');
+            } else {
+                log('');
+                log('❌ <strong>VERIFICATION RESULT: ISSUE #4 NEEDS MORE WORK</strong>', 'error');
+                log('🚧 Please fix the failing tests before closing the issue.', 'error');
+            }
+        }).catch(error => {
+            log('');
+            log(`💥 <strong>VERIFICATION FAILED WITH ERROR:</strong> ${error.message}`, 'error');
+        });
+    </script>
+</body>
+</html>

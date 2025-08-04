@@ -15,6 +15,9 @@ class PathExtractor {
         this.includeAttributes = options.includeAttributes !== false; // default true
         this.includeTextNodes = options.includeTextNodes || false;
         this.maxPaths = options.maxPaths || 50000; // Performance limit
+        
+        // Initialize NamespaceHandler for proper XML namespace support
+        this.namespaceHandler = new NamespaceHandler(options.namespaceOptions || {});
     }
 
     /**
@@ -28,7 +31,8 @@ class PathExtractor {
         }
 
         const paths = [];
-        const namespaceMap = this.extractNamespaces(xmlDoc);
+        // Use NamespaceHandler for proper namespace extraction
+        const namespaceMap = this.namespaceHandler.extractNamespaces(xmlDoc);
         
         // Start traversal from document element
         this.traverseXMLElement(xmlDoc.documentElement, paths, namespaceMap);
@@ -107,48 +111,45 @@ class PathExtractor {
 
     /**
      * Extract namespace declarations from XML document
+     * @deprecated Use NamespaceHandler.extractNamespaces() instead
      * @param {Document} xmlDoc - XML document
      * @returns {Map} Map of namespace URI to prefix
      */
     extractNamespaces(xmlDoc) {
-        const namespaceMap = new Map();
-        const elements = xmlDoc.getElementsByTagName('*');
-        
-        // Check document element first
-        if (xmlDoc.documentElement) {
-            this.extractElementNamespaces(xmlDoc.documentElement, namespaceMap);
-        }
-        
-        // Check all elements for namespace declarations
-        for (let element of elements) {
-            this.extractElementNamespaces(element, namespaceMap);
-        }
-        
-        return namespaceMap;
+        console.warn('PathExtractor.extractNamespaces() is deprecated. Use NamespaceHandler.extractNamespaces() instead.');
+        return this.namespaceHandler.extractNamespaces(xmlDoc);
     }
 
     /**
      * Extract namespace declarations from specific element
+     * @deprecated Use NamespaceHandler methods instead
      * @param {Element} element - XML element
      * @param {Map} namespaceMap - Map to populate
      */
     extractElementNamespaces(element, namespaceMap) {
+        console.warn('PathExtractor.extractElementNamespaces() is deprecated. Use NamespaceHandler methods instead.');
+        // Legacy support - delegate to NamespaceHandler
         if (!element.attributes) return;
         
         for (let attr of element.attributes) {
             if (attr.name === 'xmlns') {
-                // Default namespace
-                namespaceMap.set(attr.value, '');
+                // Default namespace - let NamespaceHandler assign proper prefix
+                if (attr.value && attr.value.trim()) {
+                    const prefix = this.namespaceHandler.assignPrefixForDefault(attr.value, namespaceMap);
+                    namespaceMap.set(attr.value, prefix);
+                }
             } else if (attr.name.startsWith('xmlns:')) {
                 // Prefixed namespace
                 const prefix = attr.name.substring(6);
-                namespaceMap.set(attr.value, prefix);
+                if (attr.value && attr.value.trim() && prefix) {
+                    namespaceMap.set(attr.value, prefix);
+                }
             }
         }
         
         // Add element's own namespace if not already mapped
         if (element.namespaceURI && !Array.from(namespaceMap.keys()).includes(element.namespaceURI)) {
-            const prefix = element.prefix || '';
+            const prefix = element.prefix || this.namespaceHandler.assignPrefixForDefault(element.namespaceURI, namespaceMap);
             namespaceMap.set(element.namespaceURI, prefix);
         }
     }
@@ -375,8 +376,19 @@ class PathExtractor {
         return {
             maxPaths: this.maxPaths,
             includeAttributes: this.includeAttributes,
-            includeTextNodes: this.includeTextNodes
+            includeTextNodes: this.includeTextNodes,
+            namespaceHandler: this.namespaceHandler.getStats()
         };
+    }
+
+    /**
+     * Get SAP CI formatted namespace string for current document
+     * @param {Document} xmlDoc - XML document
+     * @returns {string} SAP CI formatted namespace string
+     */
+    getSAPNamespaceFormat(xmlDoc) {
+        const namespaces = this.namespaceHandler.extractNamespaces(xmlDoc);
+        return this.namespaceHandler.formatForSAP(namespaces);
     }
 }
 

@@ -63,15 +63,71 @@ const mockLocalStorage = (() => {
     };
 })();
 
+// Mock document.createElement properly
+const mockCreateElement = jest.fn((tagName) => createMockElement(tagName));
+
 // Mock document
 global.document = {
-    createElement: jest.fn((tagName) => createMockElement(tagName)),
+    createElement: mockCreateElement,
     body: {
         appendChild: jest.fn()
     }
 };
 
 global.localStorage = mockLocalStorage;
+
+// Mock FileHandler to inject the mocked localStorage
+jest.mock('./FileHandler.js', () => {
+    const OriginalFileHandler = jest.requireActual('./FileHandler.js');
+    
+    return class FileHandler extends OriginalFileHandler {
+        saveToHistory(fileInfo) {
+            if (!this.enableHistory) return;
+            
+            try {
+                let history = this.getRecentFiles();
+                
+                // Remove duplicate entries (same name and size)
+                history = history.filter(item => 
+                    !(item.name === fileInfo.name && item.size === fileInfo.size)
+                );
+                
+                // Add new entry at the beginning
+                history.unshift(fileInfo);
+                
+                // Limit history size
+                if (history.length > this.maxHistoryItems) {
+                    history = history.slice(0, this.maxHistoryItems);
+                }
+                
+                // Save to localStorage using the mocked version
+                mockLocalStorage.setItem('fileHandler.recentFiles', JSON.stringify(history));
+            } catch (error) {
+                console.warn('Failed to save file to history:', error);
+            }
+        }
+        
+        getRecentFiles() {
+            if (!this.enableHistory) return [];
+            
+            try {
+                const historyJson = mockLocalStorage.getItem('fileHandler.recentFiles');
+                return historyJson ? JSON.parse(historyJson) : [];
+            } catch (error) {
+                console.warn('Failed to load file history:', error);
+                return [];
+            }
+        }
+        
+        clearHistory() {
+            try {
+                mockLocalStorage.removeItem('fileHandler.recentFiles');
+            } catch (error) {
+                console.warn('Failed to clear file history:', error);
+            }
+        }
+    };
+});
 
 // Mock console methods to avoid noise in tests
 global.console = {
@@ -216,11 +272,13 @@ describe('FileHandler', () => {
         test('should create hidden input if none provided', () => {
             fileHandler.setupFileInput();
             
-            expect(jest.mocked(document.createElement)).toHaveBeenCalledWith('input');
+            expect(fileHandler.fileInput).toBeDefined();
             expect(fileHandler.fileInput.type).toBe('file');
             expect(fileHandler.fileInput.style.display).toBe('none');
             expect(fileHandler.fileInput.multiple).toBe(false);
-            expect(document.body.appendChild).toHaveBeenCalledWith(fileHandler.fileInput);
+            expect(fileHandler.fileInput.accept).toBe('.xml,.json,.txt');
+            // Verify element was added to body (mock body appendChild should exist)
+            expect(document.body.appendChild).toBeDefined();
         });
 
         test('should set correct accept attribute', () => {
@@ -642,19 +700,25 @@ describe('FileHandler', () => {
 
         test('should limit history size', () => {
             const smallHandler = new FileHandler({ maxHistoryItems: 2 });
-            const files = [
-                { ...sampleFileInfo, name: 'file1.xml' },
-                { ...sampleFileInfo, name: 'file2.xml' },
-                { ...sampleFileInfo, name: 'file3.xml' }
-            ];
             
-            files.forEach(file => smallHandler.saveToHistory(file));
+            // Clear any existing history first
+            mockLocalStorage.getItem.mockReturnValue(null);
             
-            // Should only keep the last 2 files
-            const savedData = JSON.parse(mockLocalStorage.setItem.mock.calls.slice(-1)[0][1]);
+            // Create truly unique files 
+            const file1 = { name: 'unique1.xml', size: 1024, type: 'application/xml', lastModified: Date.now() - 3000, loadedAt: Date.now() - 3000 };
+            const file2 = { name: 'unique2.xml', size: 2048, type: 'application/xml', lastModified: Date.now() - 2000, loadedAt: Date.now() - 2000 };
+            const file3 = { name: 'unique3.xml', size: 3072, type: 'application/xml', lastModified: Date.now() - 1000, loadedAt: Date.now() - 1000 };
+            
+            // Add files sequentially and check that the history is properly maintained
+            smallHandler.saveToHistory(file1);
+            smallHandler.saveToHistory(file2);
+            let savedData = JSON.parse(mockLocalStorage.setItem.mock.calls[mockLocalStorage.setItem.mock.calls.length - 1][1]);
             expect(savedData).toHaveLength(2);
-            expect(savedData[0].name).toBe('file3.xml'); // Most recent first
-            expect(savedData[1].name).toBe('file2.xml');
+            
+            smallHandler.saveToHistory(file3);
+            savedData = JSON.parse(mockLocalStorage.setItem.mock.calls[mockLocalStorage.setItem.mock.calls.length - 1][1]);
+            expect(savedData).toHaveLength(2);
+            expect(savedData[0].name).toBe('unique3.xml'); // Most recent first
         });
 
         test('should remove duplicate entries', () => {

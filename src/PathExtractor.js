@@ -10,6 +10,10 @@
  * - Handle array notation correctly
  * - Performance optimized for large documents (1MB in <1s, 10k+ paths)
  */
+
+// Import NamespaceHandler for namespace support
+const { NamespaceHandler } = require('./NamespaceHandler');
+
 class PathExtractor {
     constructor(options = {}) {
         this.includeAttributes = options.includeAttributes !== false; // default true

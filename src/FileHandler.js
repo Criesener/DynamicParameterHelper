@@ -288,15 +288,15 @@ class FileHandler {
             throw new Error('File is empty');
         }
         
+        // Name validation (check first to provide better error messages)
+        if (!file.name || file.name.trim() === '') {
+            throw new Error('File must have a valid name');
+        }
+        
         // Type validation (client-side only, not security-critical)
         const extension = this.getFileExtension(file.name);
         if (!this.allowedTypes.includes(extension)) {
             throw new Error(`File type "${extension}" not supported. Allowed types: ${this.allowedTypes.join(', ')}`);
-        }
-        
-        // Name validation
-        if (!file.name || file.name.trim() === '') {
-            throw new Error('File must have a valid name');
         }
         
         // Check for suspicious file name patterns

@@ -72,6 +72,10 @@ function assertContains(array, item, message) {
     }
 }
 
+// Import required classes
+const { PathExtractor, PathExtractorError } = require('./PathExtractor');
+const { NamespaceHandler } = require('./NamespaceHandler');
+
 // Initialize test framework and PathExtractor
 const testFramework = new TestFramework();
 const pathExtractor = new PathExtractor();

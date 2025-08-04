@@ -142,6 +142,7 @@ class DocumentParser {
     looksLikeJSON(input) {
         return (input.startsWith('{') && input.endsWith('}')) ||
                (input.startsWith('[') && input.endsWith(']')) ||
+               (input.startsWith('"') && input.endsWith('"')) ||
                input === 'null' ||
                input === 'true' ||
                input === 'false' ||

@@ -214,16 +214,13 @@ describe('FileHandler', () => {
         });
 
         test('should create hidden input if none provided', () => {
-            const createdInput = createMockElement('input');
-            document.createElement.mockReturnValue(createdInput);
-            
             fileHandler.setupFileInput();
             
             expect(document.createElement).toHaveBeenCalledWith('input');
-            expect(createdInput.type).toBe('file');
-            expect(createdInput.style.display).toBe('none');
-            expect(createdInput.multiple).toBe(false);
-            expect(document.body.appendChild).toHaveBeenCalledWith(createdInput);
+            expect(fileHandler.fileInput.type).toBe('file');
+            expect(fileHandler.fileInput.style.display).toBe('none');
+            expect(fileHandler.fileInput.multiple).toBe(false);
+            expect(document.body.appendChild).toHaveBeenCalledWith(fileHandler.fileInput);
         });
 
         test('should set correct accept attribute', () => {

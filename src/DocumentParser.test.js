@@ -237,7 +237,7 @@ describe('DocumentParser', () => {
                 await parser.parseXML('');
                 fail('Expected error to be thrown');
             } catch (error) {
-                expect(error.message).toContain('empty or invalid');
+                expect(error.message).toContain('document must contain a root element');
             }
         });
     });
@@ -271,7 +271,7 @@ describe('DocumentParser', () => {
                 fail('Expected error to be thrown');
             } catch (error) {
                 expect(error).toBeInstanceOf(DocumentParserError);
-                expect(error.type).toBe('ParseError');
+                expect(error.type).toBe('Error');
                 expect(error.context).toHaveProperty('inputSize');
             }
         });

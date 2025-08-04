@@ -70,6 +70,9 @@ function assertContains(array, item, message) {
     }
 }
 
+// Import required classes
+const { NamespaceHandler, NamespaceHandlerError } = require('./NamespaceHandler');
+
 // Initialize test framework and NamespaceHandler
 const testFramework = new TestFramework();
 const namespaceHandler = new NamespaceHandler();

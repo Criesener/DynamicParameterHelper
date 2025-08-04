@@ -581,3 +581,6 @@ if (typeof module !== 'undefined' && module.exports) {
     window.SelectionStateManager = SelectionStateManager;
     window.SelectionBatch = SelectionBatch;
 }
+
+// ES module export
+export { SelectionStateManager, SelectionBatch };

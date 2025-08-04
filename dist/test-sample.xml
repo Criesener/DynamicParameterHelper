@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sap:Message xmlns:sap="http://sap.com/xi/XI/Message/30"
+             xmlns:tns="http://example.com/test"
+             xmlns:cust="http://example.com/customer">
+    <sap:MessageHeader>
+        <sap:From>
+            <sap:Party>TEST_CLIENT</sap:Party>
+            <sap:Service>FILE_UPLOAD_TEST</sap:Service>
+        </sap:From>
+        <sap:To>
+            <sap:Party>TARGET_SYSTEM</sap:Party>
+            <sap:Service>TEST_RECEIVER</sap:Service>
+        </sap:To>
+        <sap:MessageId>TEST-FILE-UPLOAD-001</sap:MessageId>
+        <sap:Timestamp>2023-01-01T10:00:00.000Z</sap:Timestamp>
+    </sap:MessageHeader>
+    <sap:MessageBody>
+        <tns:TestMessage>
+            <tns:FileUploadData>
+                <tns:FileName>test-sample.xml</tns:FileName>
+                <tns:FileSize>1024</tns:FileSize>
+                <tns:UploadedBy>FileHandler</tns:UploadedBy>
+                <cust:CustomerData>
+                    <cust:CustomerId>CUST-FILE-001</cust:CustomerId>
+                    <cust:CustomerName>File Upload Test Customer</cust:CustomerName>
+                    <cust:TestAddress>
+                        <cust:Street>123 File Upload St</cust:Street>
+                        <cust:City>Test City</cust:City>
+                        <cust:Country>Test Country</cust:Country>
+                    </cust:TestAddress>
+                </cust:CustomerData>
+            </tns:FileUploadData>
+        </tns:TestMessage>
+    </sap:MessageBody>
+</sap:Message>

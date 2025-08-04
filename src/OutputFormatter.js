@@ -386,3 +386,6 @@ ${output.metadata.errors.length > 0 ? `- Errors: ${output.metadata.errors.join('
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = OutputFormatter;
 }
+
+// ES module export
+export { OutputFormatter };

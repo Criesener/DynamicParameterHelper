@@ -1,0 +1,79 @@
+{
+  "timestamp": "2025-08-04T15:27:15.121Z",
+  "builds": [
+    {
+      "name": "Rollup",
+      "path": "./dist",
+      "files": [
+        {
+          "name": "README.md",
+          "size": 2702,
+          "formattedSize": "2.64 KB",
+          "percentage": "2.1"
+        },
+        {
+          "name": "index.html",
+          "size": 124280,
+          "formattedSize": "121.37 KB",
+          "percentage": "95.4"
+        },
+        {
+          "name": "test-sample.json",
+          "size": 1817,
+          "formattedSize": "1.77 KB",
+          "percentage": "1.4"
+        },
+        {
+          "name": "test-sample.xml",
+          "size": 1502,
+          "formattedSize": "1.47 KB",
+          "percentage": "1.2"
+        }
+      ],
+      "totalSize": 130301,
+      "withinLimit": true
+    },
+    {
+      "name": "Webpack",
+      "path": "./dist-webpack",
+      "files": [
+        {
+          "name": "bundle.2a635833.js",
+          "size": 123543,
+          "formattedSize": "120.65 KB",
+          "percentage": "29.2"
+        },
+        {
+          "name": "bundle.2a635833.js.map",
+          "size": 267217,
+          "formattedSize": "260.95 KB",
+          "percentage": "63.2"
+        },
+        {
+          "name": "bundle.546fba4f.js",
+          "size": 1978,
+          "formattedSize": "1.93 KB",
+          "percentage": "0.5"
+        },
+        {
+          "name": "bundle.546fba4f.js.map",
+          "size": 8463,
+          "formattedSize": "8.26 KB",
+          "percentage": "2.0"
+        },
+        {
+          "name": "index.html",
+          "size": 21493,
+          "formattedSize": "20.99 KB",
+          "percentage": "5.1"
+        }
+      ],
+      "totalSize": 422694,
+      "withinLimit": true
+    }
+  ],
+  "summary": {
+    "allWithinLimit": true,
+    "totalBuilds": 2
+  }
+}

@@ -620,3 +620,6 @@ if (typeof module !== 'undefined' && module.exports) {
 } else if (typeof window !== 'undefined') {
     window.VirtualizedTreeView = VirtualizedTreeView;
 }
+
+// ES module export
+export { VirtualizedTreeView };

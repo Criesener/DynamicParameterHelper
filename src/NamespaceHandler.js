@@ -384,3 +384,6 @@ if (typeof module !== 'undefined' && module.exports) {
     window.NamespaceHandler = NamespaceHandler;
     window.NamespaceHandlerError = NamespaceHandlerError;
 }
+
+// ES module export
+export { NamespaceHandler, NamespaceHandlerError };

@@ -12,7 +12,17 @@
  */
 
 // Import NamespaceHandler for namespace support
-const { NamespaceHandler } = require('./NamespaceHandler');
+import { NamespaceHandler } from './NamespaceHandler.js';
+
+// Fallback for CommonJS environments
+let CJSNamespaceHandler;
+if (typeof require !== 'undefined' && typeof module !== 'undefined') {
+    try {
+        CJSNamespaceHandler = require('./NamespaceHandler');
+    } catch (e) {
+        // Ignore error in ES module environments
+    }
+}
 
 class PathExtractor {
     constructor(options = {}) {
@@ -420,3 +430,6 @@ if (typeof module !== 'undefined' && module.exports) {
     window.PathExtractor = PathExtractor;
     window.PathExtractorError = PathExtractorError;
 }
+
+// ES module export
+export { PathExtractor, PathExtractorError };

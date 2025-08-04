@@ -598,3 +598,6 @@ if (typeof module !== 'undefined' && module.exports) {
     window.TreeNode = TreeNode;
     window.TreeDataTransformerError = TreeDataTransformerError;
 }
+
+// ES module export
+export { TreeDataTransformer, TreeNode, TreeDataTransformerError };

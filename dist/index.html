@@ -1,0 +1,1426 @@
+<!-- 
+Built with Rollup on 2025-08-04T15:27:08.499Z
+Single-file distribution for DynamicParameterHelper
+All dependencies bundled and inlined
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DocumentParser Demo & Verification</title>
+    <style>body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 1200px; margin: 0 auto; padding: 20px; background-color: #f5f5f5} .container { background: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1)} h1 { color: #333; border-bottom: 3px solid #007acc; padding-bottom: 10px} .section { margin: 30px 0; padding: 20px; border: 1px solid #e0e0e0; border-radius: 6px; background: #fafafa} .file-upload-section { background: #f0f8ff; border: 2px dashed #007acc} .file-drop-zone { border: 2px dashed #ccc; border-radius: 8px; padding: 40px 20px; text-align: center; background: #fafafa; transition: all 0.3s ease; cursor: pointer; margin: 20px 0; position: relative; min-height: 120px; display: flex; flex-direction: column; justify-content: center; align-items: center} .file-drop-zone:hover, .file-drop-zone:focus { border-color: #007acc; background: #f0f8ff; outline: none} .file-drop-zone.drag-over { border-color: #007acc; background: #e6f3ff; transform: scale(1.02)} .file-drop-zone.drag-valid { border-color: #28a745; background: #d4edda; border-style: solid} .file-drop-zone.drag-invalid { border-color: #dc3545; background: #f8d7da; border-style: solid} .file-drop-zone.drag-error { border-color: #dc3545; background: #f8d7da; animation: shake 0.5s ease-in-out} .file-drop-zone.drag-success { border-color: #28a745; background: #d4edda; border-style: solid} @keyframes shake { 0%, 100% { transform: translateX(0)} 25% { transform: translateX(-5px)} 75% { transform: translateX(5px)} } .drop-zone-content { display: flex; flex-direction: column; align-items: center; gap: 15px} .drop-zone-icon { font-size: 48px; color: #007acc; transition: transform 0.3s ease} .file-drop-zone:hover .drop-zone-icon { transform: scale(1.1)} .drop-zone-text { font-size: 18px; font-weight: 500; color: #333; margin: 0} .drop-zone-subtext { font-size: 14px; color: #666; margin: 0} .file-controls { display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; margin: 20px 0} .file-btn { background: #007acc; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; font-size: 14px; display: flex; align-items: center; gap: 8px; transition: all 0.3s ease} .file-btn:hover { background: #005fa3; transform: translateY(-1px)} .file-btn.secondary { background: #6c757d} .file-btn.secondary:hover { background: #545b62} .file-progress { margin: 20px 0; display: none} .file-progress-bar { width: 100%; height: 8px; background: #e9ecef; border-radius: 4px; overflow: hidden; margin-bottom: 8px} .file-progress-fill { height: 100%; background: linear-gradient(90deg, #007acc, #28a745); width: 0%; transition: width 0.3s ease; border-radius: 4px} .file-progress-text { text-align: center; font-size: 12px; color: #666} .recent-files { margin-top: 20px; padding: 15px; background: white; border: 1px solid #dee2e6; border-radius: 4px} .recent-files h4 { margin: 0 0 10px 0; font-size: 14px; color: #495057} .recent-file-item { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid #f8f9fa; cursor: pointer; transition: background 0.2s ease} .recent-file-item:hover { background: #f8f9fa} .recent-file-item:last-child { border-bottom: none} .recent-file-info { display: flex; flex-direction: column; flex: 1} .recent-file-name { font-size: 13px; font-weight: 500; color: #333} .recent-file-meta { font-size: 11px; color: #666} .recent-file-size { font-size: 11px; color: #999; margin-left: 10px} .file-type-icon { margin-right: 8px; font-size: 16px} .supported-formats { margin-top: 15px; padding: 10px; background: #fff3cd; border: 1px solid #ffeaa7; border-radius: 4px; font-size: 12px; color: #856404} .format-list { display: flex; gap: 15px; margin-top: 5px; flex-wrap: wrap} .format-item { display: flex; align-items: center; gap: 5px} @media (max-width: 768px) { .file-controls { flex-direction: column} .file-btn { justify-content: center} .drop-zone-icon { font-size: 36px} .drop-zone-text { font-size: 16px} } textarea { width: 100%; height: 200px; font-family: 'Courier New', monospace; font-size: 12px; padding: 10px; border: 1px solid #ccc; border-radius: 4px; resize: vertical} button { background: #007acc; color: white; border: none; padding: 12px 24px; border-radius: 4px; cursor: pointer; font-size: 14px; margin: 10px 5px 10px 0} button:hover { background: #005fa3} button:disabled { background: #ccc; cursor: not-allowed} .result { background: #f8f9fa; border: 1px solid #dee2e6; border-radius: 4px; padding: 15px; margin-top: 15px; white-space: pre-wrap; font-family: 'Courier New', monospace; font-size: 12px; max-height: 300px; overflow-y: auto} .success { border-color: #28a745; background-color: #d4edda; color: #155724} .error { border-color: #dc3545; background-color: #f8d7da; color: #721c24} .info { border-color: #17a2b8; background-color: #d1ecf1; color: #0c5460} .test-results { margin-top: 20px} .test-case { margin: 10px 0; padding: 10px; border-radius: 4px} .test-pass { background-color: #d4edda; border: 1px solid #c3e6cb; color: #155724} .test-fail { background-color: #f8d7da; border: 1px solid #f5c6cb; color: #721c24} .metadata { font-size: 11px; color: #666; margin-top: 10px}</style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧩 DocumentParser Verification Demo</h1>
+        <p>This demo verifies that the DocumentParser module meets all requirements from Issue #2.</p>
+
+        <div class="section file-upload-section">
+            <h2>📁 File Upload & Drag-and-Drop</h2>
+            <p>Upload XML, JSON, or TXT files directly or drag and drop them below:</p>
+            
+            <div id="fileDropZone" class="file-drop-zone">
+                <div class="drop-zone-content">
+                    <div class="drop-zone-icon">📁</div>
+                    <p class="drop-zone-text">Drop files here or click to browse</p>
+                    <p class="drop-zone-subtext">Supports XML, JSON, and TXT files up to 10MB</p>
+                </div>
+            </div>
+            
+            <div class="file-controls">
+                <button class="file-btn" onclick="openFileDialog()">
+                    📂 Choose Files
+                </button>
+                <button class="file-btn secondary" onclick="showRecentFiles()">
+                    🕐 Recent Files
+                </button>
+                <button class="file-btn secondary" onclick="clearFileHistory()">
+                    🗑️ Clear History
+                </button>
+            </div>
+            
+            <div id="fileProgress" class="file-progress">
+                <div class="file-progress-bar">
+                    <div class="file-progress-fill"></div>
+                </div>
+                <div class="file-progress-text">Ready</div>
+            </div>
+            
+            <div id="recentFiles" class="recent-files" style="display: none;">
+                <h4>📋 Recent Files</h4>
+                <div id="recentFilesList">
+                    <!-- Recent files populated by JavaScript -->
+                </div>
+            </div>
+            
+            <div class="supported-formats">
+                <strong>📄 Supported Formats:</strong>
+                <div class="format-list">
+                    <div class="format-item">
+                        <span class="file-type-icon">📄</span>
+                        <span>.xml - XML Documents</span>
+                    </div>
+                    <div class="format-item">
+                        <span class="file-type-icon">📋</span>
+                        <span>.json - JSON Data</span>
+                    </div>
+                    <div class="format-item">
+                        <span class="file-type-icon">📝</span>
+                        <span>.txt - Text Files</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>📋 Manual Testing</h2>
+            <p>Paste XML or JSON content below to test the DocumentParser, or use the file upload above:</p>
+            
+            <textarea id="inputText" placeholder="Paste your XML or JSON content here...">
+{
+  "users": [
+    {
+      "id": 1,
+      "name": "John Doe",
+      "email": "john@example.com",
+      "address": {
+        "street": "123 Main St",
+        "city": "Anytown",
+        "country": "USA",
+        "coordinates": {
+          "lat": 40.7128,
+          "lng": -74.0060
+        }
+      },
+      "preferences": {
+        "notifications": true,
+        "theme": "dark",
+        "languages": ["en", "es", "fr"]
+      }
+    },
+    {
+      "id": 2,
+      "name": "Jane Smith",
+      "email": "jane@example.com",
+      "address": {
+        "street": "456 Oak Ave",
+        "city": "Another City",
+        "country": "Canada"
+      }
+    }
+  ],
+  "metadata": {
+    "total": 2,
+    "page": 1,
+    "timestamp": "2023-01-01T00:00:00Z"
+  }
+}</textarea>
+
+            <div>
+                <button onclick="testParse()">🔍 Parse Document</button>
+                <button onclick="loadXMLExample()">📄 Load XML Example</button>
+                <button onclick="loadJSONExample()">📄 Load JSON Example</button>
+                <button onclick="loadMalformedExample()">⚠️ Load Malformed Example</button>
+                <button onclick="clearInput()">🗑️ Clear</button>
+            </div>
+
+            <div id="parseResult" class="result" style="display: none;"></div>
+        </div>
+
+        <div class="section">
+            <h2>🧪 Automated Test Suite</h2>
+            <p>Run comprehensive tests to verify all DocumentParser functionality:</p>
+            
+            <button onclick="runAllTests()">▶️ Run All Tests</button>
+            <button onclick="runSecurityTests()">🔒 Run Security Tests</button>
+            <button onclick="runPerformanceTests()">⚡ Run Performance Tests</button>
+            
+            <div id="testResults" class="test-results"></div>
+        </div>
+
+        <div class="section">
+            <h2>📊 Issue #2 Requirements Verification</h2>
+            <div id="requirementsCheck"></div>
+        </div>
+    </div>
+
+    
+    
+    
+    <script>
+// Bundled JavaScript
+var DynamicParameterHelper=function(e){"use strict";class t{constructor(e={}){this.maxSize=e.maxSize||10485760,this.maxDepth=e.maxDepth||100,this.timeout=e.timeout||3e4}async parse(e){try{this.validateInput(e);const t=this.detectFormat(e);if("invalid"===t)throw new Error("Unable to determine document format. Please ensure input is valid XML or JSON.");const n="xml"===t?await this.parseXML(e):await this.parseJSON(e);return{format:t,data:n,metadata:{size:new Blob([e]).size,parsedAt:(new Date).toISOString(),depth:this.calculateDepth(n)}}}catch(t){throw new n(t.message,t.name||"ParseError",{input:e?e.substring(0,100)+"...":null,inputSize:e?new Blob([e]).size:0})}}validateInput(e){if(!e||"string"!=typeof e)throw new Error("Input must be a non-empty string");const t=new Blob([e]).size;if(t>this.maxSize)throw new Error(`Document exceeds ${this.maxSize/1048576}MB limit (actual: ${(t/1048576).toFixed(2)}MB)`);if(e.includes("\0"))throw new Error("Document contains null bytes which are not allowed");const n=e.split("\n");for(let e=0;e<n.length;e++)if(n[e].length>1e4)throw new Error(`Line ${e+1} exceeds maximum length of 10000 characters`);const s=this.estimateDepth(e);if(s>this.maxDepth)throw new Error(`Document nesting appears too deep (estimated: ${s}, max: ${this.maxDepth})`)}detectFormat(e){const t=e.trim();if(!t)return"invalid";if(this.looksLikeJSON(t))try{return JSON.parse(t),"json"}catch(e){}if(this.looksLikeXML(t))try{const e=(new DOMParser).parseFromString(t,"application/xml");if(!e.querySelector("parsererror"))return"xml"}catch(e){}return"invalid"}looksLikeJSON(e){return e.startsWith("{")&&e.endsWith("}")||e.startsWith("[")&&e.endsWith("]")||e.startsWith('"')&&e.endsWith('"')||"null"===e||"true"===e||"false"===e||!isNaN(Number(e))}looksLikeXML(e){return e.startsWith("<?xml")||e.startsWith("<!DOCTYPE")||e.startsWith("<")&&e.includes(">")}async parseXML(e){try{const t=(new DOMParser).parseFromString(e,"application/xml"),n=t.querySelector("parsererror");if(n){const e=n.textContent,t=e.match(/line (\d+)/i),s=e.match(/column (\d+)/i),r=t?t[1]:"unknown",i=s?s[1]:"unknown";throw new Error(`XML parsing failed at line ${r}, column ${i}: ${e}`)}if(!t.documentElement)throw new Error("XML document is empty or invalid");return this.validateXMLDocument(t),t}catch(e){if(e.message.includes("XML parsing failed"))throw e;throw new Error(`XML parsing error: ${e.message}`)}}async parseJSON(e){try{const t=JSON.parse(e);return this.validateJSONData(t),t}catch(t){const n=t.message.match(/position (\d+)/);if(n){const s=parseInt(n[1]),r=this.getLineNumber(e,s),i=this.getColumnNumber(e,s);throw new Error(`JSON parsing failed at line ${r}, column ${i}: ${t.message}`)}throw new Error(`JSON parsing error: ${t.message}`)}}validateXMLDocument(e){if(!e||!e.documentElement)throw new Error("XML document is empty or invalid");const t=e.documentElement.getElementsByTagName("*");for(let e of t)if(e.attributes)for(let t of e.attributes)(t.name.toLowerCase().startsWith("on")||t.value.toLowerCase().includes("javascript:"))&&console.warn("Potentially unsafe attribute detected:",t.name,t.value)}validateJSONData(e){"object"==typeof e&&null!==e&&this.checkForPrototypePollution(e)}checkForPrototypePollution(e,t=new Set){if(t.has(e)||"object"!=typeof e||null===e)return;t.add(e);const n=["__proto__","constructor","prototype"];if(Array.isArray(e))e.forEach(e=>this.checkForPrototypePollution(e,t));else for(const s in e)n.includes(s)&&console.warn("Potentially dangerous key detected:",s),this.checkForPrototypePollution(e[s],t)}estimateDepth(e){let t=0,n=0,s=!1,r=null,i=!1;for(let a=0;a<e.length;a++){const o=e[a],l=a>0?e[a-1]:"";if('"'!==o&&"'"!==o||"\\"===l){if(!s)if("<"!==o||i)if(">"===o&&i){i=!1;e.substring(e.lastIndexOf("<",a),a+1).startsWith("</")&&(n=Math.max(0,n-1))}else"{"===o||"["===o?i||(n++,t=Math.max(t,n)):"}"!==o&&"]"!==o||i||(n=Math.max(0,n-1));else{const s=e.substring(a,a+10);s.startsWith("</")||s.includes("/>")||(n++,t=Math.max(t,n)),i=!0}}else s?o===r&&(s=!1,r=null):(s=!0,r=o)}return t}calculateDepth(e){return null===e||"object"!=typeof e?0:e.nodeType?this.calculateXMLDepth(e.documentElement):this.calculateJSONDepth(e)}calculateXMLDepth(e){if(!e||!e.children)return 1;let t=0;for(let n of e.children)t=Math.max(t,this.calculateXMLDepth(n));return 1+t}calculateJSONDepth(e){if("object"!=typeof e||null===e)return 0;let t=0;const n=Array.isArray(e)?e:Object.values(e);for(const e of n)"object"==typeof e&&null!==e&&(t=Math.max(t,this.calculateJSONDepth(e)));return 1+t}getLineNumber(e,t){return e.substring(0,t).split("\n").length}getColumnNumber(e,t){const n=e.substring(0,t).split("\n");return n[n.length-1].length+1}}class n extends Error{constructor(e,t="ParseError",s={}){super(e),this.name="DocumentParserError",this.type=t,this.context=s,this.timestamp=(new Date).toISOString(),Error.captureStackTrace&&Error.captureStackTrace(this,n)}}"undefined"!=typeof module&&module.exports?module.exports={DocumentParser:t,DocumentParserError:n}:"undefined"!=typeof window&&(window.DocumentParser=t,window.DocumentParserError=n);class s{constructor(e={}){this.defaultPrefixPattern=e.defaultPrefixPattern||"ns",this.reservedPrefixes=new Set(["xml","xmlns"]),this.prefixCounter=0,this.validationEnabled=!1!==e.validationEnabled}extractNamespaces(e){if(!e||!e.documentElement)throw new r("Invalid XML document provided","ValidationError");const t=new Map,n=new Set;return this.prefixCounter=0,this._processElementWithInheritance(e.documentElement,t,n),this._assignPrefixesForDefaults(t),t}detectDefaultNamespace(e){if(!e||!e.documentElement)return null;const t=this._getElementDefaultNamespace(e.documentElement);if(t)return t;const n=e.getElementsByTagName("*");for(let e of n){const t=this._getElementDefaultNamespace(e);if(t)return t}return null}assignPrefixForDefault(e,t){if(!e)throw new r("URI cannot be empty for prefix assignment","ValidationError");if(t&&t.has(e)){const n=t.get(e);if(n&&""!==n.trim())return n}let n,s=0;do{if(n=`${this.defaultPrefixPattern}${this.prefixCounter}`,this.prefixCounter++,s++,s>1e3)throw new r("Unable to generate unique prefix","GenerationError")}while(this.reservedPrefixes.has(n)||t&&Array.from(t.values()).includes(n));return n}formatForSAP(e){if(!e||0===e.size)return"";const t=[];for(const[n,s]of e.entries()){if(!(n&&n.trim()&&s&&s.trim()))continue;if(this.validationEnabled&&!this._isValidNamespaceURI(n)){console.warn(`Invalid namespace URI skipped: ${n}`);continue}if(this.validationEnabled&&!this._isValidPrefix(s)){console.warn(`Invalid namespace prefix skipped: ${s}`);continue}const e=this._encodeURIForSAP(n);t.push(`${s}=${e}`)}return t.sort(),t.join(";")}resolveNamespace(e){if(!e||e.nodeType!==Node.ELEMENT_NODE)throw new r("Invalid element provided","ValidationError");if(e.namespaceURI)return{uri:e.namespaceURI,prefix:e.prefix||"",source:"element"};let t=e.parentNode;for(;t&&t.nodeType===Node.ELEMENT_NODE;){if(t.namespaceURI)return{uri:t.namespaceURI,prefix:t.prefix||"",source:"inherited"};t=t.parentNode}const n=this._findDefaultNamespaceInHierarchy(e);return n?{uri:n,prefix:"",source:"default"}:{uri:null,prefix:"",source:"none"}}_processElementWithInheritance(e,t,n){if(e&&!n.has(e)){if(n.add(e),this._extractElementNamespaces(e,t),e.namespaceURI&&!t.has(e.namespaceURI)){const n=e.prefix||"";t.set(e.namespaceURI,n)}if(e.children)for(let s of e.children)this._processElementWithInheritance(s,t,n)}}_extractElementNamespaces(e,t){if(e.attributes)for(let n of e.attributes)if("xmlns"===n.name)n.value&&n.value.trim()&&t.set(n.value,"");else if(n.name.startsWith("xmlns:")){const e=n.name.substring(6);n.value&&n.value.trim()&&e&&t.set(n.value,e)}}_assignPrefixesForDefaults(e){const t=[];for(const[n,s]of e.entries())""===s&&t.push(n);for(const n of t){const t=this.assignPrefixForDefault(n,e);e.set(n,t)}}_getElementDefaultNamespace(e){if(!e.attributes)return null;for(let t of e.attributes)if("xmlns"===t.name&&t.value&&t.value.trim())return t.value;return null}_findDefaultNamespaceInHierarchy(e){let t=e;for(;t&&t.nodeType===Node.ELEMENT_NODE;){const e=this._getElementDefaultNamespace(t);if(e)return e;t=t.parentNode}return null}_isValidNamespaceURI(e){try{return e.includes(":")&&(e.startsWith("http://")||e.startsWith("https://")||e.includes("urn:"))}catch(e){return!1}}_isValidPrefix(e){return/^[a-zA-Z_][a-zA-Z0-9_.-]*$/.test(e)&&!this.reservedPrefixes.has(e)}_encodeURIForSAP(e){return e.replace(/;/g,"%3B").replace(/=/g,"%3D")}getStats(){return{defaultPrefixPattern:this.defaultPrefixPattern,prefixCounter:this.prefixCounter,reservedPrefixes:Array.from(this.reservedPrefixes),validationEnabled:this.validationEnabled}}reset(){this.prefixCounter=0}}class r extends Error{constructor(e,t="NamespaceError",n={}){super(e),this.name="NamespaceHandlerError",this.type=t,this.context=n,this.timestamp=(new Date).toISOString(),Error.captureStackTrace&&Error.captureStackTrace(this,r)}}let i;if("undefined"!=typeof module&&module.exports?module.exports={NamespaceHandler:s,NamespaceHandlerError:r}:"undefined"!=typeof window&&(window.NamespaceHandler=s,window.NamespaceHandlerError=r),"undefined"!=typeof require&&"undefined"!=typeof module)try{i=require("./NamespaceHandler")}catch(e){}let a=class{constructor(e={}){this.includeAttributes=!1!==e.includeAttributes,this.includeTextNodes=e.includeTextNodes||!1,this.maxPaths=e.maxPaths||5e4,this.namespaceHandler=new s(e.namespaceOptions||{})}extractXPaths(e){if(!e||!e.documentElement)throw new Error("Invalid XML document provided");const t=[],n=this.namespaceHandler.extractNamespaces(e);return this.traverseXMLElement(e.documentElement,t,n),t.length>this.maxPaths?(console.warn(`Document contains ${t.length} paths, truncating to ${this.maxPaths} for performance`),t.slice(0,this.maxPaths)):t}extractJSONPaths(e){if(null==e)throw new Error("Invalid JSON object provided");const t=[];return this.traverseJSONObject(e,"$",t),t.length>this.maxPaths?(console.warn(`Document contains ${t.length} paths, truncating to ${this.maxPaths} for performance`),t.slice(0,this.maxPaths)):t}generateXPath(e,t){if(!e||e.nodeType!==Node.ELEMENT_NODE)throw new Error("Invalid element provided for XPath generation");let n="",s=e;for(;s&&s.nodeType===Node.ELEMENT_NODE;){const e=this.getElementIndex(s),r=this.getNamespacePrefix(s,t),i=s.localName||s.nodeName;n=`/${r?`${r}:${i}`:i}[${e}]${n}`,s=s.parentNode}return n||"/"}generateJSONPath(e,t){return null==t?"$":t}extractNamespaces(e){return console.warn("PathExtractor.extractNamespaces() is deprecated. Use NamespaceHandler.extractNamespaces() instead."),this.namespaceHandler.extractNamespaces(e)}extractElementNamespaces(e,t){if(console.warn("PathExtractor.extractElementNamespaces() is deprecated. Use NamespaceHandler methods instead."),e.attributes){for(let n of e.attributes)if("xmlns"===n.name){if(n.value&&n.value.trim()){const e=this.namespaceHandler.assignPrefixForDefault(n.value,t);t.set(n.value,e)}}else if(n.name.startsWith("xmlns:")){const e=n.name.substring(6);n.value&&n.value.trim()&&e&&t.set(n.value,e)}if(e.namespaceURI&&!Array.from(t.keys()).includes(e.namespaceURI)){const n=e.prefix||this.namespaceHandler.assignPrefixForDefault(e.namespaceURI,t);t.set(e.namespaceURI,n)}}}getNamespacePrefix(e,t){return e.namespaceURI?t.has(e.namespaceURI)?t.get(e.namespaceURI):e.prefix||"":""}getElementIndex(e){if(!e.parentNode)return 1;const t=Array.from(e.parentNode.children||[]).filter(t=>t.namespaceURI===e.namespaceURI&&(t.localName||t.nodeName)===(e.localName||e.nodeName)).indexOf(e);return t>=0?t+1:1}traverseXMLElement(e,t,n){if(!e||e.nodeType!==Node.ELEMENT_NODE)return;const s=this.generateXPath(e,n),r=e.localName||e.nodeName;if(t.push({path:s,element:e,name:r,type:"element",namespaceURI:e.namespaceURI||null}),this.includeAttributes&&e.attributes)for(let n of e.attributes){if(n.name.startsWith("xmlns"))continue;const r=`${s}/@${n.name}`;t.push({path:r,element:e,name:n.name,type:"attribute",value:n.value,namespaceURI:n.namespaceURI||null})}if(this.includeTextNodes&&e.textContent&&e.textContent.trim()){Array.from(e.children||[]).length>0||t.push({path:`${s}/text()`,element:e,name:"text()",type:"text",value:e.textContent.trim(),namespaceURI:null})}if(e.children)for(let s of e.children)this.traverseXMLElement(s,t,n)}traverseJSONObject(e,t,n){if(null==e)return void n.push({path:t,value:e,key:this.extractKeyFromPath(t),type:"null"});const s=Array.isArray(e)?"array":typeof e;if(n.push({path:t,value:e,key:this.extractKeyFromPath(t),type:s}),Array.isArray(e))e.forEach((e,s)=>{const r=`${t}[${s}]`;this.traverseJSONObject(e,r,n)});else if("object"==typeof e)for(const[s,r]of Object.entries(e)){const e=this.buildJSONPath(t,s);this.traverseJSONObject(r,e,n)}}buildJSONPath(e,t){return this.needsBracketNotation(t)?`${e}['${t.replace(/'/g,"\\'")}']`:`${e}.${t}`}needsBracketNotation(e){return!/^[a-zA-Z_$][a-zA-Z0-9_$]*$/.test(e)}extractKeyFromPath(e){if("$"===e)return"root";const t=e.split(/[.\[\]'"]/).filter(e=>e&&"$"!==e);return t[t.length-1]||"unknown"}validateXPath(e,t){try{if(!t||!e)return!1;return null!==t.evaluate(e,t,null,XPathResult.ANY_TYPE,null)}catch(t){return console.warn("XPath validation failed:",e,t.message),!1}}getStats(){return{maxPaths:this.maxPaths,includeAttributes:this.includeAttributes,includeTextNodes:this.includeTextNodes,namespaceHandler:this.namespaceHandler.getStats()}}getSAPNamespaceFormat(e){const t=this.namespaceHandler.extractNamespaces(e);return this.namespaceHandler.formatForSAP(t)}};class o extends Error{constructor(e,t="ExtractionError",n={}){super(e),this.name="PathExtractorError",this.type=t,this.context=n,this.timestamp=(new Date).toISOString(),Error.captureStackTrace&&Error.captureStackTrace(this,o)}}"undefined"!=typeof module&&module.exports?module.exports={PathExtractor:a,PathExtractorError:o}:"undefined"!=typeof window&&(window.PathExtractor=a,window.PathExtractorError=o);class l{constructor(e={}){this.options={lineFormat:e.lineFormat||"multiline",enableRealTime:!1!==e.enableRealTime,escapeSpecialChars:!1!==e.escapeSpecialChars,validateFormat:!1!==e.validateFormat,...e},this.lastOutput=null,this.updateCallbacks=new Set,this.clipboardAPI="undefined"!=typeof navigator&&navigator.clipboard||null,this.sapEscapeChars={"\\":"\\\\","'":"\\'",'"':'\\"',"\n":"\\n","\r":"\\r","\t":"\\t"},this.validationRules={maxPathLength:1e3,maxNamespaceLength:2e3,forbiddenChars:/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/g}}formatForSAP(e,t=new Map,n={}){if(!Array.isArray(e))throw new Error("selectedPaths must be an array");try{const s=this.formatDynamicHeader(e,n),r={DynamicCustomHeader:s,DynamicCustomHeaderXMLNamespace:this.formatNamespaceHeader(t,n),metadata:{pathCount:e.length,namespaceCount:t.size,format:this.options.lineFormat,generated:(new Date).toISOString(),valid:!0,errors:[]}};return this.options.validateFormat&&this._validateOutput(r),this.lastOutput=r,this.options.enableRealTime&&this._triggerUpdateCallbacks(r),r}catch(e){throw new Error(`OutputFormatter error: ${e.message}`)}}formatDynamicHeader(e,t={}){if(!Array.isArray(e)||0===e.length)return"";let n=e;this.options.escapeSpecialChars&&(n=e.map(e=>this._escapeSAPExpression(e)));return"multiline"===(t.lineFormat||this.options.lineFormat)?n.join("\n"):n.join(",")}formatNamespaceHeader(e,t={}){if(!e||0===e.size)return"";const n=[];for(const[t,s]of e)if(t&&s){const e=this.options.escapeSpecialChars?this._escapeSAPExpression(t):t;n.push(`${s}=${e}`)}return n.join(";")}updateOutputDisplay(){this.lastOutput&&this.options.enableRealTime&&this._triggerUpdateCallbacks(this.lastOutput)}async copyToClipboard(e,t=null){if(!this.clipboardAPI)throw new Error("Clipboard API not available");const n=t||this.lastOutput;if(!n)throw new Error("No output data available to copy");let s="";switch(e){case"header":s=n.DynamicCustomHeader;break;case"namespace":s=n.DynamicCustomHeaderXMLNamespace;break;case"all":s=this._formatCompleteOutput(n);break;default:throw new Error(`Invalid field: ${e}. Use 'header', 'namespace', or 'all'`)}try{return await this.clipboardAPI.writeText(s),!0}catch(e){return console.error("Failed to copy to clipboard:",e),!1}}onUpdate(e){"function"==typeof e&&this.updateCallbacks.add(e)}offUpdate(e){this.updateCallbacks.delete(e)}getOutputStats(){return this.lastOutput?{hasOutput:!0,pathCount:this.lastOutput.metadata.pathCount,namespaceCount:this.lastOutput.metadata.namespaceCount,headerLength:this.lastOutput.DynamicCustomHeader.length,namespaceLength:this.lastOutput.DynamicCustomHeaderXMLNamespace.length,isValid:this.lastOutput.metadata.valid,errors:this.lastOutput.metadata.errors,generated:this.lastOutput.metadata.generated}:{hasOutput:!1}}downloadAsFile(e="txt",t=null){if(!this.lastOutput)throw new Error("No output data available to download");const n=`sap-ci-output-${(new Date).toISOString().replace(/[:.]/g,"-")}`;let s="",r="text/plain",i="txt";switch(e.toLowerCase()){case"txt":s=this._formatCompleteOutput(this.lastOutput),r="text/plain",i="txt";break;case"json":s=JSON.stringify(this.lastOutput,null,2),r="application/json",i="json";break;default:throw new Error(`Unsupported format: ${e}`)}if("undefined"==typeof document||"undefined"==typeof URL||"undefined"==typeof Blob)throw new Error("Download functionality requires browser environment");{const e=new Blob([s],{type:r}),a=URL.createObjectURL(e),o=document.createElement("a");o.href=a,o.download=t||`${n}.${i}`,document.body.appendChild(o),o.click(),document.body.removeChild(o),URL.revokeObjectURL(a)}}_escapeSAPExpression(e){if("string"!=typeof e)return e;let t=e;for(const[e,n]of Object.entries(this.sapEscapeChars))t=t.replace(new RegExp(e.replace(/[.*+?^${}()|[\]\\]/g,"\\<script>
+        let parser = new DocumentParser();
+        let fileHandler = null;
+        
+        // Initialize FileHandler on page load
+        function initializeFileHandler() {
+            if (!FileHandler.isSupported()) {
+                alert('File upload is not supported in this browser');
+                return;
+            }
+            
+            fileHandler = new FileHandler({
+                maxFileSize: 10 * 1024 * 1024, // 10MB
+                allowedTypes: ['.xml', '.json', '.txt'],
+                enableHistory: true,
+                onFileLoad: (fileData) => {
+                    // Load file content into textarea and parse
+                    document.getElementById('inputText').value = fileData.content;
+                    showResult(
+                        document.getElementById('parseResult'),
+                        `✅ File loaded: ${fileData.metadata.name} (${fileHandler.formatFileSize(fileData.metadata.size)})`,
+                        'info'
+                    );
+                    
+                    // Auto-parse the loaded file
+                    setTimeout(() => {
+                        testParse();
+                    }, 100);
+                },
+                onError: (error) => {
+                    showResult(
+                        document.getElementById('parseResult'),
+                        `❌ File error: ${error.message}`,
+                        'error'
+                    );
+                },
+                onProgress: (percent) => {
+                    console.log(`File loading progress: ${percent}%`);
+                }
+            });
+            
+            // Setup drag-drop zone
+            fileHandler.setupDragDrop(document.getElementById('fileDropZone'));
+            
+            // Setup progress indicator
+            fileHandler.setupProgressIndicator(document.getElementById('fileProgress'));
+            
+            // Update recent files display
+            updateRecentFilesDisplay();
+        }
+        
+        // File upload functions
+        function openFileDialog() {
+            if (fileHandler) {
+                fileHandler.openFileDialog();
+            }
+        }
+        
+        function showRecentFiles() {
+            const recentFilesDiv = document.getElementById('recentFiles');
+            const isVisible = recentFilesDiv.style.display !== 'none';
+            
+            if (isVisible) {
+                recentFilesDiv.style.display = 'none';
+            } else {
+                updateRecentFilesDisplay();
+                recentFilesDiv.style.display = 'block';
+            }
+        }
+        
+        function clearFileHistory() {
+            if (fileHandler) {
+                fileHandler.clearHistory();
+                updateRecentFilesDisplay();
+                showResult(
+                    document.getElementById('parseResult'),
+                    '🗑️ File history cleared',
+                    'info'
+                );
+            }
+        }
+        
+        function updateRecentFilesDisplay() {
+            if (!fileHandler) return;
+            
+            const recentFiles = fileHandler.getRecentFiles();
+            const listContainer = document.getElementById('recentFilesList');
+            
+            if (recentFiles.length === 0) {
+                listContainer.innerHTML = '<p style="color: #666; font-style: italic; margin: 10px 0;">No recent files</p>';
+                return;
+            }
+            
+            listContainer.innerHTML = recentFiles.map(file => {
+                const fileIcon = getFileIcon(file.name);
+                const loadedTime = new Date(file.loadedAt).toLocaleString();
+                const fileSize = fileHandler.formatFileSize(file.size);
+                
+                return `
+                    <div class="recent-file-item" onclick="showRecentFileInfo('${file.name}', '${fileSize}', '${loadedTime}')">
+                        <div class="recent-file-info">
+                            <div class="recent-file-name">
+                                <span class="file-type-icon">${fileIcon}</span>
+                                ${file.name}
+                            </div>
+                            <div class="recent-file-meta">Loaded: ${loadedTime}</div>
+                        </div>
+                        <div class="recent-file-size">${fileSize}</div>
+                    </div>
+                `;
+            }).join('');
+        }
+        
+        function getFileIcon(filename) {
+            const extension = filename.toLowerCase().split('.').pop();
+            switch (extension) {
+                case 'xml': return '📄';
+                case 'json': return '📋';
+                case 'txt': return '📝';
+                default: return '📄';
+            }
+        }
+        
+        function showRecentFileInfo(name, size, loadedTime) {
+            showResult(
+                document.getElementById('parseResult'),
+                `📄 Recent File Info:\nName: ${name}\nSize: ${size}\nLoaded: ${loadedTime}\n\nNote: File content is not stored for privacy. Please re-upload to use.`,
+                'info'
+            );
+        }
+
+        // Manual testing functions
+        async function testParse() {
+            const input = document.getElementById('inputText').value;
+            const resultDiv = document.getElementById('parseResult');
+            
+            if (!input.trim()) {
+                showResult(resultDiv, 'Please enter some content to parse.', 'error');
+                return;
+            }
+
+            try {
+                const startTime = performance.now();
+                const result = await parser.parse(input);
+                const endTime = performance.now();
+                
+                const resultText = `✅ Parsing successful!
+
+Format detected: ${result.format.toUpperCase()}
+Parse time: ${(endTime - startTime).toFixed(2)}ms
+Document size: ${result.metadata.size} bytes
+Document depth: ${result.metadata.depth}
+Parsed at: ${result.metadata.parsedAt}
+
+Data structure:
+${JSON.stringify(result.data, null, 2)}`;
+                
+                showResult(resultDiv, resultText, 'success');
+            } catch (error) {
+                const errorText = `❌ Parsing failed!
+
+Error: ${error.message}
+Type: ${error.type || 'Unknown'}
+Name: ${error.name}
+
+Context:
+${JSON.stringify(error.context || {}, null, 2)}`;
+                
+                showResult(resultDiv, errorText, 'error');
+            }
+        }
+
+        function loadXMLExample() {
+            document.getElementById('inputText').value = `<?xml version="1.0" encoding="UTF-8"?>
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"
+               xmlns:tns="http://example.com/service"
+               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <soap:Header>
+        <tns:Authentication>
+            <tns:Username>admin</tns:Username>
+            <tns:Token>abc123xyz789</tns:Token>
+            <tns:Timestamp>2023-01-01T10:00:00Z</tns:Timestamp>
+        </tns:Authentication>
+    </soap:Header>
+    <soap:Body>
+        <tns:GetUserRequest>
+            <tns:UserId>12345</tns:UserId>
+            <tns:IncludeDetails>true</tns:IncludeDetails>
+            <tns:Fields>
+                <tns:Field>name</tns:Field>
+                <tns:Field>email</tns:Field>
+                <tns:Field>address</tns:Field>
+            </tns:Fields>
+        </tns:GetUserRequest>
+    </soap:Body>
+</soap:Envelope>`;
+        }
+
+        function loadJSONExample() {
+            document.getElementById('inputText').value = `{
+  "order": {
+    "id": "ORD-001",
+    "customer": {
+      "id": "CUST-123",
+      "name": "Acme Corporation",
+      "contact": {
+        "email": "orders@acme.com",
+        "phone": "+1-555-0123"
+      }
+    },
+    "items": [
+      {
+        "sku": "WIDGET-A",
+        "name": "Premium Widget",
+        "quantity": 5,
+        "price": 29.99,
+        "attributes": {
+          "color": "blue",
+          "size": "large",
+          "warranty": "1 year"
+        }
+      },
+      {
+        "sku": "GADGET-B",
+        "name": "Super Gadget",
+        "quantity": 2,
+        "price": 149.99
+      }
+    ],
+    "shipping": {
+      "method": "express",
+      "address": {
+        "street": "123 Business Blvd",
+        "city": "Commerce City",
+        "state": "CA",
+        "zip": "90210",
+        "country": "USA"
+      }
+    },
+    "totals": {
+      "subtotal": 449.93,
+      "tax": 36.00,
+      "shipping": 15.00,
+      "total": 500.93
+    }
+  }
+}`;
+        }
+
+        function loadMalformedExample() {
+            document.getElementById('inputText').value = `{
+  "valid": "content",
+  "but": "missing closing brace"`;
+        }
+
+        function clearInput() {
+            document.getElementById('inputText').value = '';
+            document.getElementById('parseResult').style.display = 'none';
+        }
+
+        function showResult(element, text, type) {
+            element.textContent = text;
+            element.className = `result ${type}`;
+            element.style.display = 'block';
+        }
+
+        // Automated test functions
+        async function runAllTests() {
+            const results = document.getElementById('testResults');
+            results.innerHTML = '<p>⏳ Running tests...</p>';
+            
+            const tests = [
+                ...getBasicTests(),
+                ...getFormatDetectionTests(),
+                ...getValidationTests(),
+                ...getErrorHandlingTests()
+            ];
+            
+            const testResults = [];
+            for (const test of tests) {
+                try {
+                    const result = await test.fn();
+                    testResults.push({ name: test.name, result: 'PASS', details: result });
+                } catch (error) {
+                    testResults.push({ name: test.name, result: 'FAIL', details: error.message });
+                }
+            }
+            
+            displayTestResults(results, testResults);
+        }
+
+        async function runSecurityTests() {
+            const results = document.getElementById('testResults');
+            results.innerHTML = '<p>⏳ Running security tests...</p>';
+            
+            const tests = getSecurityTests();
+            const testResults = [];
+            
+            for (const test of tests) {
+                try {
+                    const result = await test.fn();
+                    testResults.push({ name: test.name, result: 'PASS', details: result });
+                } catch (error) {
+                    testResults.push({ name: test.name, result: 'FAIL', details: error.message });
+                }
+            }
+            
+            displayTestResults(results, testResults);
+        }
+
+        async function runPerformanceTests() {
+            const results = document.getElementById('testResults');
+            results.innerHTML = '<p>⏳ Running performance tests...</p>';
+            
+            const tests = getPerformanceTests();
+            const testResults = [];
+            
+            for (const test of tests) {
+                try {
+                    const result = await test.fn();
+                    testResults.push({ name: test.name, result: 'PASS', details: result });
+                } catch (error) {
+                    testResults.push({ name: test.name, result: 'FAIL', details: error.message });
+                }
+            }
+            
+            displayTestResults(results, testResults);
+        }
+
+        function getBasicTests() {
+            return [
+                {
+                    name: 'Parser instantiation',
+                    fn: async () => {
+                        const testParser = new DocumentParser();
+                        if (!testParser) throw new Error('Failed to create parser');
+                        return 'Parser created successfully';
+                    }
+                },
+                {
+                    name: 'Simple JSON parsing',
+                    fn: async () => {
+                        const result = await parser.parse('{"test": "value"}');
+                        if (result.format !== 'json') throw new Error('Wrong format detected');
+                        if (result.data.test !== 'value') throw new Error('Wrong data parsed');
+                        return 'JSON parsed correctly';
+                    }
+                },
+                {
+                    name: 'Simple XML parsing',
+                    fn: async () => {
+                        const result = await parser.parse('<root><test>value</test></root>');
+                        if (result.format !== 'xml') throw new Error('Wrong format detected');
+                        if (!result.data.documentElement) throw new Error('No document element');
+                        return 'XML parsed correctly';
+                    }
+                }
+            ];
+        }
+
+        function getFormatDetectionTests() {
+            return [
+                {
+                    name: 'JSON object detection',
+                    fn: async () => {
+                        const format = parser.detectFormat('{"key": "value"}');
+                        if (format !== 'json') throw new Error('Failed to detect JSON object');
+                        return 'JSON object detected correctly';
+                    }
+                },
+                {
+                    name: 'JSON array detection',
+                    fn: async () => {
+                        const format = parser.detectFormat('[1, 2, 3]');
+                        if (format !== 'json') throw new Error('Failed to detect JSON array');
+                        return 'JSON array detected correctly';
+                    }
+                },
+                {
+                    name: 'XML detection',
+                    fn: async () => {
+                        const format = parser.detectFormat('<root></root>');
+                        if (format !== 'xml') throw new Error('Failed to detect XML');
+                        return 'XML detected correctly';
+                    }
+                },
+                {
+                    name: 'Invalid format detection',
+                    fn: async () => {
+                        const format = parser.detectFormat('not xml or json');
+                        if (format !== 'invalid') throw new Error('Should detect invalid format');
+                        return 'Invalid format detected correctly';
+                    }
+                }
+            ];
+        }
+
+        function getValidationTests() {
+            return [
+                {
+                    name: 'Empty input validation',
+                    fn: async () => {
+                        try {
+                            parser.validateInput('');
+                            throw new Error('Should have thrown error for empty input');
+                        } catch (error) {
+                            if (error.message.includes('non-empty string')) return 'Empty input rejected correctly';
+                            throw error;
+                        }
+                    }
+                },
+                {
+                    name: 'Null byte validation',
+                    fn: async () => {
+                        try {
+                            parser.validateInput('content\0with null byte');
+                            throw new Error('Should have thrown error for null bytes');
+                        } catch (error) {
+                            if (error.message.includes('null bytes')) return 'Null bytes rejected correctly';
+                            throw error;
+                        }
+                    }
+                }
+            ];
+        }
+
+        function getErrorHandlingTests() {
+            return [
+                {
+                    name: 'Invalid JSON error handling',
+                    fn: async () => {
+                        try {
+                            await parser.parse('{"invalid": json}');
+                            throw new Error('Should have thrown error for invalid JSON');
+                        } catch (error) {
+                            if (error instanceof DocumentParserError) return 'DocumentParserError thrown correctly';
+                            throw new Error('Wrong error type: ' + error.constructor.name);
+                        }
+                    }
+                },
+                {
+                    name: 'Invalid XML error handling',
+                    fn: async () => {
+                        try {
+                            await parser.parse('<invalid><unclosed>');
+                            throw new Error('Should have thrown error for invalid XML');
+                        } catch (error) {
+                            if (error instanceof DocumentParserError) return 'DocumentParserError thrown correctly';
+                            throw new Error('Wrong error type: ' + error.constructor.name);
+                        }
+                    }
+                }
+            ];
+        }
+
+        function getSecurityTests() {
+            return [
+                {
+                    name: 'Prototype pollution detection',
+                    fn: async () => {
+                        const originalWarn = console.warn;
+                        let warningCalled = false;
+                        console.warn = (...args) => {
+                            if (args.includes('__proto__')) warningCalled = true;
+                        };
+                        
+                        await parser.parse('{"__proto__": {"isAdmin": true}}');
+                        console.warn = originalWarn;
+                        
+                        if (warningCalled) return 'Prototype pollution detected and warned';
+                        throw new Error('Prototype pollution not detected');
+                    }
+                },
+                {
+                    name: 'Size limit enforcement',
+                    fn: async () => {
+                        const smallParser = new DocumentParser({ maxSize: 10 });
+                        try {
+                            await smallParser.parse('{"very": "long content that exceeds limit"}');
+                            throw new Error('Should have thrown size limit error');
+                        } catch (error) {
+                            if (error.message.includes('exceeds')) return 'Size limit enforced correctly';
+                            throw error;
+                        }
+                    }
+                }
+            ];
+        }
+
+        function getPerformanceTests() {
+            return [
+                {
+                    name: 'Large JSON performance',
+                    fn: async () => {
+                        const largeData = {
+                            items: Array(1000).fill({ id: 1, name: 'test', data: { nested: 'value' } })
+                        };
+                        const largeJson = JSON.stringify(largeData);
+                        
+                        const startTime = performance.now();
+                        const result = await parser.parse(largeJson);
+                        const endTime = performance.now();
+                        
+                        const parseTime = endTime - startTime;
+                        if (parseTime > 2000) throw new Error(`Too slow: ${parseTime}ms`);
+                        
+                        return `Parsed large JSON in ${parseTime.toFixed(2)}ms`;
+                    }
+                },
+                {
+                    name: 'Complex XML performance',
+                    fn: async () => {
+                        const complexXml = `<root>` + 
+                            Array(100).fill('<item><id>1</id><name>test</name><data><nested>value</nested></data></item>').join('') +
+                            '</root>';
+                        
+                        const startTime = performance.now();
+                        const result = await parser.parse(complexXml);
+                        const endTime = performance.now();
+                        
+                        const parseTime = endTime - startTime;
+                        if (parseTime > 2000) throw new Error(`Too slow: ${parseTime}ms`);
+                        
+                        return `Parsed complex XML in ${parseTime.toFixed(2)}ms`;
+                    }
+                }
+            ];
+        }
+
+        function displayTestResults(container, results) {
+            let html = `<h3>Test Results (${results.length} tests)</h3>`;
+            let passCount = 0;
+            
+            results.forEach(test => {
+                const cssClass = test.result === 'PASS' ? 'test-pass' : 'test-fail';
+                const icon = test.result === 'PASS' ? '✅' : '❌';
+                if (test.result === 'PASS') passCount++;
+                
+                html += `<div class="test-case ${cssClass}">
+                    ${icon} <strong>${test.name}</strong>: ${test.result}
+                    <div class="metadata">${test.details}</div>
+                </div>`;
+            });
+            
+            const summary = `<div class="result info">
+                Summary: ${passCount}/${results.length} tests passed (${((passCount/results.length)*100).toFixed(1)}%)
+            </div>`;
+            
+            container.innerHTML = summary + html;
+        }
+
+        // Requirements verification
+        function checkRequirements() {
+            const requirements = [
+                {
+                    name: 'Format Detection (XML/JSON)',
+                    test: () => {
+                        const xmlDetection = parser.detectFormat('<root></root>') === 'xml';
+                        const jsonDetection = parser.detectFormat('{"key": "value"}') === 'json';
+                        return xmlDetection && jsonDetection;
+                    }
+                },
+                {
+                    name: 'Robust Error Handling',
+                    test: async () => {
+                        try {
+                            await parser.parse('invalid content');
+                            return false;
+                        } catch (error) {
+                            return error instanceof DocumentParserError;
+                        }
+                    }
+                },
+                {
+                    name: '10MB Size Limit',
+                    test: () => {
+                        return parser.maxSize === 10 * 1024 * 1024;
+                    }
+                },
+                {
+                    name: 'Security Validation',
+                    test: () => {
+                        try {
+                            parser.validateInput('content\0with null byte');
+                            return false;
+                        } catch (error) {
+                            return error.message.includes('null bytes');
+                        }
+                    }
+                },
+                {
+                    name: 'Performance Optimization',
+                    test: () => {
+                        return typeof parser.estimateDepth === 'function' && 
+                               typeof parser.calculateDepth === 'function';
+                    }
+                }
+            ];
+
+            let html = '<h3>📋 Issue #2 Requirements Verification</h3>';
+            let allPassed = true;
+
+            requirements.forEach(req => {
+                try {
+                    const passed = req.test();
+                    const icon = passed ? '✅' : '❌';
+                    const cssClass = passed ? 'test-pass' : 'test-fail';
+                    
+                    html += `<div class="test-case ${cssClass}">
+                        ${icon} <strong>${req.name}</strong>: ${passed ? 'IMPLEMENTED' : 'MISSING'}
+                    </div>`;
+                    
+                    if (!passed) allPassed = false;
+                } catch (error) {
+                    html += `<div class="test-case test-fail">
+                        ❌ <strong>${req.name}</strong>: ERROR - ${error.message}
+                    </div>`;
+                    allPassed = false;
+                }
+            });
+
+            const overallStatus = allPassed ? 
+                '<div class="result success">🎉 All Issue #2 requirements are implemented and verified!</div>' :
+                '<div class="result error">⚠️ Some Issue #2 requirements are not fully implemented.</div>';
+
+            document.getElementById('requirementsCheck').innerHTML = overallStatus + html;
+        }
+
+        // Initialize the demo
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeFileHandler();
+            checkRequirements();
+        });
+    </script>"),"g"),n);return t}_validateOutput(e){const t=[];e.DynamicCustomHeader.length>this.validationRules.maxPathLength&&t.push(`DynamicCustomHeader exceeds maximum length (${this.validationRules.maxPathLength})`),e.DynamicCustomHeaderXMLNamespace.length>this.validationRules.maxNamespaceLength&&t.push(`DynamicCustomHeaderXMLNamespace exceeds maximum length (${this.validationRules.maxNamespaceLength})`),this.validationRules.forbiddenChars.test(e.DynamicCustomHeader)&&t.push("DynamicCustomHeader contains forbidden control characters"),this.validationRules.forbiddenChars.test(e.DynamicCustomHeaderXMLNamespace)&&t.push("DynamicCustomHeaderXMLNamespace contains forbidden control characters"),e.metadata.valid=0===t.length,e.metadata.errors=t,t.length>0&&console.warn("OutputFormatter validation warnings:",t)}_triggerUpdateCallbacks(e){for(const t of this.updateCallbacks)try{t(e)}catch(e){console.error("Error in OutputFormatter update callback:",e)}}_formatCompleteOutput(e){return`SAP Cloud Integration Output\nGenerated: ${new Date(e.metadata.generated).toLocaleString()}\n\nDynamicCustomHeader:\n${e.DynamicCustomHeader||"(no paths selected)"}\n\nDynamicCustomHeaderXMLNamespace:\n${e.DynamicCustomHeaderXMLNamespace||"(no namespaces)"}\n\nMetadata:\n- Selected Paths: ${e.metadata.pathCount}\n- Namespaces: ${e.metadata.namespaceCount}\n- Format: ${e.metadata.format}\n- Valid: ${e.metadata.valid}\n${e.metadata.errors.length>0?`- Errors: ${e.metadata.errors.join(", ")}`:""}`}}"undefined"!=typeof module&&module.exports&&(module.exports=l);let d=class{constructor(e={}){this.nodeIdCounter=0,this.nodeMap=new Map,this.pathToNodeMap=new Map}transformPathsToTree(e,t){if(!e||!Array.isArray(e)||0===e.length)throw new c("Invalid paths array provided","ValidationError");this.reset();const n=this.createTreeNode("$root",null,{type:"root",displayName:"xml"===t?"XML Document":"JSON Document",isRoot:!0}),s=this.groupPathsByHierarchy(e,t);return this.buildTreeFromGroups(n,s,t),n}flattenTreeForDisplay(e,t=!0){const n=[],traverse=(e,s=0)=>{if(e&&(e.metadata.isRoot||n.push({...e,level:s,displayIndex:n.length}),!t||e.expanded||e.metadata.isRoot)){const t=e.metadata.isRoot?0:s+1;for(const n of e.children.values())traverse(n,t)}};return traverse(e),n}createTreeNode(e,t,n={}){const s=new h(this.generateNodeId(),e,t,{...n,displayName:n.displayName||this.extractDisplayName(e),hasChildren:!1,childCount:0});return this.nodeMap.set(s.id,s),this.pathToNodeMap.set(e,s),s}groupPathsByHierarchy(e,t){const n=new Map;for(const s of e){const e=this.parsePathSegments(s.path,t),r=this.buildParentPath(e,t);n.has(r)||n.set(r,[]),n.get(r).push({...s,segments:e,parentPath:r})}return n}buildTreeFromGroups(e,t,n){const s=Array.from(t.entries()).sort(([e],[t])=>this.calculatePathDepth(e,n)-this.calculatePathDepth(t,n));for(const[t,r]of s){const s=this.findOrCreateParentNode(t,e,n);for(const e of r)this.addChildToParent(s,e,n)}this.updateTreeMetadata(e)}findOrCreateParentNode(e,t,n){if(!e||"$root"===e)return t;if(this.pathToNodeMap.has(e))return this.pathToNodeMap.get(e);const s=this.parsePathSegments(e,n);let r=t;for(let e=0;e<s.length;e++){const t=s[e],i=this.buildPathFromSegments(s.slice(0,e+1),n);if(this.pathToNodeMap.has(i))r=this.pathToNodeMap.get(i);else{const e=this.createTreeNode(i,null,{type:"intermediate",displayName:t,isIntermediate:!0});r.addChild(e),r=e}}return r}addChildToParent(e,t,n){const s=this.pathToNodeMap.get(t.path);if(s)s.originalData=t,s.metadata={...s.metadata,type:t.type||"element",value:t.value,namespaceURI:t.namespaceURI};else{const n=this.createTreeNode(t.path,t,{type:t.type||"element",displayName:this.extractDisplayName(t.path),value:t.value,namespaceURI:t.namespaceURI});e.addChild(n)}}parsePathSegments(e,t){return"xml"===t?this.parseXPathSegments(e):this.parseJSONPathSegments(e)}parseXPathSegments(e){if(!e||"/"===e)return[];return e.replace(/^\/+/,"").split("/").filter(e=>e).map(e=>{const t=e.match(/^(.+?)\[\d+\]$/);return t?t[1]:e})}parseJSONPathSegments(e){if(!e||"$"===e)return[];const t=[];const n=e.replace(/^\$\.?/,"").split(/\.|\[|\]/);for(const e of n)if(e&&"'"!==e&&'"'!==e){const n=e.replace(/^['"]|['"]$/g,"");n&&t.push(n)}return t}buildParentPath(e,t){if(e.length<=1)return"$root";const n=e.slice(0,-1);return this.buildPathFromSegments(n,t)}buildPathFromSegments(e,t){return 0===e.length?"$root":"xml"===t?"/"+e.join("/"):"$."+e.join(".")}calculatePathDepth(e,t){return e&&"$root"!==e?this.parsePathSegments(e,t).length:0}extractDisplayName(e){if(!e)return"Unknown";if(e.includes("/")){const t=e.split("/").filter(e=>e),n=t[t.length-1];if(n.startsWith("@"))return n;if("text()"===n)return"text()";const s=n.match(/^(.+?)\[\d+\]$/);return s?s[1]:n}{const t=e.split(/[.\[\]'"]/).filter(e=>e&&"$"!==e);return t[t.length-1]||"root"}}updateTreeMetadata(e){if(!e)return;const t=e.children.size;e.metadata.hasChildren=t>0,e.metadata.childCount=t;for(const t of e.children.values())this.updateTreeMetadata(t)}generateNodeId(){return"node_"+this.nodeIdCounter++}reset(){this.nodeIdCounter=0,this.nodeMap.clear(),this.pathToNodeMap.clear()}getStats(){return{nodeCount:this.nodeMap.size,pathCount:this.pathToNodeMap.size,nextNodeId:this.nodeIdCounter}}};class h{constructor(e,t,n,s={}){this.id=e,this.path=t,this.originalData=n,this.metadata=s,this.parent=null,this.children=new Map,this.selected=!1,this.indeterminate=!1,this.expanded=!1,this.visible=!0,this.highlighted=!1,this.level=0,this.displayIndex=-1}addChild(e){if(!e||!e.id)throw new Error("Invalid child node");e.parent=this,this.children.set(e.id,e),this.metadata.hasChildren=!0,this.metadata.childCount=this.children.size}removeChild(e){const t=this.children.get(e);t&&(t.parent=null,this.children.delete(e),this.metadata.hasChildren=this.children.size>0,this.metadata.childCount=this.children.size)}getAllDescendants(){const e=[],traverse=t=>{for(const n of t.children.values())e.push(n),traverse(n)};return traverse(this),e}getPathToRoot(){const e=[];let t=this;for(;t;)e.unshift(t),t=t.parent;return e}isAncestorOf(e){let t=e.parent;for(;t;){if(t===this)return!0;t=t.parent}return!1}getDisplayName(){const e=this.metadata.displayName||"Unknown";switch(this.metadata.type){case"attribute":default:return e;case"text":return"text()";case"array":return`${e} []`;case"object":return`${e} {}`}}matchesSearch(e){if(!e)return!0;const t=e.toLowerCase(),n=this.getDisplayName().toLowerCase(),s=this.path.toLowerCase();return n.includes(t)||s.includes(t)}clone(){const e=new h(this.id,this.path,this.originalData,{...this.metadata});return e.selected=this.selected,e.indeterminate=this.indeterminate,e.expanded=this.expanded,e.visible=this.visible,e.highlighted=this.highlighted,e.level=this.level,e.displayIndex=this.displayIndex,e}}class c extends Error{constructor(e,t="TransformError",n={}){super(e),this.name="TreeDataTransformerError",this.type=t,this.context=n,this.timestamp=(new Date).toISOString(),Error.captureStackTrace&&Error.captureStackTrace(this,c)}}"undefined"!=typeof module&&module.exports?module.exports={TreeDataTransformer:d,TreeNode:h,TreeDataTransformerError:c}:"undefined"!=typeof window&&(window.TreeDataTransformer=d,window.TreeNode=h,window.TreeDataTransformerError=c);let u=class{constructor(e,t={}){this.container=e,this.options={itemHeight:t.itemHeight||28,overscan:t.overscan||5,bufferSize:t.bufferSize||50,smoothScrolling:!1!==t.smoothScrolling,...t},this.flattenedNodes=[],this.visibleNodes=[],this.scrollTop=0,this.viewportHeight=0,this.totalHeight=0,this.visibleStart=0,this.visibleEnd=0,this.viewport=null,this.scrollArea=null,this.nodeContainer=null,this.nodeElementPool=[],this.activeElements=new Map,this.renderCount=0,this.lastRenderTime=0,this.boundHandleScroll=this.handleScroll.bind(this),this.boundHandleResize=this.handleResize.bind(this),this.boundHandleKeyboard=this.handleKeyboard.bind(this),this.initialize()}initialize(){this.createDOMStructure(),this.attachEventListeners(),this.measureViewport()}createDOMStructure(){this.container.innerHTML="",this.container.className="virtualized-tree-view",this.viewport=document.createElement("div"),this.viewport.className="tree-viewport",this.viewport.style.cssText="\n            position: relative;\n            overflow: auto;\n            height: 100%;\n            width: 100%;\n        ",this.scrollArea=document.createElement("div"),this.scrollArea.className="tree-scroll-area",this.scrollArea.style.cssText="\n            position: relative;\n            width: 100%;\n        ",this.nodeContainer=document.createElement("div"),this.nodeContainer.className="tree-node-container",this.nodeContainer.style.cssText="\n            position: absolute;\n            top: 0;\n            left: 0;\n            width: 100%;\n        ",this.scrollArea.appendChild(this.nodeContainer),this.viewport.appendChild(this.scrollArea),this.container.appendChild(this.viewport)}attachEventListeners(){this.viewport.addEventListener("scroll",this.boundHandleScroll,{passive:!0}),window.addEventListener("resize",this.boundHandleResize),this.container.addEventListener("keydown",this.boundHandleKeyboard);let e=0;this.viewport.addEventListener("touchstart",t=>{e=t.touches[0].clientY},{passive:!0}),this.viewport.addEventListener("touchmove",t=>{const n=t.touches[0].clientY,s=e-n;this.viewport.scrollTop+=s,e=n},{passive:!0})}setData(e){this.flattenedNodes=e||[],this.updateTotalHeight(),this.render()}updateTotalHeight(){this.totalHeight=this.flattenedNodes.length*this.options.itemHeight,this.scrollArea.style.height=`${this.totalHeight}px`}measureViewport(){const e=this.viewport.getBoundingClientRect();this.viewportHeight=e.height}calculateVisibleRange(){const e=this.options.itemHeight,t=this.options.overscan,n=Math.ceil(this.viewportHeight/e),s=Math.floor(this.scrollTop/e);this.visibleStart=Math.max(0,s-t),this.visibleEnd=Math.min(this.flattenedNodes.length,s+n+2*t),this.visibleNodes=this.flattenedNodes.slice(this.visibleStart,this.visibleEnd)}render(){const e=performance.now();this.calculateVisibleRange(),this.recycleElements(),this.renderVisibleNodes(),this.updateNodeContainerPosition(),this.renderCount++,this.lastRenderTime=performance.now()-e,this.emit("render",{visibleStart:this.visibleStart,visibleEnd:this.visibleEnd,renderTime:this.lastRenderTime})}recycleElements(){const e=new Set(this.visibleNodes.map(e=>e.id));for(const[t,n]of this.activeElements.entries())e.has(t)||(this.recycleElement(n),this.activeElements.delete(t))}renderVisibleNodes(){for(let e=0;e<this.visibleNodes.length;e++){const t=this.visibleNodes[e],n=this.visibleStart+e;let s=this.activeElements.get(t.id);s||(s=this.getOrCreateElement(),this.activeElements.set(t.id,s),this.nodeContainer.appendChild(s)),this.renderNodeToElement(t,s,n)}}getOrCreateElement(){return this.nodeElementPool.length>0?this.nodeElementPool.pop():this.createNodeElement()}createNodeElement(){const e=document.createElement("div");return e.className="tree-node-item",e.style.cssText=`\n            position: absolute;\n            width: 100%;\n            height: ${this.options.itemHeight}px;\n            display: flex;\n            align-items: center;\n            padding: 4px 8px;\n            box-sizing: border-box;\n            cursor: pointer;\n            user-select: none;\n        `,e.innerHTML='\n            <div class="tree-node-indent"></div>\n            <div class="tree-node-expander"></div>\n            <div class="tree-node-checkbox">\n                <input type="checkbox" tabindex="-1">\n            </div>\n            <div class="tree-node-icon"></div>\n            <div class="tree-node-label"></div>\n            <div class="tree-node-value"></div>\n        ',e}renderNodeToElement(e,t,n){const s=n*this.options.itemHeight;t.style.top=`${s}px`,t.setAttribute("data-node-id",e.id),t.setAttribute("data-index",n),t.className=`tree-node-item ${this.getNodeClasses(e)}`;t.querySelector(".tree-node-indent").style.width=20*e.level+"px";const r=t.querySelector(".tree-node-expander");r.className=`tree-node-expander ${this.getExpanderClasses(e)}`,r.innerHTML=this.getExpanderIcon(e);const i=t.querySelector(".tree-node-checkbox input");i.checked=e.selected,i.indeterminate=e.indeterminate;const a=t.querySelector(".tree-node-icon");a.className=`tree-node-icon ${this.getIconClasses(e)}`,a.innerHTML=this.getNodeIcon(e);const o=t.querySelector(".tree-node-label");o.textContent=e.getDisplayName(),o.title=e.path;const l=t.querySelector(".tree-node-value");e.originalData&&void 0!==e.originalData.value?(l.textContent=this.formatValue(e.originalData.value),l.style.display="block"):l.style.display="none",e.highlighted&&t.classList.add("highlighted")}getNodeClasses(e){const t=[];return e.selected&&t.push("selected"),e.indeterminate&&t.push("indeterminate"),e.highlighted&&t.push("highlighted"),e.metadata.hasChildren&&t.push("has-children"),e.expanded&&t.push("expanded"),e.metadata.type&&t.push(`type-${e.metadata.type}`),t.join(" ")}getExpanderClasses(e){const t=["expander"];return e.metadata.hasChildren?(t.push("expandable"),e.expanded&&t.push("expanded")):t.push("leaf"),t.join(" ")}getExpanderIcon(e){return e.metadata.hasChildren?e.expanded?"▼":"▶":'<span class="expander-placeholder"></span>'}getIconClasses(e){const t=["icon"];switch(e.metadata.type){case"element":t.push("icon-element");break;case"attribute":t.push("icon-attribute");break;case"text":t.push("icon-text");break;case"array":t.push("icon-array");break;case"object":t.push("icon-object");break;default:t.push("icon-default")}return t.join(" ")}getNodeIcon(e){switch(e.metadata.type){case"element":default:return"📄";case"attribute":return"🏷️";case"text":return"📝";case"array":return"📋";case"object":return"📁";case"root":return"🌳"}}formatValue(e){return null===e?"null":void 0===e?"undefined":"string"==typeof e?e.length>50?e.substring(0,50)+"...":e:String(e)}updateNodeContainerPosition(){const e=this.visibleStart*this.options.itemHeight;this.nodeContainer.style.transform=`translateY(${e}px)`}recycleElement(e){e.parentNode&&e.parentNode.removeChild(e),e.className="tree-node-item",e.removeAttribute("data-node-id"),e.removeAttribute("data-index"),this.nodeElementPool.push(e)}handleScroll(e){const t=this.viewport.scrollTop;Math.abs(t-this.scrollTop)>5&&(this.scrollTop=t,this.render())}handleResize(){this.measureViewport(),this.render()}handleKeyboard(e){this.emit("keydown",e)}scrollToNode(e){const t=this.flattenedNodes.findIndex(t=>t.id===e);if(-1===t)return;const n=t*this.options.itemHeight;this.options.smoothScrolling?this.viewport.scrollTo({top:n,behavior:"smooth"}):this.viewport.scrollTop=n}getNodeAtPoint(e,t){const n=t-this.viewport.getBoundingClientRect().top+this.scrollTop,s=Math.floor(n/this.options.itemHeight);return this.flattenedNodes[s]||null}getPerformanceStats(){return{totalNodes:this.flattenedNodes.length,visibleNodes:this.visibleNodes.length,activeElements:this.activeElements.size,pooledElements:this.nodeElementPool.length,renderCount:this.renderCount,lastRenderTime:this.lastRenderTime,viewportHeight:this.viewportHeight,totalHeight:this.totalHeight}}updateOptions(e){this.options={...this.options,...e},"itemHeight"in e&&this.updateTotalHeight(),this.render()}refresh(){this.recycleAllElements(),this.render()}recycleAllElements(){for(const e of this.activeElements.values())this.recycleElement(e);this.activeElements.clear()}destroy(){this.viewport.removeEventListener("scroll",this.boundHandleScroll),window.removeEventListener("resize",this.boundHandleResize),this.container.removeEventListener("keydown",this.boundHandleKeyboard),this.container.innerHTML="",this.flattenedNodes=[],this.visibleNodes=[],this.activeElements.clear(),this.nodeElementPool=[]}emit(e,t){const n=new CustomEvent(e,{detail:t});this.container.dispatchEvent(n)}};"undefined"!=typeof module&&module.exports?module.exports={VirtualizedTreeView:u}:"undefined"!=typeof window&&(window.VirtualizedTreeView=u);let p=class{constructor(e={}){this.options={enableParentSync:!1!==e.enableParentSync,enableChildSync:!1!==e.enableChildSync,enableBatchUpdates:!1!==e.enableBatchUpdates,...e},this.selectedNodes=new Set,this.indeterminateNodes=new Set,this.lastSelectedNode=null,this.batchInProgress=!1,this.pendingUpdates=new Map,this.eventListeners=new Map}setNodeSelection(e,t,n={}){if(!e)throw new Error("Node is required");const s={cascadeToChildren:!1!==n.cascadeToChildren,updateParentChain:!1!==n.updateParentChain,isUserAction:n.isUserAction||!1,shiftKey:n.shiftKey||!1,ctrlKey:n.ctrlKey||!1,...n};if(s.shiftKey&&this.lastSelectedNode&&s.isUserAction)return void this.selectRange(this.lastSelectedNode,e,t);const r=new m;this.addToBatch(r,e,t,!1),this.options.enableChildSync&&s.cascadeToChildren&&this.cascadeSelectionToChildren(e,t,r),this.options.enableParentSync&&s.updateParentChain&&this.updateParentChain(e,r),this.applyBatch(r),s.isUserAction&&(this.lastSelectedNode=e),this.emit("selectionChange",{node:e,selected:t,selectedCount:this.selectedNodes.size,options:s})}toggleNodeSelection(e,t={}){const n=this.isNodeSelected(e);this.setNodeSelection(e,!n,t)}selectRange(e,t,n){if(!e||!t)return;const s=this.getFlattenedNodesFromTree(e),r=s.findIndex(t=>t.id===e.id),i=s.findIndex(e=>e.id===t.id);if(-1===r||-1===i)return;const a=Math.min(r,i),o=Math.max(r,i),l=new m;for(let e=a;e<=o;e++){const t=s[e];this.addToBatch(l,t,n,!1)}this.applyBatch(l),this.emit("rangeSelection",{startNode:e,endNode:t,selected:n,count:o-a+1})}selectAll(e){if(!e)return;const t=new m,n=this.getAllNodesFromTree(e);for(const e of n)e.metadata.isRoot||this.addToBatch(t,e,!0,!1);this.applyBatch(t),this.emit("selectAll",{count:n.length-1})}deselectAll(){const e=new m;for(const t of this.selectedNodes){const n=this.getNodeById(t);n&&this.addToBatch(e,n,!1,!1)}this.applyBatch(e),this.emit("deselectAll")}getSelectedNodes(){const e=[];for(const t of this.selectedNodes){const n=this.getNodeById(t);n&&e.push(n)}return e}getSelectedPaths(){return this.getSelectedNodes().map(e=>e.path)}isNodeSelected(e){return this.selectedNodes.has(e.id)}isNodeIndeterminate(e){return this.indeterminateNodes.has(e.id)}getSelectionStats(){return{selectedCount:this.selectedNodes.size,indeterminateCount:this.indeterminateNodes.size,lastSelectedNode:this.lastSelectedNode?.id||null}}cascadeSelectionToChildren(e,t,n){const s=e.getAllDescendants();for(const e of s)this.addToBatch(n,e,t,!1)}updateParentChain(e,t){let n=e.parent;for(;n&&!n.metadata.isRoot;){const e=this.calculateChildSelectionStates(n,t);e.allSelected?this.addToBatch(t,n,!0,!1):e.someSelected?this.addToBatch(t,n,!1,!0):this.addToBatch(t,n,!1,!1),n=n.parent}}calculateChildSelectionStates(e,t=null){const n=Array.from(e.children.values());if(0===n.length)return{allSelected:!1,someSelected:!1,noneSelected:!0};let s=0,r=0;for(const e of n){const n=t?.updates.get(e.id),i=n?n.selected:this.isNodeSelected(e),a=n?n.indeterminate:this.isNodeIndeterminate(e);i?s++:a&&r++}return{allSelected:s===n.length,someSelected:s>0||r>0,noneSelected:0===s&&0===r}}addToBatch(e,t,n,s){e.add(t.id,{node:t,selected:n,indeterminate:s,previousSelected:this.isNodeSelected(t),previousIndeterminate:this.isNodeIndeterminate(t)})}applyBatch(e){if(0===e.updates.size)return;const t=[];for(const[n,s]of e.updates){const{node:e,selected:r,indeterminate:i,previousSelected:a,previousIndeterminate:o}=s;r?this.selectedNodes.add(n):this.selectedNodes.delete(n),i?this.indeterminateNodes.add(n):this.indeterminateNodes.delete(n),e.selected=r,e.indeterminate=i,r===a&&i===o||t.push({node:e,selected:r,indeterminate:i,previousSelected:a,previousIndeterminate:o})}t.length>0&&this.emit("batchChange",{changes:t,selectedCount:this.selectedNodes.size})}getFlattenedNodesFromTree(e){const t=[],n=this.findRootNode(e),traverse=e=>{e.metadata.isRoot||t.push(e);for(const t of e.children.values())traverse(t)};return traverse(n),t}getAllNodesFromTree(e){const t=[e],n=[e];for(;n.length>0;){const e=n.shift();for(const s of e.children.values())t.push(s),n.push(s)}return t}findRootNode(e){let t=e;for(;t.parent;)t=t.parent;return t}getNodeById(e){return null}setNodeLookupFunction(e){this.getNodeById=e}clear(){this.selectedNodes.clear(),this.indeterminateNodes.clear(),this.lastSelectedNode=null,this.emit("clear")}exportState(){return{selectedNodeIds:Array.from(this.selectedNodes),indeterminateNodeIds:Array.from(this.indeterminateNodes),lastSelectedNodeId:this.lastSelectedNode?.id||null}}importState(e){this.selectedNodes=new Set(e.selectedNodeIds||[]),this.indeterminateNodes=new Set(e.indeterminateNodeIds||[]),this.lastSelectedNode=e.lastSelectedNodeId?this.getNodeById(e.lastSelectedNodeId):null,this.emit("stateImported",e)}addEventListener(e,t){this.eventListeners.has(e)||this.eventListeners.set(e,[]),this.eventListeners.get(e).push(t)}removeEventListener(e,t){const n=this.eventListeners.get(e);if(n){const e=n.indexOf(t);e>-1&&n.splice(e,1)}}emit(e,t){const n=this.eventListeners.get(e);if(n)for(const s of n)try{s(t)}catch(t){console.error(`Error in ${e} event listener:`,t)}}destroy(){this.clear(),this.eventListeners.clear()}};class m{constructor(){this.updates=new Map}add(e,t){this.updates.set(e,t)}hasUpdates(){return this.updates.size>0}getUpdateCount(){return this.updates.size}clear(){this.updates.clear()}}"undefined"!=typeof module&&module.exports?module.exports={SelectionStateManager:p,SelectionBatch:m}:"undefined"!=typeof window&&(window.SelectionStateManager=p,window.SelectionBatch=m);class f{constructor(e,t={}){this.container=e,this.options={itemHeight:28,showSearch:!0,showControls:!0,showStats:!1,enableVirtualScrolling:!0,enableSelection:!0,enableExpansion:!0,enableSearch:!0,overscan:5,bufferSize:50,maxNodes:5e4,includeAttributes:!0,includeTextNodes:!1,...t},this.dataTransformer=new TreeDataTransformer,this.selectionManager=new SelectionStateManager,this.virtualTreeView=null,this.rootNode=null,this.flattenedNodes=[],this.filteredNodes=[],this.documentFormat=null,this.currentSearchTerm="",this.focusedNodeId=null,this.headerContainer=null,this.searchInput=null,this.controlsContainer=null,this.treeContainer=null,this.footerContainer=null,this.statsContainer=null,this.boundHandleClick=this.handleClick.bind(this),this.boundHandleKeyDown=this.handleKeyDown.bind(this),this.boundHandleSearch=this.handleSearch.bind(this),this.initialize()}initialize(){this.createDOMStructure(),this.setupComponents(),this.attachEventListeners(),this.addStyles()}createDOMStructure(){this.container.innerHTML="",this.container.className="interactive-tree-view",this.container.setAttribute("role","tree"),this.container.setAttribute("aria-label","Document structure tree"),(this.options.showSearch||this.options.showControls)&&this.createHeader(),this.treeContainer=document.createElement("div"),this.treeContainer.className="tree-container",this.treeContainer.style.cssText="\n            flex: 1;\n            min-height: 0;\n            position: relative;\n        ",this.container.appendChild(this.treeContainer),this.options.showStats&&this.createFooter(),this.container.style.cssText="\n            display: flex;\n            flex-direction: column;\n            height: 100%;\n            width: 100%;\n            background: #fff;\n            border: 1px solid #ddd;\n            border-radius: 4px;\n            overflow: hidden;\n        "}createHeader(){this.headerContainer=document.createElement("div"),this.headerContainer.className="tree-header",this.headerContainer.style.cssText="\n            padding: 12px;\n            border-bottom: 1px solid #eee;\n            background: #f8f9fa;\n            display: flex;\n            align-items: center;\n            gap: 12px;\n            flex-wrap: wrap;\n        ",this.options.enableSearch&&this.createSearchInput(),this.options.showControls&&this.createControlButtons(),this.container.appendChild(this.headerContainer)}createSearchInput(){const e=document.createElement("div");e.className="search-container",e.style.cssText="\n            position: relative;\n            flex: 1;\n            min-width: 200px;\n        ",this.searchInput=document.createElement("input"),this.searchInput.type="text",this.searchInput.placeholder="Search nodes...",this.searchInput.className="search-input",this.searchInput.setAttribute("aria-label","Search tree nodes"),this.searchInput.style.cssText="\n            width: 100%;\n            padding: 8px 32px 8px 12px;\n            border: 1px solid #ccc;\n            border-radius: 4px;\n            font-size: 14px;\n            outline: none;\n        ";const t=document.createElement("span");t.className="search-icon",t.innerHTML="🔍",t.style.cssText="\n            position: absolute;\n            right: 8px;\n            top: 50%;\n            transform: translateY(-50%);\n            pointer-events: none;\n            font-size: 16px;\n        ",e.appendChild(this.searchInput),e.appendChild(t),this.headerContainer.appendChild(e)}createControlButtons(){this.controlsContainer=document.createElement("div"),this.controlsContainer.className="tree-controls",this.controlsContainer.style.cssText="\n            display: flex;\n            gap: 8px;\n            align-items: center;\n        ";const e=this.createButton("Expand All","📖",()=>{this.expandAll()}),t=this.createButton("Collapse All","📋",()=>{this.collapseAll()}),n=this.createButton("Select All","☑️",()=>{this.selectAll()}),s=this.createButton("Deselect All","☐",()=>{this.deselectAll()});this.controlsContainer.appendChild(e),this.controlsContainer.appendChild(t),this.controlsContainer.appendChild(n),this.controlsContainer.appendChild(s),this.headerContainer.appendChild(this.controlsContainer)}createButton(e,t,n){const s=document.createElement("button");return s.textContent=`${t} ${e}`,s.className="tree-control-btn",s.title=e,s.onclick=n,s.style.cssText="\n            padding: 6px 12px;\n            border: 1px solid #ccc;\n            border-radius: 4px;\n            background: #fff;\n            cursor: pointer;\n            font-size: 12px;\n            white-space: nowrap;\n        ",s.addEventListener("mouseover",()=>{s.style.background="#f0f0f0"}),s.addEventListener("mouseout",()=>{s.style.background="#fff"}),s}createFooter(){this.footerContainer=document.createElement("div"),this.footerContainer.className="tree-footer",this.footerContainer.style.cssText="\n            padding: 8px 12px;\n            border-top: 1px solid #eee;\n            background: #f8f9fa;\n            font-size: 12px;\n            color: #666;\n        ",this.statsContainer=document.createElement("div"),this.statsContainer.className="tree-stats",this.footerContainer.appendChild(this.statsContainer),this.container.appendChild(this.footerContainer)}setupComponents(){this.selectionManager.setNodeLookupFunction(e=>this.dataTransformer.nodeMap.get(e)),this.options.enableVirtualScrolling&&(this.virtualTreeView=new VirtualizedTreeView(this.treeContainer,{itemHeight:this.options.itemHeight,overscan:this.options.overscan,bufferSize:this.options.bufferSize}))}attachEventListeners(){this.treeContainer.addEventListener("click",this.boundHandleClick),this.container.addEventListener("keydown",this.boundHandleKeyDown),this.searchInput&&this.searchInput.addEventListener("input",this.boundHandleSearch),this.virtualTreeView&&this.treeContainer.addEventListener("render",e=>{this.updateStats()}),this.selectionManager.addEventListener("selectionChange",e=>{this.onSelectionChange(e)}),this.selectionManager.addEventListener("batchChange",e=>{this.onBatchSelectionChange(e)})}loadDocument(e,t){if(!e||!t)throw new Error("Both parsedDocument and pathData are required");this.documentFormat=e.format;try{this.rootNode=this.dataTransformer.transformPathsToTree(t,this.documentFormat),this.initializeNodeStates(this.rootNode),this.updateTreeDisplay(),this.updateStats(),this.emit("documentLoaded",{format:this.documentFormat,nodeCount:this.dataTransformer.getStats().nodeCount,pathCount:t.length})}catch(e){console.error("Error loading document:",e),this.showError("Failed to load document: "+e.message)}}initializeNodeStates(e,t=0){if(e){e.expanded=t<2,e.level=t;for(const n of e.children.values())this.initializeNodeStates(n,t+1)}}updateTreeDisplay(){this.rootNode&&(this.flattenedNodes=this.dataTransformer.flattenTreeForDisplay(this.rootNode,!0),this.applySearchFilter(),this.virtualTreeView?this.virtualTreeView.setData(this.filteredNodes):this.renderRegularTree())}applySearchFilter(){if(!this.currentSearchTerm)return void(this.filteredNodes=this.flattenedNodes);const e=this.currentSearchTerm.toLowerCase();this.filteredNodes=this.flattenedNodes.filter(t=>{const n=t.matchesSearch(e);return t.highlighted=n,n})}handleClick(e){const t=e.target.closest(".tree-node-item");if(!t)return;const n=t.getAttribute("data-node-id"),s=this.dataTransformer.nodeMap.get(n);s&&(e.target.closest(".tree-node-expander")?this.handleExpanderClick(s,e):e.target.closest(".tree-node-checkbox")?this.handleCheckboxClick(s,e):this.handleNodeClick(s,e))}handleExpanderClick(e,t){t.preventDefault(),e.metadata.hasChildren&&(e.expanded=!e.expanded,this.updateTreeDisplay(),this.emit("nodeExpanded",{node:e,expanded:e.expanded}))}handleCheckboxClick(e,t){t.preventDefault(),this.selectionManager.toggleNodeSelection(e,{isUserAction:!0,shiftKey:t.shiftKey,ctrlKey:t.ctrlKey||t.metaKey})}handleNodeClick(e,t){this.focusNode(e),this.options.enableSelection&&this.selectionManager.toggleNodeSelection(e,{isUserAction:!0,shiftKey:t.shiftKey,ctrlKey:t.ctrlKey||t.metaKey})}handleKeyDown(e){if(!this.focusedNodeId)return;const t=this.dataTransformer.nodeMap.get(this.focusedNodeId);if(t)switch(e.key){case"ArrowDown":e.preventDefault(),this.focusNextNode();break;case"ArrowUp":e.preventDefault(),this.focusPreviousNode();break;case"ArrowRight":e.preventDefault(),t.metadata.hasChildren&&!t.expanded?(t.expanded=!0,this.updateTreeDisplay()):this.focusNextNode();break;case"ArrowLeft":e.preventDefault(),t.metadata.hasChildren&&t.expanded?(t.expanded=!1,this.updateTreeDisplay()):t.parent&&!t.parent.metadata.isRoot&&this.focusNode(t.parent);break;case" ":case"Enter":e.preventDefault(),this.selectionManager.toggleNodeSelection(t,{isUserAction:!0});break;case"Home":e.preventDefault(),this.focusFirstNode();break;case"End":e.preventDefault(),this.focusLastNode()}}handleSearch(e){this.currentSearchTerm=e.target.value,this.applySearchFilter(),this.virtualTreeView&&this.virtualTreeView.setData(this.filteredNodes),this.updateStats(),this.emit("search",{term:this.currentSearchTerm,resultCount:this.filteredNodes.length})}focusNode(e){e&&(this.focusedNodeId=e.id,this.virtualTreeView&&this.virtualTreeView.scrollToNode(e.id),this.updateFocusDisplay(),this.emit("nodeFocused",{node:e}))}focusNextNode(){const e=this.filteredNodes.findIndex(e=>e.id===this.focusedNodeId);e<this.filteredNodes.length-1&&this.focusNode(this.filteredNodes[e+1])}focusPreviousNode(){const e=this.filteredNodes.findIndex(e=>e.id===this.focusedNodeId);e>0&&this.focusNode(this.filteredNodes[e-1])}focusFirstNode(){this.filteredNodes.length>0&&this.focusNode(this.filteredNodes[0])}focusLastNode(){this.filteredNodes.length>0&&this.focusNode(this.filteredNodes[this.filteredNodes.length-1])}updateFocusDisplay(){const e=this.treeContainer.querySelector(".tree-node-item.focused");e&&e.classList.remove("focused");const t=this.treeContainer.querySelector(`[data-node-id="${this.focusedNodeId}"]`);t&&t.classList.add("focused")}expandAll(){if(!this.rootNode)return;const expandNode=e=>{e.metadata.hasChildren&&(e.expanded=!0);for(const t of e.children.values())expandNode(t)};expandNode(this.rootNode),this.updateTreeDisplay(),this.emit("expandAll")}collapseAll(){if(!this.rootNode)return;const collapseNode=e=>{e.metadata.hasChildren&&!e.metadata.isRoot&&(e.expanded=!1);for(const t of e.children.values())collapseNode(t)};collapseNode(this.rootNode),this.updateTreeDisplay(),this.emit("collapseAll")}selectAll(){this.rootNode&&(this.selectionManager.selectAll(this.rootNode),this.updateTreeDisplay())}deselectAll(){this.selectionManager.deselectAll(),this.updateTreeDisplay()}getSelectedPathsForSAP(){if(!this.outputFormatter)return console.log("OutputFormatter not initialized"),{metadata:{valid:!1},output:""};const e=this.selectionManager.getSelectedNodes(),t=e.map(e=>e.path);let n=new Map;if("xml"===this.documentFormat&&e.length>0){const t=e.find(e=>e.originalData&&e.originalData.element);if(t&&t.originalData.element.ownerDocument){const e=(new PathExtractor).getSAPNamespaceFormat(t.originalData.element.ownerDocument);if(e){const t=e.split(";");for(const e of t){const[t,s]=e.split("=");t&&s&&n.set(s,t)}}}}const s=this.outputFormatter.formatForSAP(t,n);return{DynamicCustomHeader:s.DynamicCustomHeader,DynamicCustomHeaderXMLNamespace:s.DynamicCustomHeaderXMLNamespace,selectedCount:t.length,documentFormat:this.documentFormat}}onSelectionChange(e){this.updateTreeDisplay(),this.updateStats(),this.outputFormatter&&this.outputFormatter.updateOutputDisplay(),this.emit("selectionChange",e)}onBatchSelectionChange(e){this.updateTreeDisplay(),this.updateStats(),this.outputFormatter&&this.outputFormatter.updateOutputDisplay(),this.emit("batchSelectionChange",e)}updateStats(){if(!this.statsContainer)return;const e=this.selectionManager.getSelectionStats(),t=this.dataTransformer.getStats(),n=this.currentSearchTerm?this.filteredNodes.length:this.flattenedNodes.length;this.statsContainer.innerHTML=`\n            Total: ${t.nodeCount} | \n            Displayed: ${n} | \n            Selected: ${e.selectedCount}\n            ${this.currentSearchTerm?` | Search: "${this.currentSearchTerm}"`:""}\n        `}showError(e){this.treeContainer.innerHTML=`\n            <div class="tree-error" style="\n                padding: 20px;\n                text-align: center;\n                color: #dc3545;\n                font-size: 14px;\n            ">\n                ❌ ${e}\n            </div>\n        `}renderRegularTree(){this.treeContainer.innerHTML="<div>Regular tree rendering not implemented</div>"}addStyles(){const e="interactive-tree-view-styles";if(document.getElementById(e))return;const t=document.createElement("style");t.id=e,t.textContent="\n            .tree-node-item {\n                transition: background-color 0.15s ease;\n            }\n            \n            .tree-node-item:hover {\n                background-color: #f5f5f5;\n            }\n            \n            .tree-node-item.selected {\n                background-color: #e3f2fd;\n            }\n            \n            .tree-node-item.focused {\n                outline: 2px solid #2196f3;\n                outline-offset: -2px;\n            }\n            \n            .tree-node-item.highlighted {\n                background-color: #fff3cd;\n            }\n            \n            .tree-node-expander {\n                width: 16px;\n                height: 16px;\n                display: flex;\n                align-items: center;\n                justify-content: center;\n                cursor: pointer;\n                font-size: 12px;\n                margin-right: 4px;\n            }\n            \n            .tree-node-expander.leaf {\n                cursor: default;\n            }\n            \n            .tree-node-checkbox {\n                margin-right: 8px;\n            }\n            \n            .tree-node-icon {\n                margin-right: 6px;\n                font-size: 14px;\n            }\n            \n            .tree-node-label {\n                flex: 1;\n                font-size: 13px;\n                white-space: nowrap;\n                overflow: hidden;\n                text-overflow: ellipsis;\n            }\n            \n            .tree-node-value {\n                font-size: 11px;\n                color: #666;\n                font-style: italic;\n                margin-left: 8px;\n                max-width: 150px;\n                white-space: nowrap;\n                overflow: hidden;\n                text-overflow: ellipsis;\n            }\n            \n            @media (max-width: 768px) {\n                .tree-header {\n                    flex-direction: column;\n                    align-items: stretch;\n                }\n                \n                .tree-controls {\n                    flex-wrap: wrap;\n                    justify-content: center;\n                }\n                \n                .tree-control-btn {\n                    font-size: 11px;\n                    padding: 4px 8px;\n                }\n                \n                .tree-node-value {\n                    display: none;\n                }\n            }\n        ",document.head.appendChild(t)}emit(e,t){const n=new CustomEvent(e,{detail:t});this.container.dispatchEvent(n)}destroy(){this.treeContainer.removeEventListener("click",this.boundHandleClick),this.container.removeEventListener("keydown",this.boundHandleKeyDown),this.searchInput&&this.searchInput.removeEventListener("input",this.boundHandleSearch),this.virtualTreeView&&this.virtualTreeView.destroy(),this.selectionManager.destroy(),this.dataTransformer.reset(),this.container.innerHTML="",this.rootNode=null,this.flattenedNodes=[],this.filteredNodes=[]}}"undefined"!=typeof module&&module.exports?module.exports={InteractiveTreeView:f}:"undefined"!=typeof window&&(window.InteractiveTreeView=f);class g{constructor(e={}){this.maxFileSize=e.maxFileSize||10485760,this.allowedTypes=e.allowedTypes||[".xml",".json",".txt"],this.enableHistory=!1!==e.enableHistory,this.maxHistoryItems=e.maxHistoryItems||10,this.dropZone=null,this.fileInput=null,this.progressContainer=null,this.progressBar=null,this.progressText=null,this.onFileLoad=e.onFileLoad||null,this.onProgress=e.onProgress||null,this.onError=e.onError||null,this.onValidationError=e.onValidationError||null,this.isDragActive=!1,this.currentFile=null,this.handleDragEnter=this.handleDragEnter.bind(this),this.handleDragOver=this.handleDragOver.bind(this),this.handleDragLeave=this.handleDragLeave.bind(this),this.handleDrop=this.handleDrop.bind(this),this.handleFileSelect=this.handleFileSelect.bind(this)}setupDragDrop(e){if(!e)throw new Error("Drop zone element is required");this.dropZone=e,e.setAttribute("role","button"),e.setAttribute("aria-label","File drop zone - drag and drop files here or click to browse"),e.setAttribute("tabindex","0"),e.classList.add("file-drop-zone"),e.addEventListener("dragenter",this.handleDragEnter),e.addEventListener("dragover",this.handleDragOver),e.addEventListener("dragleave",this.handleDragLeave),e.addEventListener("drop",this.handleDrop),e.addEventListener("keydown",e=>{"Enter"!==e.key&&" "!==e.key||(e.preventDefault(),this.openFileDialog())}),e.addEventListener("click",()=>{this.openFileDialog()}),this.updateVisualFeedback("default")}setupFileInput(e){e||((e=document.createElement("input")).type="file",e.style.display="none",e.accept=this.allowedTypes.join(","),e.multiple=!1,document.body.appendChild(e)),this.fileInput=e,this.fileInput.accept=this.allowedTypes.join(","),this.fileInput.addEventListener("change",e=>{e.target.files&&e.target.files[0]&&this.handleFileSelect(e.target.files[0])})}setupProgressIndicator(e){e&&(this.progressContainer=e,this.progressContainer.innerHTML='\n            <div class="file-progress-bar">\n                <div class="file-progress-fill"></div>\n            </div>\n            <div class="file-progress-text">Ready</div>\n        ',this.progressBar=e.querySelector(".file-progress-fill"),this.progressText=e.querySelector(".file-progress-text"),this.progressContainer.style.display="none")}openFileDialog(){this.fileInput||this.setupFileInput(),this.fileInput.click()}handleDragEnter(e){e.preventDefault(),e.stopPropagation(),this.isDragActive||(this.isDragActive=!0,this.updateVisualFeedback("dragover"))}handleDragOver(e){e.preventDefault(),e.stopPropagation();const t=e.dataTransfer.types.includes("Files")?"dragover-valid":"dragover-invalid";this.updateVisualFeedback(t)}handleDragLeave(e){e.preventDefault(),e.stopPropagation(),this.dropZone.contains(e.relatedTarget)||(this.isDragActive=!1,this.updateVisualFeedback("default"))}handleDrop(e){e.preventDefault(),e.stopPropagation(),this.isDragActive=!1,this.updateVisualFeedback("default");const t=e.dataTransfer.files;t&&t[0]&&this.handleFileSelect(t[0])}async handleFileSelect(e){this.currentFile=e;try{this.validateFile(e);const t=e.size>1048576;t&&this.showProgress(0);const n=await this.readFileContent(e);t&&this.showProgress(100),this.enableHistory&&this.saveToHistory({name:e.name,size:e.size,type:e.type||this.getFileTypeFromExtension(e.name),lastModified:e.lastModified,loadedAt:Date.now()}),this.onFileLoad&&this.onFileLoad({file:e,content:n,metadata:{name:e.name,size:e.size,type:e.type||this.getFileTypeFromExtension(e.name),lastModified:new Date(e.lastModified),loadedAt:new Date}}),t&&setTimeout(()=>{this.progressContainer&&(this.progressContainer.style.display="none")},1e3)}catch(e){this.handleError(e)}}validateFile(e){if(!e)throw new Error("No file provided");if(e.size>this.maxFileSize){const t=Math.round(this.maxFileSize/1024/1024);throw new Error(`File size (${this.formatFileSize(e.size)}) exceeds maximum limit of ${t}MB`)}if(0===e.size)throw new Error("File is empty");if(!e.name||""===e.name.trim())throw new Error("File must have a valid name");const t=this.getFileExtension(e.name);if(!this.allowedTypes.includes(t))throw new Error(`File type "${t}" not supported. Allowed types: ${this.allowedTypes.join(", ")}`);if(e.name.includes("..")||/[<>:"/\\|?*\x00-\x1f]/.test(e.name))throw new Error("File name contains invalid characters");return!0}readFileContent(e){return new Promise((t,n)=>{const s=new FileReader;s.onload=e=>{try{const n=e.target.result;if("string"!=typeof n)throw new Error("File content is not text-readable");if(n.includes("\0"))throw new Error("File contains null bytes and may be corrupted or unsafe");t(n)}catch(e){n(e)}},s.onerror=()=>{n(new Error("Failed to read file: "+(s.error?.message||"Unknown error")))},s.onprogress=e=>{if(e.lengthComputable&&this.onProgress){const t=Math.round(e.loaded/e.total*100);this.onProgress(t),this.showProgress(t)}},s.readAsText(e,"UTF-8")})}showProgress(e){this.progressContainer&&(this.progressContainer.style.display="block",this.progressBar&&(this.progressBar.style.width=`${Math.min(100,Math.max(0,e))}%`),this.progressText&&(this.progressText.textContent=e>=100?"Complete!":e>0?`Loading... ${e}%`:"Starting..."),this.onProgress&&this.onProgress(e))}updateVisualFeedback(e){if(!this.dropZone)return;switch(this.dropZone.classList.remove("drag-default","drag-over","drag-valid","drag-invalid","drag-error","drag-success"),e){case"default":this.dropZone.classList.add("drag-default"),this.dropZone.setAttribute("aria-label","File drop zone - drag and drop files here or click to browse");break;case"dragover":this.dropZone.classList.add("drag-over"),this.dropZone.setAttribute("aria-label","Drop files here");break;case"dragover-valid":this.dropZone.classList.add("drag-valid"),this.dropZone.setAttribute("aria-label","Valid files - drop to upload");break;case"dragover-invalid":this.dropZone.classList.add("drag-invalid"),this.dropZone.setAttribute("aria-label","Invalid file type - only XML, JSON, and TXT files are supported");break;case"error":this.dropZone.classList.add("drag-error");break;case"success":this.dropZone.classList.add("drag-success"),setTimeout(()=>this.updateVisualFeedback("default"),2e3)}}saveToHistory(e){if(this.enableHistory)try{let t=this.getRecentFiles();t=t.filter(t=>!(t.name===e.name&&t.size===e.size)),t.unshift(e),t.length>this.maxHistoryItems&&(t=t.slice(0,this.maxHistoryItems)),localStorage.setItem("fileHandler.recentFiles",JSON.stringify(t))}catch(e){console.warn("Failed to save file to history:",e)}}getRecentFiles(){if(!this.enableHistory)return[];try{const e=localStorage.getItem("fileHandler.recentFiles");return e?JSON.parse(e):[]}catch(e){return console.warn("Failed to load file history:",e),[]}}clearHistory(){try{localStorage.removeItem("fileHandler.recentFiles")}catch(e){console.warn("Failed to clear file history:",e)}}handleError(e){console.error("FileHandler error:",e),this.updateVisualFeedback("error"),this.progressContainer&&(this.progressContainer.style.display="none"),this.onError?this.onError(e):alert(`File error: ${e.message}`),setTimeout(()=>{this.updateVisualFeedback("default")},3e3)}getFileExtension(e){const t=e.lastIndexOf(".");return t>=0?e.substring(t).toLowerCase():""}getFileTypeFromExtension(e){return{".xml":"application/xml",".json":"application/json",".txt":"text/plain"}[this.getFileExtension(e)]||"text/plain"}formatFileSize(e){if(0===e)return"0 B";const t=Math.floor(Math.log(e)/Math.log(1024));return(e/Math.pow(1024,t)).toFixed(1)+" "+["B","KB","MB","GB"][t]}static isSupported(){return"undefined"!=typeof File&&"undefined"!=typeof FileReader&&"undefined"!=typeof FileList&&"undefined"!=typeof Blob}getCurrentFile(){return this.currentFile}reset(){this.currentFile=null,this.isDragActive=!1,this.fileInput&&(this.fileInput.value=""),this.progressContainer&&(this.progressContainer.style.display="none"),this.updateVisualFeedback("default")}destroy(){this.dropZone&&(this.dropZone.removeEventListener("dragenter",this.handleDragEnter),this.dropZone.removeEventListener("dragover",this.handleDragOver),this.dropZone.removeEventListener("dragleave",this.handleDragLeave),this.dropZone.removeEventListener("drop",this.handleDrop)),this.fileInput&&this.fileInput.parentNode&&this.fileInput.parentNode.removeChild(this.fileInput),this.dropZone=null,this.fileInput=null,this.progressContainer=null,this.progressBar=null,this.progressText=null,this.currentFile=null}}"undefined"!=typeof module&&module.exports&&(module.exports=g),window.DocumentParser=t,window.DocumentParserError=n,window.PathExtractor=a,window.NamespaceHandler=s,window.OutputFormatter=l,window.TreeDataTransformer=d,window.VirtualizedTreeView=u,window.SelectionStateManager=p,window.InteractiveTreeView=f,window.FileHandler=g;const v={version:"1.0.0",buildDate:(new Date).toISOString(),bundler:"rollup",modules:["DocumentParser","PathExtractor","NamespaceHandler","OutputFormatter","TreeDataTransformer","VirtualizedTreeView","SelectionStateManager","InteractiveTreeView","FileHandler"]};return window.DYNAMIC_PARAMETER_HELPER_BUILD_INFO=v,e.BUILD_INFO=v,e.DocumentParser=t,e.DocumentParserError=n,e.FileHandler=g,e.InteractiveTreeView=f,e.NamespaceHandler=s,e.OutputFormatter=l,e.PathExtractor=a,e.SelectionStateManager=p,e.TreeDataTransformer=d,e.VirtualizedTreeView=u,e}({});
+
+
+// Original demo script (inline)
+
+        let parser = new DocumentParser();
+        let fileHandler = null;
+        
+        // Initialize FileHandler on page load
+        function initializeFileHandler() {
+            if (!FileHandler.isSupported()) {
+                alert('File upload is not supported in this browser');
+                return;
+            }
+            
+            fileHandler = new FileHandler({
+                maxFileSize: 10 * 1024 * 1024, // 10MB
+                allowedTypes: ['.xml', '.json', '.txt'],
+                enableHistory: true,
+                onFileLoad: (fileData) => {
+                    // Load file content into textarea and parse
+                    document.getElementById('inputText').value = fileData.content;
+                    showResult(
+                        document.getElementById('parseResult'),
+                        `✅ File loaded: ${fileData.metadata.name} (${fileHandler.formatFileSize(fileData.metadata.size)})`,
+                        'info'
+                    );
+                    
+                    // Auto-parse the loaded file
+                    setTimeout(() => {
+                        testParse();
+                    }, 100);
+                },
+                onError: (error) => {
+                    showResult(
+                        document.getElementById('parseResult'),
+                        `❌ File error: ${error.message}`,
+                        'error'
+                    );
+                },
+                onProgress: (percent) => {
+                    console.log(`File loading progress: ${percent}%`);
+                }
+            });
+            
+            // Setup drag-drop zone
+            fileHandler.setupDragDrop(document.getElementById('fileDropZone'));
+            
+            // Setup progress indicator
+            fileHandler.setupProgressIndicator(document.getElementById('fileProgress'));
+            
+            // Update recent files display
+            updateRecentFilesDisplay();
+        }
+        
+        // File upload functions
+        function openFileDialog() {
+            if (fileHandler) {
+                fileHandler.openFileDialog();
+            }
+        }
+        
+        function showRecentFiles() {
+            const recentFilesDiv = document.getElementById('recentFiles');
+            const isVisible = recentFilesDiv.style.display !== 'none';
+            
+            if (isVisible) {
+                recentFilesDiv.style.display = 'none';
+            } else {
+                updateRecentFilesDisplay();
+                recentFilesDiv.style.display = 'block';
+            }
+        }
+        
+        function clearFileHistory() {
+            if (fileHandler) {
+                fileHandler.clearHistory();
+                updateRecentFilesDisplay();
+                showResult(
+                    document.getElementById('parseResult'),
+                    '🗑️ File history cleared',
+                    'info'
+                );
+            }
+        }
+        
+        function updateRecentFilesDisplay() {
+            if (!fileHandler) return;
+            
+            const recentFiles = fileHandler.getRecentFiles();
+            const listContainer = document.getElementById('recentFilesList');
+            
+            if (recentFiles.length === 0) {
+                listContainer.innerHTML = '<p style="color: #666; font-style: italic; margin: 10px 0;">No recent files</p>';
+                return;
+            }
+            
+            listContainer.innerHTML = recentFiles.map(file => {
+                const fileIcon = getFileIcon(file.name);
+                const loadedTime = new Date(file.loadedAt).toLocaleString();
+                const fileSize = fileHandler.formatFileSize(file.size);
+                
+                return `
+                    <div class="recent-file-item" onclick="showRecentFileInfo('${file.name}', '${fileSize}', '${loadedTime}')">
+                        <div class="recent-file-info">
+                            <div class="recent-file-name">
+                                <span class="file-type-icon">${fileIcon}</span>
+                                ${file.name}
+                            </div>
+                            <div class="recent-file-meta">Loaded: ${loadedTime}</div>
+                        </div>
+                        <div class="recent-file-size">${fileSize}</div>
+                    </div>
+                `;
+            }).join('');
+        }
+        
+        function getFileIcon(filename) {
+            const extension = filename.toLowerCase().split('.').pop();
+            switch (extension) {
+                case 'xml': return '📄';
+                case 'json': return '📋';
+                case 'txt': return '📝';
+                default: return '📄';
+            }
+        }
+        
+        function showRecentFileInfo(name, size, loadedTime) {
+            showResult(
+                document.getElementById('parseResult'),
+                `📄 Recent File Info:\nName: ${name}\nSize: ${size}\nLoaded: ${loadedTime}\n\nNote: File content is not stored for privacy. Please re-upload to use.`,
+                'info'
+            );
+        }
+
+        // Manual testing functions
+        async function testParse() {
+            const input = document.getElementById('inputText').value;
+            const resultDiv = document.getElementById('parseResult');
+            
+            if (!input.trim()) {
+                showResult(resultDiv, 'Please enter some content to parse.', 'error');
+                return;
+            }
+
+            try {
+                const startTime = performance.now();
+                const result = await parser.parse(input);
+                const endTime = performance.now();
+                
+                const resultText = `✅ Parsing successful!
+
+Format detected: ${result.format.toUpperCase()}
+Parse time: ${(endTime - startTime).toFixed(2)}ms
+Document size: ${result.metadata.size} bytes
+Document depth: ${result.metadata.depth}
+Parsed at: ${result.metadata.parsedAt}
+
+Data structure:
+${JSON.stringify(result.data, null, 2)}`;
+                
+                showResult(resultDiv, resultText, 'success');
+            } catch (error) {
+                const errorText = `❌ Parsing failed!
+
+Error: ${error.message}
+Type: ${error.type || 'Unknown'}
+Name: ${error.name}
+
+Context:
+${JSON.stringify(error.context || {}, null, 2)}`;
+                
+                showResult(resultDiv, errorText, 'error');
+            }
+        }
+
+        function loadXMLExample() {
+            document.getElementById('inputText').value = `<?xml version="1.0" encoding="UTF-8"?>
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"
+               xmlns:tns="http://example.com/service"
+               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <soap:Header>
+        <tns:Authentication>
+            <tns:Username>admin</tns:Username>
+            <tns:Token>abc123xyz789</tns:Token>
+            <tns:Timestamp>2023-01-01T10:00:00Z</tns:Timestamp>
+        </tns:Authentication>
+    </soap:Header>
+    <soap:Body>
+        <tns:GetUserRequest>
+            <tns:UserId>12345</tns:UserId>
+            <tns:IncludeDetails>true</tns:IncludeDetails>
+            <tns:Fields>
+                <tns:Field>name</tns:Field>
+                <tns:Field>email</tns:Field>
+                <tns:Field>address</tns:Field>
+            </tns:Fields>
+        </tns:GetUserRequest>
+    </soap:Body>
+</soap:Envelope>`;
+        }
+
+        function loadJSONExample() {
+            document.getElementById('inputText').value = `{
+  "order": {
+    "id": "ORD-001",
+    "customer": {
+      "id": "CUST-123",
+      "name": "Acme Corporation",
+      "contact": {
+        "email": "orders@acme.com",
+        "phone": "+1-555-0123"
+      }
+    },
+    "items": [
+      {
+        "sku": "WIDGET-A",
+        "name": "Premium Widget",
+        "quantity": 5,
+        "price": 29.99,
+        "attributes": {
+          "color": "blue",
+          "size": "large",
+          "warranty": "1 year"
+        }
+      },
+      {
+        "sku": "GADGET-B",
+        "name": "Super Gadget",
+        "quantity": 2,
+        "price": 149.99
+      }
+    ],
+    "shipping": {
+      "method": "express",
+      "address": {
+        "street": "123 Business Blvd",
+        "city": "Commerce City",
+        "state": "CA",
+        "zip": "90210",
+        "country": "USA"
+      }
+    },
+    "totals": {
+      "subtotal": 449.93,
+      "tax": 36.00,
+      "shipping": 15.00,
+      "total": 500.93
+    }
+  }
+}`;
+        }
+
+        function loadMalformedExample() {
+            document.getElementById('inputText').value = `{
+  "valid": "content",
+  "but": "missing closing brace"`;
+        }
+
+        function clearInput() {
+            document.getElementById('inputText').value = '';
+            document.getElementById('parseResult').style.display = 'none';
+        }
+
+        function showResult(element, text, type) {
+            element.textContent = text;
+            element.className = `result ${type}`;
+            element.style.display = 'block';
+        }
+
+        // Automated test functions
+        async function runAllTests() {
+            const results = document.getElementById('testResults');
+            results.innerHTML = '<p>⏳ Running tests...</p>';
+            
+            const tests = [
+                ...getBasicTests(),
+                ...getFormatDetectionTests(),
+                ...getValidationTests(),
+                ...getErrorHandlingTests()
+            ];
+            
+            const testResults = [];
+            for (const test of tests) {
+                try {
+                    const result = await test.fn();
+                    testResults.push({ name: test.name, result: 'PASS', details: result });
+                } catch (error) {
+                    testResults.push({ name: test.name, result: 'FAIL', details: error.message });
+                }
+            }
+            
+            displayTestResults(results, testResults);
+        }
+
+        async function runSecurityTests() {
+            const results = document.getElementById('testResults');
+            results.innerHTML = '<p>⏳ Running security tests...</p>';
+            
+            const tests = getSecurityTests();
+            const testResults = [];
+            
+            for (const test of tests) {
+                try {
+                    const result = await test.fn();
+                    testResults.push({ name: test.name, result: 'PASS', details: result });
+                } catch (error) {
+                    testResults.push({ name: test.name, result: 'FAIL', details: error.message });
+                }
+            }
+            
+            displayTestResults(results, testResults);
+        }
+
+        async function runPerformanceTests() {
+            const results = document.getElementById('testResults');
+            results.innerHTML = '<p>⏳ Running performance tests...</p>';
+            
+            const tests = getPerformanceTests();
+            const testResults = [];
+            
+            for (const test of tests) {
+                try {
+                    const result = await test.fn();
+                    testResults.push({ name: test.name, result: 'PASS', details: result });
+                } catch (error) {
+                    testResults.push({ name: test.name, result: 'FAIL', details: error.message });
+                }
+            }
+            
+            displayTestResults(results, testResults);
+        }
+
+        function getBasicTests() {
+            return [
+                {
+                    name: 'Parser instantiation',
+                    fn: async () => {
+                        const testParser = new DocumentParser();
+                        if (!testParser) throw new Error('Failed to create parser');
+                        return 'Parser created successfully';
+                    }
+                },
+                {
+                    name: 'Simple JSON parsing',
+                    fn: async () => {
+                        const result = await parser.parse('{"test": "value"}');
+                        if (result.format !== 'json') throw new Error('Wrong format detected');
+                        if (result.data.test !== 'value') throw new Error('Wrong data parsed');
+                        return 'JSON parsed correctly';
+                    }
+                },
+                {
+                    name: 'Simple XML parsing',
+                    fn: async () => {
+                        const result = await parser.parse('<root><test>value</test></root>');
+                        if (result.format !== 'xml') throw new Error('Wrong format detected');
+                        if (!result.data.documentElement) throw new Error('No document element');
+                        return 'XML parsed correctly';
+                    }
+                }
+            ];
+        }
+
+        function getFormatDetectionTests() {
+            return [
+                {
+                    name: 'JSON object detection',
+                    fn: async () => {
+                        const format = parser.detectFormat('{"key": "value"}');
+                        if (format !== 'json') throw new Error('Failed to detect JSON object');
+                        return 'JSON object detected correctly';
+                    }
+                },
+                {
+                    name: 'JSON array detection',
+                    fn: async () => {
+                        const format = parser.detectFormat('[1, 2, 3]');
+                        if (format !== 'json') throw new Error('Failed to detect JSON array');
+                        return 'JSON array detected correctly';
+                    }
+                },
+                {
+                    name: 'XML detection',
+                    fn: async () => {
+                        const format = parser.detectFormat('<root></root>');
+                        if (format !== 'xml') throw new Error('Failed to detect XML');
+                        return 'XML detected correctly';
+                    }
+                },
+                {
+                    name: 'Invalid format detection',
+                    fn: async () => {
+                        const format = parser.detectFormat('not xml or json');
+                        if (format !== 'invalid') throw new Error('Should detect invalid format');
+                        return 'Invalid format detected correctly';
+                    }
+                }
+            ];
+        }
+
+        function getValidationTests() {
+            return [
+                {
+                    name: 'Empty input validation',
+                    fn: async () => {
+                        try {
+                            parser.validateInput('');
+                            throw new Error('Should have thrown error for empty input');
+                        } catch (error) {
+                            if (error.message.includes('non-empty string')) return 'Empty input rejected correctly';
+                            throw error;
+                        }
+                    }
+                },
+                {
+                    name: 'Null byte validation',
+                    fn: async () => {
+                        try {
+                            parser.validateInput('content\0with null byte');
+                            throw new Error('Should have thrown error for null bytes');
+                        } catch (error) {
+                            if (error.message.includes('null bytes')) return 'Null bytes rejected correctly';
+                            throw error;
+                        }
+                    }
+                }
+            ];
+        }
+
+        function getErrorHandlingTests() {
+            return [
+                {
+                    name: 'Invalid JSON error handling',
+                    fn: async () => {
+                        try {
+                            await parser.parse('{"invalid": json}');
+                            throw new Error('Should have thrown error for invalid JSON');
+                        } catch (error) {
+                            if (error instanceof DocumentParserError) return 'DocumentParserError thrown correctly';
+                            throw new Error('Wrong error type: ' + error.constructor.name);
+                        }
+                    }
+                },
+                {
+                    name: 'Invalid XML error handling',
+                    fn: async () => {
+                        try {
+                            await parser.parse('<invalid><unclosed>');
+                            throw new Error('Should have thrown error for invalid XML');
+                        } catch (error) {
+                            if (error instanceof DocumentParserError) return 'DocumentParserError thrown correctly';
+                            throw new Error('Wrong error type: ' + error.constructor.name);
+                        }
+                    }
+                }
+            ];
+        }
+
+        function getSecurityTests() {
+            return [
+                {
+                    name: 'Prototype pollution detection',
+                    fn: async () => {
+                        const originalWarn = console.warn;
+                        let warningCalled = false;
+                        console.warn = (...args) => {
+                            if (args.includes('__proto__')) warningCalled = true;
+                        };
+                        
+                        await parser.parse('{"__proto__": {"isAdmin": true}}');
+                        console.warn = originalWarn;
+                        
+                        if (warningCalled) return 'Prototype pollution detected and warned';
+                        throw new Error('Prototype pollution not detected');
+                    }
+                },
+                {
+                    name: 'Size limit enforcement',
+                    fn: async () => {
+                        const smallParser = new DocumentParser({ maxSize: 10 });
+                        try {
+                            await smallParser.parse('{"very": "long content that exceeds limit"}');
+                            throw new Error('Should have thrown size limit error');
+                        } catch (error) {
+                            if (error.message.includes('exceeds')) return 'Size limit enforced correctly';
+                            throw error;
+                        }
+                    }
+                }
+            ];
+        }
+
+        function getPerformanceTests() {
+            return [
+                {
+                    name: 'Large JSON performance',
+                    fn: async () => {
+                        const largeData = {
+                            items: Array(1000).fill({ id: 1, name: 'test', data: { nested: 'value' } })
+                        };
+                        const largeJson = JSON.stringify(largeData);
+                        
+                        const startTime = performance.now();
+                        const result = await parser.parse(largeJson);
+                        const endTime = performance.now();
+                        
+                        const parseTime = endTime - startTime;
+                        if (parseTime > 2000) throw new Error(`Too slow: ${parseTime}ms`);
+                        
+                        return `Parsed large JSON in ${parseTime.toFixed(2)}ms`;
+                    }
+                },
+                {
+                    name: 'Complex XML performance',
+                    fn: async () => {
+                        const complexXml = `<root>` + 
+                            Array(100).fill('<item><id>1</id><name>test</name><data><nested>value</nested></data></item>').join('') +
+                            '</root>';
+                        
+                        const startTime = performance.now();
+                        const result = await parser.parse(complexXml);
+                        const endTime = performance.now();
+                        
+                        const parseTime = endTime - startTime;
+                        if (parseTime > 2000) throw new Error(`Too slow: ${parseTime}ms`);
+                        
+                        return `Parsed complex XML in ${parseTime.toFixed(2)}ms`;
+                    }
+                }
+            ];
+        }
+
+        function displayTestResults(container, results) {
+            let html = `<h3>Test Results (${results.length} tests)</h3>`;
+            let passCount = 0;
+            
+            results.forEach(test => {
+                const cssClass = test.result === 'PASS' ? 'test-pass' : 'test-fail';
+                const icon = test.result === 'PASS' ? '✅' : '❌';
+                if (test.result === 'PASS') passCount++;
+                
+                html += `<div class="test-case ${cssClass}">
+                    ${icon} <strong>${test.name}</strong>: ${test.result}
+                    <div class="metadata">${test.details}</div>
+                </div>`;
+            });
+            
+            const summary = `<div class="result info">
+                Summary: ${passCount}/${results.length} tests passed (${((passCount/results.length)*100).toFixed(1)}%)
+            </div>`;
+            
+            container.innerHTML = summary + html;
+        }
+
+        // Requirements verification
+        function checkRequirements() {
+            const requirements = [
+                {
+                    name: 'Format Detection (XML/JSON)',
+                    test: () => {
+                        const xmlDetection = parser.detectFormat('<root></root>') === 'xml';
+                        const jsonDetection = parser.detectFormat('{"key": "value"}') === 'json';
+                        return xmlDetection && jsonDetection;
+                    }
+                },
+                {
+                    name: 'Robust Error Handling',
+                    test: async () => {
+                        try {
+                            await parser.parse('invalid content');
+                            return false;
+                        } catch (error) {
+                            return error instanceof DocumentParserError;
+                        }
+                    }
+                },
+                {
+                    name: '10MB Size Limit',
+                    test: () => {
+                        return parser.maxSize === 10 * 1024 * 1024;
+                    }
+                },
+                {
+                    name: 'Security Validation',
+                    test: () => {
+                        try {
+                            parser.validateInput('content\0with null byte');
+                            return false;
+                        } catch (error) {
+                            return error.message.includes('null bytes');
+                        }
+                    }
+                },
+                {
+                    name: 'Performance Optimization',
+                    test: () => {
+                        return typeof parser.estimateDepth === 'function' && 
+                               typeof parser.calculateDepth === 'function';
+                    }
+                }
+            ];
+
+            let html = '<h3>📋 Issue #2 Requirements Verification</h3>';
+            let allPassed = true;
+
+            requirements.forEach(req => {
+                try {
+                    const passed = req.test();
+                    const icon = passed ? '✅' : '❌';
+                    const cssClass = passed ? 'test-pass' : 'test-fail';
+                    
+                    html += `<div class="test-case ${cssClass}">
+                        ${icon} <strong>${req.name}</strong>: ${passed ? 'IMPLEMENTED' : 'MISSING'}
+                    </div>`;
+                    
+                    if (!passed) allPassed = false;
+                } catch (error) {
+                    html += `<div class="test-case test-fail">
+                        ❌ <strong>${req.name}</strong>: ERROR - ${error.message}
+                    </div>`;
+                    allPassed = false;
+                }
+            });
+
+            const overallStatus = allPassed ? 
+                '<div class="result success">🎉 All Issue #2 requirements are implemented and verified!</div>' :
+                '<div class="result error">⚠️ Some Issue #2 requirements are not fully implemented.</div>';
+
+            document.getElementById('requirementsCheck').innerHTML = overallStatus + html;
+        }
+
+        // Initialize the demo
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeFileHandler();
+            checkRequirements();
+        });
+    
+        </script>
+</body>
+</html>

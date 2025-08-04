@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DocumentParser Demo & Verification</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            border-bottom: 3px solid #007acc;
+            padding-bottom: 10px;
+        }
+        .section {
+            margin: 30px 0;
+            padding: 20px;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            background: #fafafa;
+        }
+        textarea {
+            width: 100%;
+            height: 200px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            resize: vertical;
+        }
+        button {
+            background: #007acc;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            margin: 10px 5px 10px 0;
+        }
+        button:hover {
+            background: #005fa3;
+        }
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        .result {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            padding: 15px;
+            margin-top: 15px;
+            white-space: pre-wrap;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .success {
+            border-color: #28a745;
+            background-color: #d4edda;
+            color: #155724;
+        }
+        .error {
+            border-color: #dc3545;
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        .info {
+            border-color: #17a2b8;
+            background-color: #d1ecf1;
+            color: #0c5460;
+        }
+        .test-results {
+            margin-top: 20px;
+        }
+        .test-case {
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 4px;
+        }
+        .test-pass {
+            background-color: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+        }
+        .test-fail {
+            background-color: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+        }
+        .metadata {
+            font-size: 11px;
+            color: #666;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧩 DocumentParser Verification Demo</h1>
+        <p>This demo verifies that the DocumentParser module meets all requirements from Issue #2.</p>
+
+        <div class="section">
+            <h2>📋 Manual Testing</h2>
+            <p>Paste XML or JSON content below to test the DocumentParser:</p>
+            
+            <textarea id="inputText" placeholder="Paste your XML or JSON content here...">
+{
+  "users": [
+    {
+      "id": 1,
+      "name": "John Doe",
+      "email": "john@example.com",
+      "address": {
+        "street": "123 Main St",
+        "city": "Anytown",
+        "country": "USA",
+        "coordinates": {
+          "lat": 40.7128,
+          "lng": -74.0060
+        }
+      },
+      "preferences": {
+        "notifications": true,
+        "theme": "dark",
+        "languages": ["en", "es", "fr"]
+      }
+    },
+    {
+      "id": 2,
+      "name": "Jane Smith",
+      "email": "jane@example.com",
+      "address": {
+        "street": "456 Oak Ave",
+        "city": "Another City",
+        "country": "Canada"
+      }
+    }
+  ],
+  "metadata": {
+    "total": 2,
+    "page": 1,
+    "timestamp": "2023-01-01T00:00:00Z"
+  }
+}</textarea>
+
+            <div>
+                <button onclick="testParse()">🔍 Parse Document</button>
+                <button onclick="loadXMLExample()">📄 Load XML Example</button>
+                <button onclick="loadJSONExample()">📄 Load JSON Example</button>
+                <button onclick="loadMalformedExample()">⚠️ Load Malformed Example</button>
+                <button onclick="clearInput()">🗑️ Clear</button>
+            </div>
+
+            <div id="parseResult" class="result" style="display: none;"></div>
+        </div>
+
+        <div class="section">
+            <h2>🧪 Automated Test Suite</h2>
+            <p>Run comprehensive tests to verify all DocumentParser functionality:</p>
+            
+            <button onclick="runAllTests()">▶️ Run All Tests</button>
+            <button onclick="runSecurityTests()">🔒 Run Security Tests</button>
+            <button onclick="runPerformanceTests()">⚡ Run Performance Tests</button>
+            
+            <div id="testResults" class="test-results"></div>
+        </div>
+
+        <div class="section">
+            <h2>📊 Issue #2 Requirements Verification</h2>
+            <div id="requirementsCheck"></div>
+        </div>
+    </div>
+
+    <script src="src/DocumentParser.js"></script>
+    <script src="src/PathExtractor.js"></script>
+    <script>
+        let parser = new DocumentParser();
+
+        // Manual testing functions
+        async function testParse() {
+            const input = document.getElementById('inputText').value;
+            const resultDiv = document.getElementById('parseResult');
+            
+            if (!input.trim()) {
+                showResult(resultDiv, 'Please enter some content to parse.', 'error');
+                return;
+            }
+
+            try {
+                const startTime = performance.now();
+                const result = await parser.parse(input);
+                const endTime = performance.now();
+                
+                const resultText = `✅ Parsing successful!
+
+Format detected: ${result.format.toUpperCase()}
+Parse time: ${(endTime - startTime).toFixed(2)}ms
+Document size: ${result.metadata.size} bytes
+Document depth: ${result.metadata.depth}
+Parsed at: ${result.metadata.parsedAt}
+
+Data structure:
+${JSON.stringify(result.data, null, 2)}`;
+                
+                showResult(resultDiv, resultText, 'success');
+            } catch (error) {
+                const errorText = `❌ Parsing failed!
+
+Error: ${error.message}
+Type: ${error.type || 'Unknown'}
+Name: ${error.name}
+
+Context:
+${JSON.stringify(error.context || {}, null, 2)}`;
+                
+                showResult(resultDiv, errorText, 'error');
+            }
+        }
+
+        function loadXMLExample() {
+            document.getElementById('inputText').value = `<?xml version="1.0" encoding="UTF-8"?>
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"
+               xmlns:tns="http://example.com/service"
+               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <soap:Header>
+        <tns:Authentication>
+            <tns:Username>admin</tns:Username>
+            <tns:Token>abc123xyz789</tns:Token>
+            <tns:Timestamp>2023-01-01T10:00:00Z</tns:Timestamp>
+        </tns:Authentication>
+    </soap:Header>
+    <soap:Body>
+        <tns:GetUserRequest>
+            <tns:UserId>12345</tns:UserId>
+            <tns:IncludeDetails>true</tns:IncludeDetails>
+            <tns:Fields>
+                <tns:Field>name</tns:Field>
+                <tns:Field>email</tns:Field>
+                <tns:Field>address</tns:Field>
+            </tns:Fields>
+        </tns:GetUserRequest>
+    </soap:Body>
+</soap:Envelope>`;
+        }
+
+        function loadJSONExample() {
+            document.getElementById('inputText').value = `{
+  "order": {
+    "id": "ORD-001",
+    "customer": {
+      "id": "CUST-123",
+      "name": "Acme Corporation",
+      "contact": {
+        "email": "orders@acme.com",
+        "phone": "+1-555-0123"
+      }
+    },
+    "items": [
+      {
+        "sku": "WIDGET-A",
+        "name": "Premium Widget",
+        "quantity": 5,
+        "price": 29.99,
+        "attributes": {
+          "color": "blue",
+          "size": "large",
+          "warranty": "1 year"
+        }
+      },
+      {
+        "sku": "GADGET-B",
+        "name": "Super Gadget",
+        "quantity": 2,
+        "price": 149.99
+      }
+    ],
+    "shipping": {
+      "method": "express",
+      "address": {
+        "street": "123 Business Blvd",
+        "city": "Commerce City",
+        "state": "CA",
+        "zip": "90210",
+        "country": "USA"
+      }
+    },
+    "totals": {
+      "subtotal": 449.93,
+      "tax": 36.00,
+      "shipping": 15.00,
+      "total": 500.93
+    }
+  }
+}`;
+        }
+
+        function loadMalformedExample() {
+            document.getElementById('inputText').value = `{
+  "valid": "content",
+  "but": "missing closing brace"`;
+        }
+
+        function clearInput() {
+            document.getElementById('inputText').value = '';
+            document.getElementById('parseResult').style.display = 'none';
+        }
+
+        function showResult(element, text, type) {
+            element.textContent = text;
+            element.className = `result ${type}`;
+            element.style.display = 'block';
+        }
+
+        // Automated test functions
+        async function runAllTests() {
+            const results = document.getElementById('testResults');
+            results.innerHTML = '<p>⏳ Running tests...</p>';
+            
+            const tests = [
+                ...getBasicTests(),
+                ...getFormatDetectionTests(),
+                ...getValidationTests(),
+                ...getErrorHandlingTests()
+            ];
+            
+            const testResults = [];
+            for (const test of tests) {
+                try {
+                    const result = await test.fn();
+                    testResults.push({ name: test.name, result: 'PASS', details: result });
+                } catch (error) {
+                    testResults.push({ name: test.name, result: 'FAIL', details: error.message });
+                }
+            }
+            
+            displayTestResults(results, testResults);
+        }
+
+        async function runSecurityTests() {
+            const results = document.getElementById('testResults');
+            results.innerHTML = '<p>⏳ Running security tests...</p>';
+            
+            const tests = getSecurityTests();
+            const testResults = [];
+            
+            for (const test of tests) {
+                try {
+                    const result = await test.fn();
+                    testResults.push({ name: test.name, result: 'PASS', details: result });
+                } catch (error) {
+                    testResults.push({ name: test.name, result: 'FAIL', details: error.message });
+                }
+            }
+            
+            displayTestResults(results, testResults);
+        }
+
+        async function runPerformanceTests() {
+            const results = document.getElementById('testResults');
+            results.innerHTML = '<p>⏳ Running performance tests...</p>';
+            
+            const tests = getPerformanceTests();
+            const testResults = [];
+            
+            for (const test of tests) {
+                try {
+                    const result = await test.fn();
+                    testResults.push({ name: test.name, result: 'PASS', details: result });
+                } catch (error) {
+                    testResults.push({ name: test.name, result: 'FAIL', details: error.message });
+                }
+            }
+            
+            displayTestResults(results, testResults);
+        }
+
+        function getBasicTests() {
+            return [
+                {
+                    name: 'Parser instantiation',
+                    fn: async () => {
+                        const testParser = new DocumentParser();
+                        if (!testParser) throw new Error('Failed to create parser');
+                        return 'Parser created successfully';
+                    }
+                },
+                {
+                    name: 'Simple JSON parsing',
+                    fn: async () => {
+                        const result = await parser.parse('{"test": "value"}');
+                        if (result.format !== 'json') throw new Error('Wrong format detected');
+                        if (result.data.test !== 'value') throw new Error('Wrong data parsed');
+                        return 'JSON parsed correctly';
+                    }
+                },
+                {
+                    name: 'Simple XML parsing',
+                    fn: async () => {
+                        const result = await parser.parse('<root><test>value</test></root>');
+                        if (result.format !== 'xml') throw new Error('Wrong format detected');
+                        if (!result.data.documentElement) throw new Error('No document element');
+                        return 'XML parsed correctly';
+                    }
+                }
+            ];
+        }
+
+        function getFormatDetectionTests() {
+            return [
+                {
+                    name: 'JSON object detection',
+                    fn: async () => {
+                        const format = parser.detectFormat('{"key": "value"}');
+                        if (format !== 'json') throw new Error('Failed to detect JSON object');
+                        return 'JSON object detected correctly';
+                    }
+                },
+                {
+                    name: 'JSON array detection',
+                    fn: async () => {
+                        const format = parser.detectFormat('[1, 2, 3]');
+                        if (format !== 'json') throw new Error('Failed to detect JSON array');
+                        return 'JSON array detected correctly';
+                    }
+                },
+                {
+                    name: 'XML detection',
+                    fn: async () => {
+                        const format = parser.detectFormat('<root></root>');
+                        if (format !== 'xml') throw new Error('Failed to detect XML');
+                        return 'XML detected correctly';
+                    }
+                },
+                {
+                    name: 'Invalid format detection',
+                    fn: async () => {
+                        const format = parser.detectFormat('not xml or json');
+                        if (format !== 'invalid') throw new Error('Should detect invalid format');
+                        return 'Invalid format detected correctly';
+                    }
+                }
+            ];
+        }
+
+        function getValidationTests() {
+            return [
+                {
+                    name: 'Empty input validation',
+                    fn: async () => {
+                        try {
+                            parser.validateInput('');
+                            throw new Error('Should have thrown error for empty input');
+                        } catch (error) {
+                            if (error.message.includes('non-empty string')) return 'Empty input rejected correctly';
+                            throw error;
+                        }
+                    }
+                },
+                {
+                    name: 'Null byte validation',
+                    fn: async () => {
+                        try {
+                            parser.validateInput('content\0with null byte');
+                            throw new Error('Should have thrown error for null bytes');
+                        } catch (error) {
+                            if (error.message.includes('null bytes')) return 'Null bytes rejected correctly';
+                            throw error;
+                        }
+                    }
+                }
+            ];
+        }
+
+        function getErrorHandlingTests() {
+            return [
+                {
+                    name: 'Invalid JSON error handling',
+                    fn: async () => {
+                        try {
+                            await parser.parse('{"invalid": json}');
+                            throw new Error('Should have thrown error for invalid JSON');
+                        } catch (error) {
+                            if (error instanceof DocumentParserError) return 'DocumentParserError thrown correctly';
+                            throw new Error('Wrong error type: ' + error.constructor.name);
+                        }
+                    }
+                },
+                {
+                    name: 'Invalid XML error handling',
+                    fn: async () => {
+                        try {
+                            await parser.parse('<invalid><unclosed>');
+                            throw new Error('Should have thrown error for invalid XML');
+                        } catch (error) {
+                            if (error instanceof DocumentParserError) return 'DocumentParserError thrown correctly';
+                            throw new Error('Wrong error type: ' + error.constructor.name);
+                        }
+                    }
+                }
+            ];
+        }
+
+        function getSecurityTests() {
+            return [
+                {
+                    name: 'Prototype pollution detection',
+                    fn: async () => {
+                        const originalWarn = console.warn;
+                        let warningCalled = false;
+                        console.warn = (...args) => {
+                            if (args.includes('__proto__')) warningCalled = true;
+                        };
+                        
+                        await parser.parse('{"__proto__": {"isAdmin": true}}');
+                        console.warn = originalWarn;
+                        
+                        if (warningCalled) return 'Prototype pollution detected and warned';
+                        throw new Error('Prototype pollution not detected');
+                    }
+                },
+                {
+                    name: 'Size limit enforcement',
+                    fn: async () => {
+                        const smallParser = new DocumentParser({ maxSize: 10 });
+                        try {
+                            await smallParser.parse('{"very": "long content that exceeds limit"}');
+                            throw new Error('Should have thrown size limit error');
+                        } catch (error) {
+                            if (error.message.includes('exceeds')) return 'Size limit enforced correctly';
+                            throw error;
+                        }
+                    }
+                }
+            ];
+        }
+
+        function getPerformanceTests() {
+            return [
+                {
+                    name: 'Large JSON performance',
+                    fn: async () => {
+                        const largeData = {
+                            items: Array(1000).fill({ id: 1, name: 'test', data: { nested: 'value' } })
+                        };
+                        const largeJson = JSON.stringify(largeData);
+                        
+                        const startTime = performance.now();
+                        const result = await parser.parse(largeJson);
+                        const endTime = performance.now();
+                        
+                        const parseTime = endTime - startTime;
+                        if (parseTime > 2000) throw new Error(`Too slow: ${parseTime}ms`);
+                        
+                        return `Parsed large JSON in ${parseTime.toFixed(2)}ms`;
+                    }
+                },
+                {
+                    name: 'Complex XML performance',
+                    fn: async () => {
+                        const complexXml = `<root>` + 
+                            Array(100).fill('<item><id>1</id><name>test</name><data><nested>value</nested></data></item>').join('') +
+                            '</root>';
+                        
+                        const startTime = performance.now();
+                        const result = await parser.parse(complexXml);
+                        const endTime = performance.now();
+                        
+                        const parseTime = endTime - startTime;
+                        if (parseTime > 2000) throw new Error(`Too slow: ${parseTime}ms`);
+                        
+                        return `Parsed complex XML in ${parseTime.toFixed(2)}ms`;
+                    }
+                }
+            ];
+        }
+
+        function displayTestResults(container, results) {
+            let html = `<h3>Test Results (${results.length} tests)</h3>`;
+            let passCount = 0;
+            
+            results.forEach(test => {
+                const cssClass = test.result === 'PASS' ? 'test-pass' : 'test-fail';
+                const icon = test.result === 'PASS' ? '✅' : '❌';
+                if (test.result === 'PASS') passCount++;
+                
+                html += `<div class="test-case ${cssClass}">
+                    ${icon} <strong>${test.name}</strong>: ${test.result}
+                    <div class="metadata">${test.details}</div>
+                </div>`;
+            });
+            
+            const summary = `<div class="result info">
+                Summary: ${passCount}/${results.length} tests passed (${((passCount/results.length)*100).toFixed(1)}%)
+            </div>`;
+            
+            container.innerHTML = summary + html;
+        }
+
+        // Requirements verification
+        function checkRequirements() {
+            const requirements = [
+                {
+                    name: 'Format Detection (XML/JSON)',
+                    test: () => {
+                        const xmlDetection = parser.detectFormat('<root></root>') === 'xml';
+                        const jsonDetection = parser.detectFormat('{"key": "value"}') === 'json';
+                        return xmlDetection && jsonDetection;
+                    }
+                },
+                {
+                    name: 'Robust Error Handling',
+                    test: async () => {
+                        try {
+                            await parser.parse('invalid content');
+                            return false;
+                        } catch (error) {
+                            return error instanceof DocumentParserError;
+                        }
+                    }
+                },
+                {
+                    name: '10MB Size Limit',
+                    test: () => {
+                        return parser.maxSize === 10 * 1024 * 1024;
+                    }
+                },
+                {
+                    name: 'Security Validation',
+                    test: () => {
+                        try {
+                            parser.validateInput('content\0with null byte');
+                            return false;
+                        } catch (error) {
+                            return error.message.includes('null bytes');
+                        }
+                    }
+                },
+                {
+                    name: 'Performance Optimization',
+                    test: () => {
+                        return typeof parser.estimateDepth === 'function' && 
+                               typeof parser.calculateDepth === 'function';
+                    }
+                }
+            ];
+
+            let html = '<h3>📋 Issue #2 Requirements Verification</h3>';
+            let allPassed = true;
+
+            requirements.forEach(req => {
+                try {
+                    const passed = req.test();
+                    const icon = passed ? '✅' : '❌';
+                    const cssClass = passed ? 'test-pass' : 'test-fail';
+                    
+                    html += `<div class="test-case ${cssClass}">
+                        ${icon} <strong>${req.name}</strong>: ${passed ? 'IMPLEMENTED' : 'MISSING'}
+                    </div>`;
+                    
+                    if (!passed) allPassed = false;
+                } catch (error) {
+                    html += `<div class="test-case test-fail">
+                        ❌ <strong>${req.name}</strong>: ERROR - ${error.message}
+                    </div>`;
+                    allPassed = false;
+                }
+            });
+
+            const overallStatus = allPassed ? 
+                '<div class="result success">🎉 All Issue #2 requirements are implemented and verified!</div>' :
+                '<div class="result error">⚠️ Some Issue #2 requirements are not fully implemented.</div>';
+
+            document.getElementById('requirementsCheck').innerHTML = overallStatus + html;
+        }
+
+        // Initialize the demo
+        document.addEventListener('DOMContentLoaded', () => {
+            checkRequirements();
+        });
+    </script>
+</body>
+</html>

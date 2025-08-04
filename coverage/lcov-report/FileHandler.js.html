@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">91.91% </span>
+                <span class="strong">85.1% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>216/235</span>
+                <span class='fraction'>200/235</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">81.56% </span>
+                <span class="strong">75.17% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>115/141</span>
+                <span class='fraction'>106/141</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">86.11% </span>
+                <span class="strong">75% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>31/36</span>
+                <span class='fraction'>27/36</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">92.98% </span>
+                <span class="strong">86.4% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>212/228</span>
+                <span class='fraction'>197/228</span>
             </div>
         
             
@@ -1106,26 +1106,26 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1136,11 +1136,11 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">10x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">10x</span>
-<span class="cline-any cline-yes">10x</span>
-<span class="cline-any cline-yes">10x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -1151,8 +1151,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1720,27 +1720,27 @@ class FileHandler {
      * Save file information to history
      * @param {Object} fileInfo - File metadata to save
      */
-    saveToHistory(fileInfo) {
-        if (!this.enableHistory) return;
+<span class="fstat-no" title="function not covered" >    sa</span>veToHistory(fileInfo) {
+<span class="cstat-no" title="statement not covered" >        if (!this.enableHistory) <span class="cstat-no" title="statement not covered" >return;</span></span>
         
-        try {
-            let history = this.getRecentFiles();
+<span class="cstat-no" title="statement not covered" >        try {</span>
+            let history = <span class="cstat-no" title="statement not covered" >this.getRecentFiles();</span>
             
             // Remove duplicate entries (same name and size)
-            history = history.filter(item =&gt; 
-                !(item.name === fileInfo.name &amp;&amp; item.size === fileInfo.size)
+<span class="cstat-no" title="statement not covered" >            history = history.filter(<span class="fstat-no" title="function not covered" >it</span>em =&gt; </span>
+<span class="cstat-no" title="statement not covered" >                !(item.name === fileInfo.name &amp;&amp; item.size === fileInfo.size)</span>
             );
             
             // Add new entry at the beginning
-            history.unshift(fileInfo);
+<span class="cstat-no" title="statement not covered" >            history.unshift(fileInfo);</span>
             
             // Limit history size
-            if (history.length &gt; this.maxHistoryItems) {
-                history = history.slice(0, this.maxHistoryItems);
+<span class="cstat-no" title="statement not covered" >            if (history.length &gt; this.maxHistoryItems) {</span>
+<span class="cstat-no" title="statement not covered" >                history = history.slice(0, this.maxHistoryItems);</span>
             }
             
             // Save to localStorage
-            localStorage.setItem('fileHandler.recentFiles', JSON.stringify(history));
+<span class="cstat-no" title="statement not covered" >            localStorage.setItem('fileHandler.recentFiles', JSON.stringify(history));</span>
         } catch (error) {
 <span class="cstat-no" title="statement not covered" >            console.warn('Failed to save file to history:', error);</span>
         }
@@ -1750,12 +1750,12 @@ class FileHandler {
      * Get recent files from history
      * @returns {Array} Array of recent file information
      */
-    getRecentFiles() {
-        <span class="missing-if-branch" title="if path not taken" >I</span>if (!this.enableHistory) <span class="cstat-no" title="statement not covered" >return [];</span>
+<span class="fstat-no" title="function not covered" >    ge</span>tRecentFiles() {
+<span class="cstat-no" title="statement not covered" >        if (!this.enableHistory) <span class="cstat-no" title="statement not covered" >return [];</span></span>
         
-        try {
-            const historyJson = localStorage.getItem('fileHandler.recentFiles');
-            return historyJson ? JSON.parse(historyJson) : [];
+<span class="cstat-no" title="statement not covered" >        try {</span>
+            const historyJson = <span class="cstat-no" title="statement not covered" >localStorage.getItem('fileHandler.recentFiles');</span>
+<span class="cstat-no" title="statement not covered" >            return historyJson ? JSON.parse(historyJson) : [];</span>
         } catch (error) {
 <span class="cstat-no" title="statement not covered" >            console.warn('Failed to load file history:', error);</span>
 <span class="cstat-no" title="statement not covered" >            return [];</span>
@@ -1765,9 +1765,9 @@ class FileHandler {
     /**
      * Clear file history
      */
-    clearHistory() {
-        try {
-            localStorage.removeItem('fileHandler.recentFiles');
+<span class="fstat-no" title="function not covered" >    cl</span>earHistory() {
+<span class="cstat-no" title="statement not covered" >        try {</span>
+<span class="cstat-no" title="statement not covered" >            localStorage.removeItem('fileHandler.recentFiles');</span>
         } catch (error) {
 <span class="cstat-no" title="statement not covered" >            console.warn('Failed to clear file history:', error);</span>
         }
@@ -1915,7 +1915,7 @@ class FileHandler {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-08-04T12:48:38.174Z
+                at 2025-08-04T13:10:50.994Z
             </div>
         <script src="prettify.js"></script>
         <script>

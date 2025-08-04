@@ -30,6 +30,266 @@
             border-radius: 6px;
             background: #fafafa;
         }
+        
+        /* File Upload Styles */
+        .file-upload-section {
+            background: #f0f8ff;
+            border: 2px dashed #007acc;
+        }
+        
+        .file-drop-zone {
+            border: 2px dashed #ccc;
+            border-radius: 8px;
+            padding: 40px 20px;
+            text-align: center;
+            background: #fafafa;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            margin: 20px 0;
+            position: relative;
+            min-height: 120px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .file-drop-zone:hover,
+        .file-drop-zone:focus {
+            border-color: #007acc;
+            background: #f0f8ff;
+            outline: none;
+        }
+        
+        .file-drop-zone.drag-over {
+            border-color: #007acc;
+            background: #e6f3ff;
+            transform: scale(1.02);
+        }
+        
+        .file-drop-zone.drag-valid {
+            border-color: #28a745;
+            background: #d4edda;
+            border-style: solid;
+        }
+        
+        .file-drop-zone.drag-invalid {
+            border-color: #dc3545;
+            background: #f8d7da;
+            border-style: solid;
+        }
+        
+        .file-drop-zone.drag-error {
+            border-color: #dc3545;
+            background: #f8d7da;
+            animation: shake 0.5s ease-in-out;
+        }
+        
+        .file-drop-zone.drag-success {
+            border-color: #28a745;
+            background: #d4edda;
+            border-style: solid;
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+        
+        .drop-zone-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .drop-zone-icon {
+            font-size: 48px;
+            color: #007acc;
+            transition: transform 0.3s ease;
+        }
+        
+        .file-drop-zone:hover .drop-zone-icon {
+            transform: scale(1.1);
+        }
+        
+        .drop-zone-text {
+            font-size: 18px;
+            font-weight: 500;
+            color: #333;
+            margin: 0;
+        }
+        
+        .drop-zone-subtext {
+            font-size: 14px;
+            color: #666;
+            margin: 0;
+        }
+        
+        .file-controls {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 20px 0;
+        }
+        
+        .file-btn {
+            background: #007acc;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .file-btn:hover {
+            background: #005fa3;
+            transform: translateY(-1px);
+        }
+        
+        .file-btn.secondary {
+            background: #6c757d;
+        }
+        
+        .file-btn.secondary:hover {
+            background: #545b62;
+        }
+        
+        .file-progress {
+            margin: 20px 0;
+            display: none;
+        }
+        
+        .file-progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e9ecef;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 8px;
+        }
+        
+        .file-progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #007acc, #28a745);
+            width: 0%;
+            transition: width 0.3s ease;
+            border-radius: 4px;
+        }
+        
+        .file-progress-text {
+            text-align: center;
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .recent-files {
+            margin-top: 20px;
+            padding: 15px;
+            background: white;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+        }
+        
+        .recent-files h4 {
+            margin: 0 0 10px 0;
+            font-size: 14px;
+            color: #495057;
+        }
+        
+        .recent-file-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid #f8f9fa;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+        
+        .recent-file-item:hover {
+            background: #f8f9fa;
+        }
+        
+        .recent-file-item:last-child {
+            border-bottom: none;
+        }
+        
+        .recent-file-info {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+        }
+        
+        .recent-file-name {
+            font-size: 13px;
+            font-weight: 500;
+            color: #333;
+        }
+        
+        .recent-file-meta {
+            font-size: 11px;
+            color: #666;
+        }
+        
+        .recent-file-size {
+            font-size: 11px;
+            color: #999;
+            margin-left: 10px;
+        }
+        
+        .file-type-icon {
+            margin-right: 8px;
+            font-size: 16px;
+        }
+        
+        .supported-formats {
+            margin-top: 15px;
+            padding: 10px;
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 4px;
+            font-size: 12px;
+            color: #856404;
+        }
+        
+        .format-list {
+            display: flex;
+            gap: 15px;
+            margin-top: 5px;
+            flex-wrap: wrap;
+        }
+        
+        .format-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        @media (max-width: 768px) {
+            .file-controls {
+                flex-direction: column;
+            }
+            
+            .file-btn {
+                justify-content: center;
+            }
+            
+            .drop-zone-icon {
+                font-size: 36px;
+            }
+            
+            .drop-zone-text {
+                font-size: 16px;
+            }
+        }
         textarea {
             width: 100%;
             height: 200px;
@@ -114,9 +374,66 @@
         <h1>🧩 DocumentParser Verification Demo</h1>
         <p>This demo verifies that the DocumentParser module meets all requirements from Issue #2.</p>
 
+        <div class="section file-upload-section">
+            <h2>📁 File Upload & Drag-and-Drop</h2>
+            <p>Upload XML, JSON, or TXT files directly or drag and drop them below:</p>
+            
+            <div id="fileDropZone" class="file-drop-zone">
+                <div class="drop-zone-content">
+                    <div class="drop-zone-icon">📁</div>
+                    <p class="drop-zone-text">Drop files here or click to browse</p>
+                    <p class="drop-zone-subtext">Supports XML, JSON, and TXT files up to 10MB</p>
+                </div>
+            </div>
+            
+            <div class="file-controls">
+                <button class="file-btn" onclick="openFileDialog()">
+                    📂 Choose Files
+                </button>
+                <button class="file-btn secondary" onclick="showRecentFiles()">
+                    🕐 Recent Files
+                </button>
+                <button class="file-btn secondary" onclick="clearFileHistory()">
+                    🗑️ Clear History
+                </button>
+            </div>
+            
+            <div id="fileProgress" class="file-progress">
+                <div class="file-progress-bar">
+                    <div class="file-progress-fill"></div>
+                </div>
+                <div class="file-progress-text">Ready</div>
+            </div>
+            
+            <div id="recentFiles" class="recent-files" style="display: none;">
+                <h4>📋 Recent Files</h4>
+                <div id="recentFilesList">
+                    <!-- Recent files populated by JavaScript -->
+                </div>
+            </div>
+            
+            <div class="supported-formats">
+                <strong>📄 Supported Formats:</strong>
+                <div class="format-list">
+                    <div class="format-item">
+                        <span class="file-type-icon">📄</span>
+                        <span>.xml - XML Documents</span>
+                    </div>
+                    <div class="format-item">
+                        <span class="file-type-icon">📋</span>
+                        <span>.json - JSON Data</span>
+                    </div>
+                    <div class="format-item">
+                        <span class="file-type-icon">📝</span>
+                        <span>.txt - Text Files</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="section">
             <h2>📋 Manual Testing</h2>
-            <p>Paste XML or JSON content below to test the DocumentParser:</p>
+            <p>Paste XML or JSON content below to test the DocumentParser, or use the file upload above:</p>
             
             <textarea id="inputText" placeholder="Paste your XML or JSON content here...">
 {
@@ -188,8 +505,137 @@
 
     <script src="src/DocumentParser.js"></script>
     <script src="src/PathExtractor.js"></script>
+    <script src="src/FileHandler.js"></script>
     <script>
         let parser = new DocumentParser();
+        let fileHandler = null;
+        
+        // Initialize FileHandler on page load
+        function initializeFileHandler() {
+            if (!FileHandler.isSupported()) {
+                alert('File upload is not supported in this browser');
+                return;
+            }
+            
+            fileHandler = new FileHandler({
+                maxFileSize: 10 * 1024 * 1024, // 10MB
+                allowedTypes: ['.xml', '.json', '.txt'],
+                enableHistory: true,
+                onFileLoad: (fileData) => {
+                    // Load file content into textarea and parse
+                    document.getElementById('inputText').value = fileData.content;
+                    showResult(
+                        document.getElementById('parseResult'),
+                        `✅ File loaded: ${fileData.metadata.name} (${fileHandler.formatFileSize(fileData.metadata.size)})`,
+                        'info'
+                    );
+                    
+                    // Auto-parse the loaded file
+                    setTimeout(() => {
+                        testParse();
+                    }, 100);
+                },
+                onError: (error) => {
+                    showResult(
+                        document.getElementById('parseResult'),
+                        `❌ File error: ${error.message}`,
+                        'error'
+                    );
+                },
+                onProgress: (percent) => {
+                    console.log(`File loading progress: ${percent}%`);
+                }
+            });
+            
+            // Setup drag-drop zone
+            fileHandler.setupDragDrop(document.getElementById('fileDropZone'));
+            
+            // Setup progress indicator
+            fileHandler.setupProgressIndicator(document.getElementById('fileProgress'));
+            
+            // Update recent files display
+            updateRecentFilesDisplay();
+        }
+        
+        // File upload functions
+        function openFileDialog() {
+            if (fileHandler) {
+                fileHandler.openFileDialog();
+            }
+        }
+        
+        function showRecentFiles() {
+            const recentFilesDiv = document.getElementById('recentFiles');
+            const isVisible = recentFilesDiv.style.display !== 'none';
+            
+            if (isVisible) {
+                recentFilesDiv.style.display = 'none';
+            } else {
+                updateRecentFilesDisplay();
+                recentFilesDiv.style.display = 'block';
+            }
+        }
+        
+        function clearFileHistory() {
+            if (fileHandler) {
+                fileHandler.clearHistory();
+                updateRecentFilesDisplay();
+                showResult(
+                    document.getElementById('parseResult'),
+                    '🗑️ File history cleared',
+                    'info'
+                );
+            }
+        }
+        
+        function updateRecentFilesDisplay() {
+            if (!fileHandler) return;
+            
+            const recentFiles = fileHandler.getRecentFiles();
+            const listContainer = document.getElementById('recentFilesList');
+            
+            if (recentFiles.length === 0) {
+                listContainer.innerHTML = '<p style="color: #666; font-style: italic; margin: 10px 0;">No recent files</p>';
+                return;
+            }
+            
+            listContainer.innerHTML = recentFiles.map(file => {
+                const fileIcon = getFileIcon(file.name);
+                const loadedTime = new Date(file.loadedAt).toLocaleString();
+                const fileSize = fileHandler.formatFileSize(file.size);
+                
+                return `
+                    <div class="recent-file-item" onclick="showRecentFileInfo('${file.name}', '${fileSize}', '${loadedTime}')">
+                        <div class="recent-file-info">
+                            <div class="recent-file-name">
+                                <span class="file-type-icon">${fileIcon}</span>
+                                ${file.name}
+                            </div>
+                            <div class="recent-file-meta">Loaded: ${loadedTime}</div>
+                        </div>
+                        <div class="recent-file-size">${fileSize}</div>
+                    </div>
+                `;
+            }).join('');
+        }
+        
+        function getFileIcon(filename) {
+            const extension = filename.toLowerCase().split('.').pop();
+            switch (extension) {
+                case 'xml': return '📄';
+                case 'json': return '📋';
+                case 'txt': return '📝';
+                default: return '📄';
+            }
+        }
+        
+        function showRecentFileInfo(name, size, loadedTime) {
+            showResult(
+                document.getElementById('parseResult'),
+                `📄 Recent File Info:\nName: ${name}\nSize: ${size}\nLoaded: ${loadedTime}\n\nNote: File content is not stored for privacy. Please re-upload to use.`,
+                'info'
+            );
+        }
 
         // Manual testing functions
         async function testParse() {
@@ -690,6 +1136,7 @@ ${JSON.stringify(error.context || {}, null, 2)}`;
 
         // Initialize the demo
         document.addEventListener('DOMContentLoaded', () => {
+            initializeFileHandler();
             checkRequirements();
         });
     </script>

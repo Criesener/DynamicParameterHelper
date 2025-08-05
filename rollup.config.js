@@ -14,31 +14,45 @@ const htmlBundle = () => {
       const jsFile = Object.keys(bundle).find(key => key.endsWith('.js'));
       const jsContent = bundle[jsFile].code;
       
-      // Read the template HTML (we'll use demo.html as base)
-      const templatePath = path.join(process.cwd(), 'demo.html');
+      // Read the template HTML (we'll use tree-view-demo.html as base)
+      const templatePath = path.join(process.cwd(), 'tree-view-demo.html');
       let htmlContent = fs.readFileSync(templatePath, 'utf-8');
       
       // Extract existing CSS from the template
       const cssMatch = htmlContent.match(/<style>([\s\S]*?)<\/style>/);
       const existingCss = cssMatch ? cssMatch[1] : '';
       
-      // Replace script tags with inlined bundle
+      // Remove all external script references
       htmlContent = htmlContent.replace(
-        /<script src="src\/[^"]+"><\/script>/g, 
+        /<script\s+src="[^"]+"><\/script>/g, 
         ''
       );
       
-      // Remove the old script section and add our bundled JS
-      htmlContent = htmlContent.replace(
-        /<script>([\s\S]*?)<\/script>(?=\s*<\/body>)/,
-        `<script>
+      // Find the last script tag before </body> and replace it with our bundle
+      const scriptMatch = htmlContent.match(/<script>([\s\S]*?)<\/script>(?=\s*<\/body>)/);
+      if (scriptMatch) {
+        const originalScript = scriptMatch[1];
+        htmlContent = htmlContent.replace(
+          /<script>([\s\S]*?)<\/script>(?=\s*<\/body>)/,
+          `<script>
 // Bundled JavaScript
 ${jsContent}
 
-// Original demo script (inline)
-$1
-        </script>`
-      );
+// Original inline script
+${originalScript}
+</script>`
+        );
+      } else {
+        // If no script found, add before </body>
+        htmlContent = htmlContent.replace(
+          '</body>',
+          `<script>
+// Bundled JavaScript
+${jsContent}
+</script>
+</body>`
+        );
+      }
       
       // Optimize CSS (basic minification)
       const minifiedCss = existingCss
@@ -138,26 +152,40 @@ export default [
           const jsFile = Object.keys(bundle).find(key => key.endsWith('.js'));
           const jsContent = bundle[jsFile].code;
           
-          const templatePath = path.join(process.cwd(), 'demo.html');
+          const templatePath = path.join(process.cwd(), 'tree-view-demo.html');
           let htmlContent = fs.readFileSync(templatePath, 'utf-8');
           
           // For debug build, keep formatting and add debug info
           htmlContent = htmlContent.replace(
-            /<script src="src\/[^"]+"><\/script>/g, 
+            /<script\s+src="[^"]+"><\/script>/g, 
             ''
           );
           
-          htmlContent = htmlContent.replace(
-            /<script>([\s\S]*?)<\/script>(?=\s*<\/body>)/,
-            `<script>
+          const scriptMatch = htmlContent.match(/<script>([\s\S]*?)<\/script>(?=\s*<\/body>)/);
+          if (scriptMatch) {
+            const originalScript = scriptMatch[1];
+            htmlContent = htmlContent.replace(
+              /<script>([\s\S]*?)<\/script>(?=\s*<\/body>)/,
+              `<script>
 // DEBUG BUILD - ${new Date().toISOString()}
 // Unminified bundle for development and debugging
 ${jsContent}
 
-// Original demo script
-$1
-            </script>`
-          );
+// Original inline script
+${originalScript}
+</script>`
+            );
+          } else {
+            htmlContent = htmlContent.replace(
+              '</body>',
+              `<script>
+// DEBUG BUILD - ${new Date().toISOString()}
+// Unminified bundle for development and debugging
+${jsContent}
+</script>
+</body>`
+            );
+          }
           
           this.emitFile({
             type: 'asset',

@@ -1,161 +1,4 @@
-<!-- 
-Built on 2025-08-04T19:18:36.880Z
-Single-file distribution for DynamicParameterHelper
-All dependencies bundled and inlined
--->
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interactive Tree View Demo - Issue #5</title>
-    <style>body{font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;margin:0;padding:20px;background-color:#f5f5f5}.demo-container{max-width:1400px;margin:0 auto;background:white;border-radius:8px;box-shadow:0 2px 10px rgba(0,0,0,0.1);overflow:hidden}.demo-header{background:#2196f3;color:white;padding:20px;text-align:center}.demo-header h1{margin:0;font-size:24px}.demo-header p{margin:10px 0 0 0;opacity:0.9}.demo-content{display:flex;height:800px}.demo-sidebar{width:300px;background:#f8f9fa;padding:20px;border-right:1px solid #dee2e6;overflow-y:auto}.demo-main{flex:1;display:flex;flex-direction:column}.tree-view-container{flex:1;border:none}.output-container{height:300px;border-top:1px solid #dee2e6;background:#f8f9fa;padding:15px;overflow-y:auto;display:flex;flex-direction:column}.output-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:15px}.output-controls{display:flex;gap:8px}.output-controls button{padding:6px 12px;border:1px solid #ddd;background:white;border-radius:4px;cursor:pointer;font-size:12px}.clear-btn:hover{background:#f8d7da}.export-btn:hover{background:#d1ecf1}.download-btn:hover{background:#d4edda}.output-fields{flex:1;display:flex;flex-direction:column;gap:12px}.output-field{display:flex;flex-direction:column}.field-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px}.field-header label{font-weight:600;color:#495057;font-size:13px}.field-controls{display:flex;align-items:center;gap:8px}.copy-btn{padding:2px 6px;border:1px solid #ddd;background:white;border-radius:3px;cursor:pointer;font-size:11px}.copy-btn:hover{background:#e9ecef}.char-count{font-size:11px;color:#6c757d}.output-field-content{min-height:60px;max-height:100px;border:1px solid #ced4da;border-radius:4px;padding:8px;font-family:'Courier New', monospace;font-size:12px;background:white;resize:vertical}.namespace-field{min-height:40px;max-height:60px}.output-summary{display:flex;justify-content:space-between;align-items:center;background:white;border:1px solid #dee2e6;border-radius:4px;padding:8px 12px;margin-top:8px}.summary-stats{display:flex;gap:16px}.stat{font-size:12px;color:#495057}.stat span{font-weight:600;color:#007bff}.copy-all-btn{padding:6px 12px;border:1px solid #007bff;background:#007bff;color:white;border-radius:4px;cursor:pointer;font-size:12px}.copy-all-btn:hover{background:#0056b3}.copy-feedback{text-align:center;padding:8px;border-radius:4px;font-size:12px;margin-top:8px;transition:opacity 0.3s}.copy-feedback.success{background:#d4edda;color:#155724;border:1px solid #c3e6cb}.copy-feedback.error{background:#f8d7da;color:#721c24;border:1px solid #f5c6cb}.copy-feedback.hidden{display:none}.validation-errors{background:#fff3cd;border:1px solid #ffeaa7;border-radius:4px;padding:10px;margin-top:8px}.validation-errors h4{margin:0 0 8px 0;font-size:13px;color:#856404}.validation-errors ul{margin:0;padding-left:20px}.validation-errors li{font-size:12px;color:#856404;margin-bottom:4px}.validation-errors.hidden{display:none}.sample-data{margin-bottom:20px}.sample-data h3{margin:0 0 10px 0;font-size:16px;color:#333}.sample-btn{display:block;width:100%;padding:10px;margin-bottom:8px;background:#007acc;color:white;border:none;border-radius:4px;cursor:pointer;font-size:14px;text-align:left}.sample-btn:hover{background:#005fa3}.performance-section{margin-top:20px;padding-top:20px;border-top:1px solid #dee2e6}.metrics{background:#e8f5e8;padding:10px;border-radius:4px;margin-top:10px;font-family:monospace;font-size:12px}.output-header{display:flex;justify-content:between;align-items:center;margin-bottom:10px}.output-header h3{margin:0;font-size:16px}.export-btn{padding:6px 12px;background:#28a745;color:white;border:none;border-radius:4px;cursor:pointer;font-size:12px}.export-btn:hover{background:#218838}.output-content{background:#fff;border:1px solid #ccc;padding:10px;border-radius:4px;white-space:pre-wrap;font-family:'Courier New', monospace;font-size:12px;max-height:120px;overflow-y:auto}.error{color:#dc3545;background:#f8d7da;border:1px solid #f5c6cb;padding:10px;border-radius:4px;margin:10px 0}.tree-file-drop-zone{border:2px dashed #ccc;border-radius:6px;padding:20px;text-align:center;background:#fafafa;transition:all 0.3s ease;cursor:pointer;margin-bottom:15px}.tree-file-drop-zone:hover, .tree-file-drop-zone:focus{border-color:#2196f3;background:#f0f8ff;outline:none}.tree-file-drop-zone.drag-over{border-color:#2196f3;background:#e6f3ff;transform:scale(1.02)}.tree-file-drop-zone.drag-valid{border-color:#28a745;background:#d4edda;border-style:solid}.tree-file-drop-zone.drag-invalid{border-color:#dc3545;background:#f8d7da;border-style:solid}.tree-file-drop-zone .drop-zone-content{display:flex;flex-direction:column;align-items:center;gap:8px}.tree-file-drop-zone .drop-zone-icon{font-size:24px;color:#2196f3}.tree-file-drop-zone .drop-zone-text{font-size:14px;font-weight:500;color:#333;margin:0}.tree-file-drop-zone .drop-zone-subtext{font-size:11px;color:#666;margin:0}@media (max-width:768px){.demo-content{flex-direction:column;height:auto}.demo-sidebar{width:100%;height:auto}.tree-view-container{height:600px}}</style>
-</head>
-<body>
-    <div class="demo-container">
-        <div class="demo-header">
-            <h1>🌳 Interactive Tree View Demo</h1>
-            <p>Issue #5 Implementation - Hierarchical visualization with virtual scrolling, selection, and search</p>
-        </div>
-        
-        <div class="demo-content">
-            <div class="demo-sidebar">
-                <div class="sample-data">
-                    <h3>📁 File Upload</h3>
-                    <div id="treeFileDropZone" class="tree-file-drop-zone">
-                        <div class="drop-zone-content">
-                            <div class="drop-zone-icon">📁</div>
-                            <p class="drop-zone-text">Drop files here</p>
-                            <p class="drop-zone-subtext">XML, JSON, TXT (10MB max)</p>
-                        </div>
-                    </div>
-                    <button class="sample-btn" onclick="openTreeFileDialog()" style="margin-bottom: 20px;">
-                        📂 Choose Files
-                    </button>
-                </div>
-                
-                <div class="sample-data">
-                    <h3>📁 Sample Documents</h3>
-                    <button class="sample-btn" onclick="loadSampleXML()">
-                        📄 XML - SOAP Envelope with Namespaces
-                    </button>
-                    <button class="sample-btn" onclick="loadSampleJSON()">
-                        📋 JSON - E-commerce Order Data
-                    </button>
-                    <button class="sample-btn" onclick="loadComplexXML()">
-                        🔧 Complex XML - SAP Integration Message
-                    </button>
-                    <button class="sample-btn" onclick="loadLargeDataset()">
-                        ⚡ Large Dataset - Performance Test (1000+ nodes)
-                    </button>
-                    <button class="sample-btn" onclick="loadMassiveDataset()">
-                        🚀 Massive Dataset - Virtual Scrolling Test (10k+ nodes)
-                    </button>
-                </div>
-                
-                <div class="performance-section">
-                    <h3>📊 Performance Metrics</h3>
-                    <div id="performanceMetrics" class="metrics">
-                        No data loaded yet
-                    </div>
-                </div>
-                
-                <div style="margin-top: 20px;">
-                    <h3>🎯 Features Tested</h3>
-                    <ul style="font-size: 12px; line-height: 1.6;">
-                        <li>✅ Hierarchical tree visualization</li>
-                        <li>✅ Virtual scrolling (10k+ nodes)</li>
-                        <li>✅ Checkbox selection with parent-child sync</li>
-                        <li>✅ Search and filtering</li>
-                        <li>✅ Expand/collapse functionality</li>
-                        <li>✅ Keyboard navigation (Arrow keys, Space)</li>
-                        <li>✅ SAP CI output generation</li>
-                        <li>✅ Mobile-responsive design</li>
-                        <li>✅ Accessibility (ARIA, focus management)</li>
-                    </ul>
-                </div>
-            </div>
-            
-            <div class="demo-main">
-                <div id="treeViewContainer" class="tree-view-container"></div>
-                
-                <div class="output-container">
-                    <div class="output-header">
-                        <h3>🔧 SAP CI Output</h3>
-                        <div class="output-controls">
-                            <button class="clear-btn" onclick="clearOutput()">Clear</button>
-                            <button class="export-btn" onclick="exportSelection()">Export Selected Paths</button>
-                            <button class="download-btn" onclick="downloadOutput()">Download Output</button>
-                        </div>
-                    </div>
-                    
-                    <div class="output-fields">
-                        <!-- DynamicCustomHeader Section -->
-                        <div class="output-field">
-                            <div class="field-header">
-                                <label for="dynamicCustomHeader">DynamicCustomHeader:</label>
-                                <div class="field-controls">
-                                    <button class="copy-btn" onclick="copyField('header')" title="Copy DynamicCustomHeader">📋</button>
-                                    <span class="char-count" id="headerCharCount">0 chars</span>
-                                </div>
-                            </div>
-                            <textarea id="dynamicCustomHeader" class="output-field-content" readonly placeholder="(no paths selected)"></textarea>
-                        </div>
-                        
-                        <!-- DynamicCustomHeaderXMLNamespace Section -->
-                        <div class="output-field">
-                            <div class="field-header">
-                                <label for="dynamicCustomHeaderXMLNamespace">DynamicCustomHeaderXMLNamespace:</label>
-                                <div class="field-controls">
-                                    <button class="copy-btn" onclick="copyField('namespace')" title="Copy DynamicCustomHeaderXMLNamespace">📋</button>
-                                    <span class="char-count" id="namespaceCharCount">0 chars</span>
-                                </div>
-                            </div>
-                            <textarea id="dynamicCustomHeaderXMLNamespace" class="output-field-content namespace-field" readonly placeholder="(no namespaces or JSON document)"></textarea>
-                        </div>
-                        
-                        <!-- Output Summary -->
-                        <div class="output-summary">
-                            <div class="summary-stats" id="outputStats">
-                                <span class="stat">Selected: <span id="selectedPathCount">0</span></span>
-                                <span class="stat">Namespaces: <span id="namespaceCount">0</span></span>
-                                <span class="stat">Format: <span id="documentFormat">none</span></span>
-                                <span class="stat">Valid: <span id="outputValid">-</span></span>
-                            </div>
-                            <div class="copy-all-section">
-                                <button class="copy-all-btn" onclick="copyField('all')" title="Copy all output">📋 Copy All</button>
-                            </div>
-                        </div>
-                        
-                        <!-- Copy Feedback -->
-                        <div id="copyFeedback" class="copy-feedback hidden">
-                            <span class="feedback-text">Copied to clipboard!</span>
-                        </div>
-                        
-                        <!-- Validation Errors -->
-                        <div id="validationErrors" class="validation-errors hidden">
-                            <h4>⚠️ Validation Issues:</h4>
-                            <ul id="errorList"></ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 
-    <!-- Load all required scripts -->
-    
-    
-    
-    
-    
-    
-    
-    
-    
-
-    
-<script>
 // Bundled JavaScript modules
 
 // src/DocumentParser.js
@@ -705,7 +548,8 @@ class PathExtractor {
         const paths = [];
         
         // Start traversal from root
-        this.traverseJSONObject(jsonObj, "$", paths);
+        this.traverseJSONObject(jsonObj, '
+</html>, paths);
         
         if (paths.length > this.maxPaths) {
             console.warn(`Document contains ${paths.length} paths, truncating to ${this.maxPaths} for performance`);
@@ -750,7 +594,8 @@ class PathExtractor {
      */
     generateJSONPath(obj, currentPath) {
         if (currentPath === undefined || currentPath === null) {
-            return "$";
+            return '
+</html>;
         }
         
         return currentPath;
@@ -980,12 +825,14 @@ class PathExtractor {
      * @returns {string} Key name
      */
     extractKeyFromPath(path) {
-        if (path === "$") {
+        if (path === '
+</html>) {
             return 'root';
         }
         
         // Extract last segment
-        const segments = path.split(/[.\[\]'"]/).filter(s => s && s !== "$");
+        const segments = path.split(/[.\[\]'"]/).filter(s => s && s !== '
+</html>);
         return segments[segments.length - 1] || 'unknown';
     }
 
@@ -2042,7 +1889,8 @@ class TreeDataTransformer {
         // Create intermediate parent nodes if needed
         const segments = this.parsePathSegments(parentPath, documentFormat);
         let currentNode = rootNode;
-        let currentPath = documentFormat === 'xml' ? '' : "$";
+        let currentPath = documentFormat === 'xml' ? '' : '
+</html>;
 
         for (let i = 0; i < segments.length; i++) {
             const segment = segments[i];
@@ -2130,7 +1978,8 @@ class TreeDataTransformer {
      * @private
      */
     parseJSONPathSegments(jsonPath) {
-        if (!jsonPath || jsonPath === "$") return [];
+        if (!jsonPath || jsonPath === '
+</html>) return [];
         
         // Handle different JSONPath notations
         const segments = [];
@@ -2215,7 +2064,8 @@ class TreeDataTransformer {
             return match ? match[1] : lastSegment;
         } else {
             // JSONPath - get last segment
-            const segments = path.split(/[.\[\]'"]/).filter(s => s && s !== "$");
+            const segments = path.split(/[.\[\]'"]/).filter(s => s && s !== '
+</html>);
             return segments[segments.length - 1] || 'root';
         }
     }
@@ -2796,13 +2646,7 @@ class VirtualizedTreeView {
         
         // Update label
         const label = element.querySelector('.tree-node-label');
-        // Defensive check for getDisplayName method
-        if (typeof node.getDisplayName === 'function') {
-            label.textContent = node.getDisplayName();
-        } else {
-            console.warn('Node missing getDisplayName method:', node);
-            label.textContent = node.metadata?.displayName || node.path || 'Unknown';
-        }
+        label.textContent = node.getDisplayName();
         label.title = node.path; // Tooltip with full path
         
         // Update value
@@ -5412,84 +5256,6 @@ async function loadSampleJSON() {
           "zip": "90210",
           "country": "USA"
         }
-      },
-      "preferences": {
-        "notifications": true,
-        "currency": "USD",
-        "language": "en-US",
-        "paymentMethods": ["credit_card", "bank_transfer"]
-      }
-    },
-    "items": [
-      {
-        "sku": "WIDGET-A",
-        "name": "Premium Widget",
-        "category": "widgets",
-        "quantity": 5,
-        "price": 29.99,
-        "attributes": {
-          "color": "blue",
-          "size": "large",
-          "warranty": "1 year",
-          "material": "aluminum"
-        },
-        "customizations": {
-          "engraving": "ACME Corp",
-          "gift_wrap": false
-        }
-      },
-      {
-        "sku": "GADGET-B",
-        "name": "Super Gadget",
-        "category": "gadgets",
-        "quantity": 2,
-        "price": 149.99,
-        "attributes": {
-          "color": "silver",
-          "model": "SG-2023",
-          "warranty": "2 years"
-        }
-      }
-    ],
-    "shipping": {
-      "method": "express",
-      "carrier": "FedEx",
-      "trackingNumber": "1234567890",
-      "estimatedDelivery": "2023-01-03T18:00:00Z",
-      "address": {
-        "street": "123 Business Blvd",
-        "city": "Commerce City",
-        "state": "CA",
-        "zip": "90210",
-        "country": "USA",
-        "instructions": "Leave at front desk"
-      }
-    },
-    "payment": {
-      "method": "credit_card",
-      "cardType": "Visa",
-      "last4": "1234",
-      "authCode": "AUTH123",
-      "transactionId": "TXN-789"
-    },
-    "totals": {
-      "subtotal": 449.93,
-      "tax": 36.00,
-      "shipping": 15.00,
-      "discount": 0.00,
-      "total": 500.93
-    },
-    "metadata": {
-      "source": "web_portal",
-      "browser": "Chrome",
-      "ip_address": "192.168.1.1",
-      "user_agent": "Mozilla/5.0..."
-    }
-  }
-}`;
-            
-            await loadDocument(jsonData, 'E-commerce JSON');
-        }
 window.loadSampleJSON = loadSampleJSON;
 
 
@@ -5594,7 +5360,318 @@ async function loadLargeDataset() {
                         size: ['small', 'medium', 'large'][i % 3],
                         weight: (Math.random() * 10).toFixed(1),
                         manufacturer: `Manufacturer ${Math.ceil(i / 20)}`
-                    },
+                    }
+window.loadLargeDataset = loadLargeDataset;
+
+
+// Global function: loadMassiveDataset
+async function loadMassiveDataset() {
+            // Generate massive dataset for virtual scrolling test
+            const generateNestedData = (depth, breadth, currentDepth = 0) => {
+                const obj = {
+                    id: `node_${currentDepth}_${Math.random().toString(36).substr(2, 9)}`,
+                    name: `Node at depth ${currentDepth}`,
+                    value: Math.random() * 1000,
+                    timestamp: new Date().toISOString(),
+                    metadata: {
+                        depth: currentDepth,
+                        generated: true,
+                        random: Math.random()
+                    }
+window.loadMassiveDataset = loadMassiveDataset;
+
+
+// Global function: clearOutput
+function clearOutput() {
+            if (treeView) {
+                treeView.selectionManager.deselectAll();
+                updateOutput();
+                updateMetrics();
+            }
+window.clearOutput = clearOutput;
+
+
+// Global function: exportSelection
+function exportSelection() {
+            if (!treeView) {
+                alert('No tree view loaded');
+                return;
+            }
+window.exportSelection = exportSelection;
+
+
+// Global function: downloadOutput
+function downloadOutput() {
+            if (!treeView) {
+                alert('No tree view loaded');
+                return;
+            }
+window.downloadOutput = downloadOutput;
+
+
+// Global function: copyField
+async function copyField(field) {
+            if (!treeView) {
+                showCopyFeedback('No data to copy', false);
+                return;
+            }
+window.copyField = copyField;
+
+
+// Global function: openTreeFileDialog
+function openTreeFileDialog() {
+            if (treeFileHandler) {
+                treeFileHandler.openFileDialog();
+            }
+window.openTreeFileDialog = openTreeFileDialog;
+
+
+// Global function: loadDocument
+async function loadDocument(documentText, description) {
+            try {
+                // Parse document
+                console.time('Document Parsing');
+                currentDocument = await parser.parse(documentText);
+                console.timeEnd('Document Parsing');
+                
+                // Extract paths
+                console.time('Path Extraction');
+                if (currentDocument.format === 'xml') {
+                    currentPaths = pathExtractor.extractXPaths(currentDocument.data);
+                }
+window.loadDocument = loadDocument;
+
+
+// Global function: showMessage
+function showMessage(text, type) {
+            // Simple alert for now - could be enhanced with toast notifications
+            console.log(`${type.toUpperCase()}: ${text}`);
+        }
+window.showMessage = showMessage;
+
+
+// Global function: initializeTreeView
+function initializeTreeView() {
+            const container = document.getElementById('treeViewContainer');
+            
+            if (treeView) {
+                treeView.destroy();
+            }
+window.initializeTreeView = initializeTreeView;
+
+
+// Global function: initializeTreeFileHandler
+function initializeTreeFileHandler() {
+            if (!FileHandler.isSupported()) {
+                console.warn('File upload not supported in this browser');
+                return;
+            }
+window.initializeTreeFileHandler = initializeTreeFileHandler;
+
+
+// Global function: updateMetrics
+function updateMetrics() {
+            if (!treeView) return;
+            
+            const treeStats = treeView.dataTransformer.getStats();
+            const selectionStats = treeView.selectionManager.getSelectionStats();
+            
+            let virtualStats = {};
+            if (treeView.virtualTreeView) {
+                virtualStats = treeView.virtualTreeView.getPerformanceStats();
+            }
+window.updateMetrics = updateMetrics;
+
+
+
+// Original inline script
+
+        // Global variables
+        let treeView = null;
+        let currentDocument = null;
+        let currentPaths = null;
+        let treeFileHandler = null;
+        
+        // Initialize components
+        const parser = new DocumentParser();
+        const pathExtractor = new PathExtractor({
+            includeAttributes: true,
+            includeTextNodes: false
+        });
+        
+        // Initialize tree view
+        
+            
+            treeView = new InteractiveTreeView(container, {
+                itemHeight: 28,
+                showSearch: true,
+                showControls: true,
+                showStats: true,
+                enableVirtualScrolling: true,
+                enableSelection: true,
+                enableExpansion: true,
+                enableSearch: true
+            });
+            
+            // Set up event listeners
+            container.addEventListener('selectionChange', (event) => {
+                updateOutput();
+                updateMetrics();
+            });
+            
+            container.addEventListener('documentLoaded', (event) => {
+                updateMetrics();
+                updateOutput();
+            });
+            
+            container.addEventListener('search', (event) => {
+                updateMetrics();
+            });
+        }
+        
+        // Initialize TreeView FileHandler
+        
+            
+            treeFileHandler = new FileHandler({
+                maxFileSize: 10 * 1024 * 1024, // 10MB
+                allowedTypes: ['.xml', '.json', '.txt'],
+                enableHistory: false, // Disable history for tree view to avoid conflicts
+                onFileLoad: async (fileData) => {
+                    try {
+                        showMessage(`📁 Loading file: ${fileData.metadata.name}...`, 'info');
+                        
+                        // Load document using the file content
+                        await loadDocument(fileData.content, `File: ${fileData.metadata.name}`);
+                        
+                        showMessage(`✅ File loaded successfully: ${fileData.metadata.name} (${treeFileHandler.formatFileSize(fileData.metadata.size)})`, 'success');
+                    } catch (error) {
+                        showMessage(`❌ Error loading file: ${error.message}`, 'error');
+                    }
+                },
+                onError: (error) => {
+                    showMessage(`❌ File error: ${error.message}`, 'error');
+                },
+                onProgress: (percent) => {
+                    if (percent < 100) {
+                        showMessage(`📁 Loading file... ${percent}%`, 'info');
+                    }
+                }
+            });
+            
+            // Setup drag-drop zone
+            treeFileHandler.setupDragDrop(document.getElementById('treeFileDropZone'));
+        }
+        
+        // Tree file functions
+        
+        }
+        
+        // Load and process document
+         else {
+                    currentPaths = pathExtractor.extractJSONPaths(currentDocument.data);
+                }
+                console.timeEnd('Path Extraction');
+                
+                // Load into tree view
+                console.time('Tree View Loading');
+                treeView.loadDocument(currentDocument, currentPaths);
+                console.timeEnd('Tree View Loading');
+                
+                // Show success message
+                showMessage(`✅ Loaded ${description}: ${currentPaths.length} paths detected`, 'success');
+                
+            } catch (error) {
+                console.error('Error loading document:', error);
+                showMessage(`❌ Error loading ${description}: ${error.message}`, 'error');
+            }
+        }
+        
+        // Sample data functions
+        
+        
+        
+      },
+      "preferences": {
+        "notifications": true,
+        "currency": "USD",
+        "language": "en-US",
+        "paymentMethods": ["credit_card", "bank_transfer"]
+      }
+    },
+    "items": [
+      {
+        "sku": "WIDGET-A",
+        "name": "Premium Widget",
+        "category": "widgets",
+        "quantity": 5,
+        "price": 29.99,
+        "attributes": {
+          "color": "blue",
+          "size": "large",
+          "warranty": "1 year",
+          "material": "aluminum"
+        },
+        "customizations": {
+          "engraving": "ACME Corp",
+          "gift_wrap": false
+        }
+      },
+      {
+        "sku": "GADGET-B",
+        "name": "Super Gadget",
+        "category": "gadgets",
+        "quantity": 2,
+        "price": 149.99,
+        "attributes": {
+          "color": "silver",
+          "model": "SG-2023",
+          "warranty": "2 years"
+        }
+      }
+    ],
+    "shipping": {
+      "method": "express",
+      "carrier": "FedEx",
+      "trackingNumber": "1234567890",
+      "estimatedDelivery": "2023-01-03T18:00:00Z",
+      "address": {
+        "street": "123 Business Blvd",
+        "city": "Commerce City",
+        "state": "CA",
+        "zip": "90210",
+        "country": "USA",
+        "instructions": "Leave at front desk"
+      }
+    },
+    "payment": {
+      "method": "credit_card",
+      "cardType": "Visa",
+      "last4": "1234",
+      "authCode": "AUTH123",
+      "transactionId": "TXN-789"
+    },
+    "totals": {
+      "subtotal": 449.93,
+      "tax": 36.00,
+      "shipping": 15.00,
+      "discount": 0.00,
+      "total": 500.93
+    },
+    "metadata": {
+      "source": "web_portal",
+      "browser": "Chrome",
+      "ip_address": "192.168.1.1",
+      "user_agent": "Mozilla/5.0..."
+    }
+  }
+}`;
+            
+            await loadDocument(jsonData, 'E-commerce JSON');
+        }
+        
+        
+        
+        ,
                     inventory: {
                         quantity: Math.floor(Math.random() * 1000),
                         warehouse: `WH-${Math.ceil(i / 25)}`,
@@ -5627,23 +5704,8 @@ async function loadLargeDataset() {
             
             await loadDocument(JSON.stringify(largeData, null, 2), 'Large Dataset (1000+ nodes)');
         }
-window.loadLargeDataset = loadLargeDataset;
-
-
-// Global function: loadMassiveDataset
-async function loadMassiveDataset() {
-            // Generate massive dataset for virtual scrolling test
-            const generateNestedData = (depth, breadth, currentDepth = 0) => {
-                const obj = {
-                    id: `node_${currentDepth}_${Math.random().toString(36).substr(2, 9)}`,
-                    name: `Node at depth ${currentDepth}`,
-                    value: Math.random() * 1000,
-                    timestamp: new Date().toISOString(),
-                    metadata: {
-                        depth: currentDepth,
-                        generated: true,
-                        random: Math.random()
-                    }
+        
+        
                 };
                 
                 if (currentDepth < depth) {
@@ -5665,385 +5727,19 @@ async function loadMassiveDataset() {
             
             await loadDocument(JSON.stringify(massiveData, null, 2), 'Massive Dataset (10k+ nodes)');
         }
-window.loadMassiveDataset = loadMassiveDataset;
-
-
-// Global function: clearOutput
-function clearOutput() {
-            if (window.treeView) {
-                window.treeView.selectionManager.deselectAll();
-                updateOutput();
-                updateMetrics();
-            }
-        }
-window.clearOutput = clearOutput;
-
-
-// Global function: exportSelection
-function exportSelection() {
-            if (!window.treeView) {
-                alert('No tree view loaded');
-                return;
-            }
-            
-            const sapOutput = window.treeView.getSelectedPathsForSAP();
-            const exportData = {
-                exportedAt: new Date().toISOString(),
-                documentFormat: sapOutput.documentFormat,
-                selectedPaths: sapOutput.DynamicCustomHeader.split(',').filter(p => p),
-                namespaces: sapOutput.DynamicCustomHeaderXMLNamespace,
-                selectionCount: sapOutput.selectedCount,
-                sapFormat: {
-                    DynamicCustomHeader: sapOutput.DynamicCustomHeader,
-                    DynamicCustomHeaderXMLNamespace: sapOutput.DynamicCustomHeaderXMLNamespace
-                }
-            };
-            
-            // Create download
-            const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `tree-selection-${Date.now()}.json`;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-            
-            showMessage(`✅ Exported ${sapOutput.selectedCount} selected paths`, 'success');
-        }
-window.exportSelection = exportSelection;
-
-
-// Global function: downloadOutput
-function downloadOutput() {
-            if (!window.treeView) {
-                alert('No tree view loaded');
-                return;
-            }
-            
-            try {
-                if (window.treeView.outputFormatter) {
-                    window.treeView.outputFormatter.downloadAsFile('txt');
-                } else {
-                    // Fallback download
-                    const sapOutput = window.treeView.getSelectedPathsForSAP();
-                    const content = `SAP Cloud Integration Output
-Generated: ${new Date().toLocaleString()}
-
-DynamicCustomHeader:
-${sapOutput.DynamicCustomHeader || '(no paths selected)'}
-
-DynamicCustomHeaderXMLNamespace:
-${sapOutput.DynamicCustomHeaderXMLNamespace || '(no namespaces)'}
-
-Selection Summary:
-- Selected Paths: ${sapOutput.selectedCount}
-- Document Format: ${sapOutput.documentFormat || 'none'}`;
-                    
-                    const blob = new Blob([content], { type: 'text/plain' });
-                    const url = URL.createObjectURL(blob);
-                    const a = document.createElement('a');
-                    a.href = url;
-                    a.download = `sap-ci-output-${Date.now()}.txt`;
-                    document.body.appendChild(a);
-                    a.click();
-                    document.body.removeChild(a);
-                    URL.revokeObjectURL(url);
-                }
-            } catch (error) {
-                console.error('Download failed:', error);
-                alert('Download failed: ' + error.message);
-            }
-        }
-window.downloadOutput = downloadOutput;
-
-
-// Global function: copyField
-async function copyField(field) {
-            if (!window.treeView) {
-                showCopyFeedback('No data to copy', false);
-                return;
-            }
-            
-            try {
-                let success = false;
-                
-                if (window.treeView.outputFormatter) {
-                    success = await window.treeView.outputFormatter.copyToClipboard(field);
-                } else {
-                    // Fallback for direct copy
-                    let textToCopy = '';
-                    switch (field) {
-                        case 'header':
-                            textToCopy = document.getElementById('dynamicCustomHeader').value;
-                            break;
-                        case 'namespace':
-                            textToCopy = document.getElementById('dynamicCustomHeaderXMLNamespace').value;
-                            break;
-                        case 'all':
-                            const headerText = document.getElementById('dynamicCustomHeader').value;
-                            const namespaceText = document.getElementById('dynamicCustomHeaderXMLNamespace').value;
-                            textToCopy = `DynamicCustomHeader:\n${headerText}\n\nDynamicCustomHeaderXMLNamespace:\n${namespaceText}`;
-                            break;
-                    }
-                    
-                    if (navigator.clipboard) {
-                        await navigator.clipboard.writeText(textToCopy);
-                        success = true;
-                    }
-                }
-                
-                showCopyFeedback(success ? 'Copied to clipboard!' : 'Copy failed', success);
-                
-            } catch (error) {
-                console.error('Copy failed:', error);
-                showCopyFeedback('Copy failed - ' + error.message, false);
-            }
-        }
-window.copyField = copyField;
-
-
-// Global function: openTreeFileDialog
-function openTreeFileDialog() {
-            if (window.treeFileHandler) {
-                window.treeFileHandler.openFileDialog();
-            }
-        }
-window.openTreeFileDialog = openTreeFileDialog;
-
-
-// Global function: loadDocument
-async function loadDocument(documentText, description) {
-            try {
-                // Parse document
-                console.time('Document Parsing');
-                currentDocument = await parser.parse(documentText);
-                console.timeEnd('Document Parsing');
-                
-                // Extract paths
-                console.time('Path Extraction');
-                if (currentDocument.format === 'xml') {
-                    currentPaths = pathExtractor.extractXPaths(currentDocument.data);
-                } else {
-                    currentPaths = pathExtractor.extractJSONPaths(currentDocument.data);
-                }
-                console.timeEnd('Path Extraction');
-                
-                // Load into tree view
-                console.time('Tree View Loading');
-                window.treeView.loadDocument(currentDocument, currentPaths);
-                console.timeEnd('Tree View Loading');
-                
-                // Show success message
-                showMessage(`✅ Loaded ${description}: ${currentPaths.length} paths detected`, 'success');
-                
-            } catch (error) {
-                console.error('Error loading document:', error);
-                showMessage(`❌ Error loading ${description}: ${error.message}`, 'error');
-            }
-        }
-window.loadDocument = loadDocument;
-
-
-// Global function: showMessage
-function showMessage(text, type) {
-            // Simple alert for now - could be enhanced with toast notifications
-            console.log(`${type.toUpperCase()}: ${text}`);
-        }
-window.showMessage = showMessage;
-
-
-// Global function: initializeTreeView
-function initializeTreeView() {
-            const container = document.getElementById('treeViewContainer');
-            
-            if (window.treeView) {
-                window.window.treeView.destroy();
-            }
-            
-            window.treeView = new InteractiveTreeView(container, {
-                itemHeight: 28,
-                showSearch: true,
-                showControls: true,
-                showStats: true,
-                enableVirtualScrolling: true,
-                enableSelection: true,
-                enableExpansion: true,
-                enableSearch: true
-            });
-            
-            // Initialize and assign OutputFormatter to tree view for SAP CI export functionality
-            if (!window.outputFormatter) {
-                window.outputFormatter = new OutputFormatter();
-            }
-            window.window.treeView.outputFormatter = window.outputFormatter;
-            
-            // Set up event listeners
-            container.addEventListener('selectionChange', (event) => {
-                updateOutput();
-                updateMetrics();
-            });
-            
-            container.addEventListener('documentLoaded', (event) => {
-                updateMetrics();
-                updateOutput();
-            });
-            
-            container.addEventListener('search', (event) => {
-                updateMetrics();
-            });
-        }
-window.initializeTreeView = initializeTreeView;
-
-
-// Global function: updateMetrics
-function updateMetrics() {
-            if (!window.treeView) return;
-            
-            const treeStats = window.treeView.dataTransformer.getStats();
-            const selectionStats = window.treeView.selectionManager.getSelectionStats();
-            
-            let virtualStats = {};
-            if (window.treeView.virtualTreeView) {
-                virtualStats = window.treeView.virtualTreeView.getPerformanceStats();
-            }
-            
-            const metricsText = `Tree Statistics:
-Total Nodes: ${treeStats.nodeCount}
-Displayed: ${window.treeView.filteredNodes.length}
-
-Selection:
-Selected: ${selectionStats.selectedCount}
-Indeterminate: ${selectionStats.indeterminateCount}
-
-Virtual Scrolling:
-Visible Nodes: ${virtualStats.visibleNodes || 'N/A'}
-Active Elements: ${virtualStats.activeElements || 'N/A'}
-Render Count: ${virtualStats.renderCount || 'N/A'}
-Last Render: ${virtualStats.lastRenderTime ? virtualStats.lastRenderTime.toFixed(2) + 'ms' : 'N/A'}
-
-Memory:
-Pooled Elements: ${virtualStats.pooledElements || 'N/A'}`;
-            
-            document.getElementById('performanceMetrics').textContent = metricsText;
-        }
-window.updateMetrics = updateMetrics;
-
-
-
-// Original inline script
-
-        // Global variables (also accessible as window properties)
-        let currentDocument = null;
-        let currentPaths = null;
         
-        // Initialize components
-        const parser = new DocumentParser();
-        const pathExtractor = new PathExtractor({
-            includeAttributes: true,
-            includeTextNodes: false
-        });
-        
-        // Initialize tree view
-        
-        
-        // Initialize TreeView FileHandler
-        function initializeTreeFileHandler() {
-            try {
-                if (!FileHandler.isSupported()) {
-                    console.warn('File upload not supported in this browser');
-                    return;
-                }
-                
-                window.treeFileHandler = new FileHandler({
-                    maxFileSize: 10 * 1024 * 1024, // 10MB
-                    allowedTypes: ['.xml', '.json', '.txt'],
-                    enableHistory: false, // Disable history for tree view to avoid conflicts
-                    onFileLoad: async (fileData) => {
-                        try {
-                            if (typeof showMessage === 'function') {
-                                showMessage(`📁 Loading file: ${fileData.metadata.name}...`, 'info');
-                            }
-                            
-                            // Load document using the file content
-                            await loadDocument(fileData.content, `File: ${fileData.metadata.name}`);
-                            
-                            if (typeof showMessage === 'function') {
-                                showMessage(`✅ File loaded successfully: ${fileData.metadata.name} (${window.treeFileHandler.formatFileSize(fileData.metadata.size)})`, 'success');
-                            }
-                        } catch (error) {
-                            console.error('Error in onFileLoad:', error);
-                            if (typeof showMessage === 'function') {
-                                showMessage(`❌ Error loading file: ${error.message}`, 'error');
-                            }
-                        }
-                    },
-                    onError: (error) => {
-                        console.error('FileHandler error:', error);
-                        if (typeof showMessage === 'function') {
-                            showMessage(`❌ File error: ${error.message}`, 'error');
-                        }
-                    },
-                    onProgress: (percent) => {
-                        if (percent < 100 && typeof showMessage === 'function') {
-                            showMessage(`📁 Loading file... ${percent}%`, 'info');
-                        }
-                    }
-                });
-                
-                // Setup drag-drop zone
-                const dropZone = document.getElementById('treeFileDropZone');
-                if (dropZone) {
-                    window.treeFileHandler.setupDragDrop(dropZone);
-                    console.log('FileHandler initialized successfully');
-                } else {
-                    console.warn('Drop zone element not found');
-                }
-            } catch (error) {
-                console.error('Error initializing FileHandler:', error);
-                // Still create treeFileHandler so tests don't fail
-                try {
-                    window.treeFileHandler = new FileHandler({
-                        maxFileSize: 10 * 1024 * 1024,
-                        allowedTypes: ['.xml', '.json', '.txt'],
-                        enableHistory: false
-                    });
-                    console.log('Fallback FileHandler created');
-                } catch (fallbackError) {
-                    console.error('Fallback FileHandler creation failed:', fallbackError);
-                }
-            }
-        }
-        
-        // Tree file functions
-        
-        
-        // Load and process document
-        
-        
-        // Sample data functions
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        // OutputFormatter will be initialized in initializeTreeView function
+        // Initialize OutputFormatter with real-time updates
+        let outputFormatter = null;
         
         // Update output with selected paths using enhanced UI
         function updateOutput() {
-            if (!window.treeView) {
+            if (!treeView) {
                 clearOutputFields();
                 return;
             }
             
             try {
-                const sapOutput = window.treeView.getSelectedPathsForSAP();
+                const sapOutput = treeView.getSelectedPathsForSAP();
                 
                 // Update individual fields
                 document.getElementById('dynamicCustomHeader').value = sapOutput.DynamicCustomHeader || '';
@@ -6059,8 +5755,8 @@ window.updateMetrics = updateMetrics;
                 document.getElementById('documentFormat').textContent = sapOutput.documentFormat || 'none';
                 
                 // Get output stats from OutputFormatter if available
-                if (window.treeView.outputFormatter) {
-                    const stats = window.treeView.outputFormatter.getOutputStats();
+                if (treeView.outputFormatter) {
+                    const stats = treeView.outputFormatter.getOutputStats();
                     document.getElementById('outputValid').textContent = stats.isValid ? '✅' : '❌';
                     
                     // Show/hide validation errors
@@ -6100,9 +5796,46 @@ window.updateMetrics = updateMetrics;
         
         // Clear output
         
+        }
         
         // Copy field to clipboard
         
+            
+            try {
+                let success = false;
+                
+                if (treeView.outputFormatter) {
+                    success = await treeView.outputFormatter.copyToClipboard(field);
+                } else {
+                    // Fallback for direct copy
+                    let textToCopy = '';
+                    switch (field) {
+                        case 'header':
+                            textToCopy = document.getElementById('dynamicCustomHeader').value;
+                            break;
+                        case 'namespace':
+                            textToCopy = document.getElementById('dynamicCustomHeaderXMLNamespace').value;
+                            break;
+                        case 'all':
+                            const headerText = document.getElementById('dynamicCustomHeader').value;
+                            const namespaceText = document.getElementById('dynamicCustomHeaderXMLNamespace').value;
+                            textToCopy = `DynamicCustomHeader:\n${headerText}\n\nDynamicCustomHeaderXMLNamespace:\n${namespaceText}`;
+                            break;
+                    }
+                    
+                    if (navigator.clipboard) {
+                        await navigator.clipboard.writeText(textToCopy);
+                        success = true;
+                    }
+                }
+                
+                showCopyFeedback(success ? 'Copied to clipboard!' : 'Copy failed', success);
+                
+            } catch (error) {
+                console.error('Copy failed:', error);
+                showCopyFeedback('Copy failed - ' + error.message, false);
+            }
+        }
         
         // Show copy feedback
         function showCopyFeedback(message, success = true) {
@@ -6119,12 +5852,94 @@ window.updateMetrics = updateMetrics;
         
         // Download output as file
         
+            
+            try {
+                if (treeView.outputFormatter) {
+                    treeView.outputFormatter.downloadAsFile('txt');
+                } else {
+                    // Fallback download
+                    const sapOutput = treeView.getSelectedPathsForSAP();
+                    const content = `SAP Cloud Integration Output
+Generated: ${new Date().toLocaleString()}
+
+DynamicCustomHeader:
+${sapOutput.DynamicCustomHeader || '(no paths selected)'}
+
+DynamicCustomHeaderXMLNamespace:
+${sapOutput.DynamicCustomHeaderXMLNamespace || '(no namespaces)'}
+
+Selection Summary:
+- Selected Paths: ${sapOutput.selectedCount}
+- Document Format: ${sapOutput.documentFormat || 'none'}`;
+                    
+                    const blob = new Blob([content], { type: 'text/plain' });
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = `sap-ci-output-${Date.now()}.txt`;
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+                }
+            } catch (error) {
+                console.error('Download failed:', error);
+                alert('Download failed: ' + error.message);
+            }
+        }
         
         // Update performance metrics
         
+            
+            const metricsText = `Tree Statistics:
+Total Nodes: ${treeStats.nodeCount}
+Displayed: ${treeView.filteredNodes.length}
+
+Selection:
+Selected: ${selectionStats.selectedCount}
+Indeterminate: ${selectionStats.indeterminateCount}
+
+Virtual Scrolling:
+Visible Nodes: ${virtualStats.visibleNodes || 'N/A'}
+Active Elements: ${virtualStats.activeElements || 'N/A'}
+Render Count: ${virtualStats.renderCount || 'N/A'}
+Last Render: ${virtualStats.lastRenderTime ? virtualStats.lastRenderTime.toFixed(2) + 'ms' : 'N/A'}
+
+Memory:
+Pooled Elements: ${virtualStats.pooledElements || 'N/A'}`;
+            
+            document.getElementById('performanceMetrics').textContent = metricsText;
+        }
         
         // Export selection
         
+            
+            const sapOutput = treeView.getSelectedPathsForSAP();
+            const exportData = {
+                exportedAt: new Date().toISOString(),
+                documentFormat: sapOutput.documentFormat,
+                selectedPaths: sapOutput.DynamicCustomHeader.split(',').filter(p => p),
+                namespaces: sapOutput.DynamicCustomHeaderXMLNamespace,
+                selectionCount: sapOutput.selectedCount,
+                sapFormat: {
+                    DynamicCustomHeader: sapOutput.DynamicCustomHeader,
+                    DynamicCustomHeaderXMLNamespace: sapOutput.DynamicCustomHeaderXMLNamespace
+                }
+            };
+            
+            // Create download
+            const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `tree-selection-${Date.now()}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            showMessage(`✅ Exported ${sapOutput.selectedCount} selected paths`, 'success');
+        }
         
         // Show message
         
@@ -6142,11 +5957,8 @@ window.updateMetrics = updateMetrics;
         
         // Handle window resize
         window.addEventListener('resize', () => {
-            if (treeView && window.treeView.virtualTreeView) {
-                window.treeView.virtualTreeView.handleResize();
+            if (treeView && treeView.virtualTreeView) {
+                treeView.virtualTreeView.handleResize();
             }
         });
     
-</script>
-</body>
-</html>

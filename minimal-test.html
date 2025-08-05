@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Minimal FileHandler Test</title>
+</head>
+<body>
+    <h1>Minimal FileHandler Test</h1>
+    <p>Testing if FileHandler creates file input elements correctly</p>
+    
+    <script>
+        // Minimal FileHandler implementation
+        class FileHandler {
+            constructor(options = {}) {
+                this.allowedTypes = options.allowedTypes || ['.xml', '.json', '.txt'];
+                this.fileInput = null;
+                
+                console.log('FileHandler constructor called');
+                this.setupFileInput();
+                console.log('FileHandler constructor completed, fileInput:', this.fileInput);
+            }
+            
+            setupFileInput(inputElement) {
+                console.log('setupFileInput called');
+                if (!inputElement) {
+                    console.log('Creating new input element');
+                    inputElement = document.createElement('input');
+                    inputElement.type = 'file';
+                    inputElement.style.display = 'none';
+                    inputElement.accept = this.allowedTypes.join(',');
+                    inputElement.multiple = false;
+                    console.log('Appending input to body');
+                    document.body.appendChild(inputElement);
+                    console.log('Input appended, checking if in DOM:', document.body.contains(inputElement));
+                }
+                
+                this.fileInput = inputElement;
+                console.log('File input set:', this.fileInput);
+            }
+            
+            openFileDialog() {
+                console.log('openFileDialog called');
+                if (!this.fileInput) {
+                    console.log('No file input, calling setupFileInput');
+                    this.setupFileInput();
+                }
+                console.log('Clicking file input');
+                this.fileInput.click();
+            }
+            
+            static isSupported() {
+                return (
+                    typeof File !== 'undefined' &&
+                    typeof FileReader !== 'undefined' &&
+                    typeof FileList !== 'undefined' &&
+                    typeof Blob !== 'undefined'
+                );
+            }
+        }
+        
+        let treeFileHandler = null;
+        
+        function initializeTreeFileHandler() {
+            console.log('initializeTreeFileHandler called');
+            if (!FileHandler.isSupported()) {
+                console.warn('File upload not supported in this browser');
+                return;
+            }
+            console.log('FileHandler is supported, creating instance');
+            
+            treeFileHandler = new FileHandler({
+                allowedTypes: ['.xml', '.json', '.txt']
+            });
+            
+            console.log('TreeFileHandler created:', treeFileHandler);
+        }
+        
+        function openTreeFileDialog() {
+            console.log('openTreeFileDialog called, treeFileHandler:', treeFileHandler);
+            if (treeFileHandler) {
+                treeFileHandler.openFileDialog();
+            } else {
+                console.error('treeFileHandler is not initialized!');
+            }
+        }
+        
+        function checkFileInputs() {
+            const fileInputs = document.querySelectorAll('input[type="file"]');
+            console.log('Found file inputs:', fileInputs.length);
+            fileInputs.forEach((input, i) => {
+                console.log(`Input ${i}:`, input, 'in DOM:', document.body.contains(input));
+            });
+        }
+        
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('DOM loaded, initializing...');
+            initializeTreeFileHandler();
+            
+            setTimeout(() => {
+                console.log('Checking after 1 second...');
+                checkFileInputs();
+            }, 1000);
+        });
+    </script>
+    
+    <button onclick="openTreeFileDialog()">Open File Dialog</button>
+    <button onclick="checkFileInputs()">Check File Inputs</button>
+</body>
+</html>

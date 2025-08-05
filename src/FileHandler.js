@@ -44,6 +44,9 @@ class FileHandler {
         this.handleDragLeave = this.handleDragLeave.bind(this);
         this.handleDrop = this.handleDrop.bind(this);
         this.handleFileSelect = this.handleFileSelect.bind(this);
+        
+        // Proactively create file input for E2E testing compatibility
+        this.setupFileInput();
     }
     
     /**
@@ -614,6 +617,3 @@ class FileHandler {
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = FileHandler;
 }
-
-// ES module export
-export { FileHandler };

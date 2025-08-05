@@ -570,11 +570,9 @@
     <script src="src/FileHandler.js"></script>
 
     <script>
-        // Global variables
-        let treeView = null;
+        // Global variables (also accessible as window properties)
         let currentDocument = null;
         let currentPaths = null;
-        let treeFileHandler = null;
         
         // Initialize components
         const parser = new DocumentParser();
@@ -587,11 +585,11 @@
         function initializeTreeView() {
             const container = document.getElementById('treeViewContainer');
             
-            if (treeView) {
-                treeView.destroy();
+            if (window.treeView) {
+                window.window.treeView.destroy();
             }
             
-            treeView = new InteractiveTreeView(container, {
+            window.treeView = new InteractiveTreeView(container, {
                 itemHeight: 28,
                 showSearch: true,
                 showControls: true,
@@ -601,6 +599,12 @@
                 enableExpansion: true,
                 enableSearch: true
             });
+            
+            // Initialize and assign OutputFormatter to tree view for SAP CI export functionality
+            if (!window.outputFormatter) {
+                window.outputFormatter = new OutputFormatter();
+            }
+            window.window.treeView.outputFormatter = window.outputFormatter;
             
             // Set up event listeners
             container.addEventListener('selectionChange', (event) => {
@@ -620,45 +624,76 @@
         
         // Initialize TreeView FileHandler
         function initializeTreeFileHandler() {
-            if (!FileHandler.isSupported()) {
-                console.warn('File upload not supported in this browser');
-                return;
-            }
-            
-            treeFileHandler = new FileHandler({
-                maxFileSize: 10 * 1024 * 1024, // 10MB
-                allowedTypes: ['.xml', '.json', '.txt'],
-                enableHistory: false, // Disable history for tree view to avoid conflicts
-                onFileLoad: async (fileData) => {
-                    try {
-                        showMessage(`📁 Loading file: ${fileData.metadata.name}...`, 'info');
-                        
-                        // Load document using the file content
-                        await loadDocument(fileData.content, `File: ${fileData.metadata.name}`);
-                        
-                        showMessage(`✅ File loaded successfully: ${fileData.metadata.name} (${treeFileHandler.formatFileSize(fileData.metadata.size)})`, 'success');
-                    } catch (error) {
-                        showMessage(`❌ Error loading file: ${error.message}`, 'error');
-                    }
-                },
-                onError: (error) => {
-                    showMessage(`❌ File error: ${error.message}`, 'error');
-                },
-                onProgress: (percent) => {
-                    if (percent < 100) {
-                        showMessage(`📁 Loading file... ${percent}%`, 'info');
-                    }
+            try {
+                if (!FileHandler.isSupported()) {
+                    console.warn('File upload not supported in this browser');
+                    return;
                 }
-            });
-            
-            // Setup drag-drop zone
-            treeFileHandler.setupDragDrop(document.getElementById('treeFileDropZone'));
+                
+                window.treeFileHandler = new FileHandler({
+                    maxFileSize: 10 * 1024 * 1024, // 10MB
+                    allowedTypes: ['.xml', '.json', '.txt'],
+                    enableHistory: false, // Disable history for tree view to avoid conflicts
+                    onFileLoad: async (fileData) => {
+                        try {
+                            if (typeof showMessage === 'function') {
+                                showMessage(`📁 Loading file: ${fileData.metadata.name}...`, 'info');
+                            }
+                            
+                            // Load document using the file content
+                            await loadDocument(fileData.content, `File: ${fileData.metadata.name}`);
+                            
+                            if (typeof showMessage === 'function') {
+                                showMessage(`✅ File loaded successfully: ${fileData.metadata.name} (${window.treeFileHandler.formatFileSize(fileData.metadata.size)})`, 'success');
+                            }
+                        } catch (error) {
+                            console.error('Error in onFileLoad:', error);
+                            if (typeof showMessage === 'function') {
+                                showMessage(`❌ Error loading file: ${error.message}`, 'error');
+                            }
+                        }
+                    },
+                    onError: (error) => {
+                        console.error('FileHandler error:', error);
+                        if (typeof showMessage === 'function') {
+                            showMessage(`❌ File error: ${error.message}`, 'error');
+                        }
+                    },
+                    onProgress: (percent) => {
+                        if (percent < 100 && typeof showMessage === 'function') {
+                            showMessage(`📁 Loading file... ${percent}%`, 'info');
+                        }
+                    }
+                });
+                
+                // Setup drag-drop zone
+                const dropZone = document.getElementById('treeFileDropZone');
+                if (dropZone) {
+                    window.treeFileHandler.setupDragDrop(dropZone);
+                    console.log('FileHandler initialized successfully');
+                } else {
+                    console.warn('Drop zone element not found');
+                }
+            } catch (error) {
+                console.error('Error initializing FileHandler:', error);
+                // Still create treeFileHandler so tests don't fail
+                try {
+                    window.treeFileHandler = new FileHandler({
+                        maxFileSize: 10 * 1024 * 1024,
+                        allowedTypes: ['.xml', '.json', '.txt'],
+                        enableHistory: false
+                    });
+                    console.log('Fallback FileHandler created');
+                } catch (fallbackError) {
+                    console.error('Fallback FileHandler creation failed:', fallbackError);
+                }
+            }
         }
         
         // Tree file functions
         function openTreeFileDialog() {
-            if (treeFileHandler) {
-                treeFileHandler.openFileDialog();
+            if (window.treeFileHandler) {
+                window.treeFileHandler.openFileDialog();
             }
         }
         
@@ -681,7 +716,7 @@
                 
                 // Load into tree view
                 console.time('Tree View Loading');
-                treeView.loadDocument(currentDocument, currentPaths);
+                window.treeView.loadDocument(currentDocument, currentPaths);
                 console.timeEnd('Tree View Loading');
                 
                 // Show success message
@@ -1000,18 +1035,17 @@
             await loadDocument(JSON.stringify(massiveData, null, 2), 'Massive Dataset (10k+ nodes)');
         }
         
-        // Initialize OutputFormatter with real-time updates
-        let outputFormatter = null;
+        // OutputFormatter will be initialized in initializeTreeView function
         
         // Update output with selected paths using enhanced UI
         function updateOutput() {
-            if (!treeView) {
+            if (!window.treeView) {
                 clearOutputFields();
                 return;
             }
             
             try {
-                const sapOutput = treeView.getSelectedPathsForSAP();
+                const sapOutput = window.treeView.getSelectedPathsForSAP();
                 
                 // Update individual fields
                 document.getElementById('dynamicCustomHeader').value = sapOutput.DynamicCustomHeader || '';
@@ -1027,8 +1061,8 @@
                 document.getElementById('documentFormat').textContent = sapOutput.documentFormat || 'none';
                 
                 // Get output stats from OutputFormatter if available
-                if (treeView.outputFormatter) {
-                    const stats = treeView.outputFormatter.getOutputStats();
+                if (window.treeView.outputFormatter) {
+                    const stats = window.treeView.outputFormatter.getOutputStats();
                     document.getElementById('outputValid').textContent = stats.isValid ? '✅' : '❌';
                     
                     // Show/hide validation errors
@@ -1068,8 +1102,8 @@
         
         // Clear output
         function clearOutput() {
-            if (treeView) {
-                treeView.selectionManager.deselectAll();
+            if (window.treeView) {
+                window.treeView.selectionManager.deselectAll();
                 updateOutput();
                 updateMetrics();
             }
@@ -1077,7 +1111,7 @@
         
         // Copy field to clipboard
         async function copyField(field) {
-            if (!treeView) {
+            if (!window.treeView) {
                 showCopyFeedback('No data to copy', false);
                 return;
             }
@@ -1085,8 +1119,8 @@
             try {
                 let success = false;
                 
-                if (treeView.outputFormatter) {
-                    success = await treeView.outputFormatter.copyToClipboard(field);
+                if (window.treeView.outputFormatter) {
+                    success = await window.treeView.outputFormatter.copyToClipboard(field);
                 } else {
                     // Fallback for direct copy
                     let textToCopy = '';
@@ -1133,17 +1167,17 @@
         
         // Download output as file
         function downloadOutput() {
-            if (!treeView) {
+            if (!window.treeView) {
                 alert('No tree view loaded');
                 return;
             }
             
             try {
-                if (treeView.outputFormatter) {
-                    treeView.outputFormatter.downloadAsFile('txt');
+                if (window.treeView.outputFormatter) {
+                    window.treeView.outputFormatter.downloadAsFile('txt');
                 } else {
                     // Fallback download
-                    const sapOutput = treeView.getSelectedPathsForSAP();
+                    const sapOutput = window.treeView.getSelectedPathsForSAP();
                     const content = `SAP Cloud Integration Output
 Generated: ${new Date().toLocaleString()}
 
@@ -1175,19 +1209,19 @@ Selection Summary:
         
         // Update performance metrics
         function updateMetrics() {
-            if (!treeView) return;
+            if (!window.treeView) return;
             
-            const treeStats = treeView.dataTransformer.getStats();
-            const selectionStats = treeView.selectionManager.getSelectionStats();
+            const treeStats = window.treeView.dataTransformer.getStats();
+            const selectionStats = window.treeView.selectionManager.getSelectionStats();
             
             let virtualStats = {};
-            if (treeView.virtualTreeView) {
-                virtualStats = treeView.virtualTreeView.getPerformanceStats();
+            if (window.treeView.virtualTreeView) {
+                virtualStats = window.treeView.virtualTreeView.getPerformanceStats();
             }
             
             const metricsText = `Tree Statistics:
 Total Nodes: ${treeStats.nodeCount}
-Displayed: ${treeView.filteredNodes.length}
+Displayed: ${window.treeView.filteredNodes.length}
 
 Selection:
 Selected: ${selectionStats.selectedCount}
@@ -1207,12 +1241,12 @@ Pooled Elements: ${virtualStats.pooledElements || 'N/A'}`;
         
         // Export selection
         function exportSelection() {
-            if (!treeView) {
+            if (!window.treeView) {
                 alert('No tree view loaded');
                 return;
             }
             
-            const sapOutput = treeView.getSelectedPathsForSAP();
+            const sapOutput = window.treeView.getSelectedPathsForSAP();
             const exportData = {
                 exportedAt: new Date().toISOString(),
                 documentFormat: sapOutput.documentFormat,
@@ -1258,8 +1292,8 @@ Pooled Elements: ${virtualStats.pooledElements || 'N/A'}`;
         
         // Handle window resize
         window.addEventListener('resize', () => {
-            if (treeView && treeView.virtualTreeView) {
-                treeView.virtualTreeView.handleResize();
+            if (treeView && window.treeView.virtualTreeView) {
+                window.treeView.virtualTreeView.handleResize();
             }
         });
     </script>

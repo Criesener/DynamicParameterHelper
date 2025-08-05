@@ -314,7 +314,13 @@ class VirtualizedTreeView {
         
         // Update label
         const label = element.querySelector('.tree-node-label');
-        label.textContent = node.getDisplayName();
+        // Defensive check for getDisplayName method
+        if (typeof node.getDisplayName === 'function') {
+            label.textContent = node.getDisplayName();
+        } else {
+            console.warn('Node missing getDisplayName method:', node);
+            label.textContent = node.metadata?.displayName || node.path || 'Unknown';
+        }
         label.title = node.path; // Tooltip with full path
         
         // Update value

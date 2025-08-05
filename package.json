@@ -13,7 +13,8 @@
     "lint": "eslint src/**/*.js",
     "start": "open demo.html",
 
-    "build": "npm run build:rollup",
+    "build": "node scripts/build-single-file.js",
+    "build:rollup-old": "rollup -c",
     "build:rollup": "rollup -c",
     "build:rollup:debug": "rollup -c --environment BUILD:debug",
     "build:webpack": "webpack --mode production",

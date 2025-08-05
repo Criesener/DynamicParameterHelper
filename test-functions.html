@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Function Test</title>
+</head>
+<body>
+    <h1>Function Test</h1>
+    <button onclick="testLoadSampleXML()">Test loadSampleXML</button>
+    <button onclick="testOpenTreeFileDialog()">Test openTreeFileDialog</button>
+    <div id="results"></div>
+    
+    <script>
+        function testLoadSampleXML() {
+            const results = document.getElementById('results');
+            if (typeof window.loadSampleXML === 'function') {
+                results.innerHTML += '<p>✅ loadSampleXML exists and is a function</p>';
+                try {
+                    window.loadSampleXML();
+                    results.innerHTML += '<p>✅ loadSampleXML called successfully</p>';
+                } catch (e) {
+                    results.innerHTML += '<p>❌ loadSampleXML error: ' + e.message + '</p>';
+                }
+            } else {
+                results.innerHTML += '<p>❌ loadSampleXML not found or not a function</p>';
+            }
+        }
+        
+        function testOpenTreeFileDialog() {
+            const results = document.getElementById('results');
+            if (typeof window.openTreeFileDialog === 'function') {
+                results.innerHTML += '<p>✅ openTreeFileDialog exists and is a function</p>';
+                try {
+                    window.openTreeFileDialog();
+                    results.innerHTML += '<p>✅ openTreeFileDialog called successfully</p>';
+                } catch (e) {
+                    results.innerHTML += '<p>❌ openTreeFileDialog error: ' + e.message + '</p>';
+                }
+            } else {
+                results.innerHTML += '<p>❌ openTreeFileDialog not found or not a function</p>';
+            }
+        }
+    </script>
+</body>
+</html>

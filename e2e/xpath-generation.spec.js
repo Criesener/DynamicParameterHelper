@@ -7,7 +7,7 @@ const { test, expect } = require('@playwright/test');
 
 test.describe('XPath Generation Workflow', () => {
     test.beforeEach(async ({ page }) => {
-        await page.goto('/demo.html');
+        await page.goto('/dist/index.html');
     });
 
     test('should generate XPaths for XML elements', async ({ page }) => {
@@ -114,7 +114,7 @@ test.describe('XPath Generation Workflow', () => {
 
 test.describe('JSONPath Generation', () => {
     test('should generate JSONPaths for JSON data', async ({ page }) => {
-        await page.goto('/demo.html');
+        await page.goto('/dist/index.html');
         
         const jsonData = `{
             "users": [

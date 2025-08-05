@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Debug Test</title>
+</head>
+<body>
+    <script>
+        // Simple debug test to check if the bundled code works
+        window.addEventListener('load', async () => {
+            console.log('Page loaded, opening built file in iframe...');
+            
+            const iframe = document.createElement('iframe');
+            iframe.src = 'dist/index.html';
+            iframe.style.width = '100%';
+            iframe.style.height = '600px';
+            iframe.onload = () => {
+                console.log('Iframe loaded, checking for file inputs...');
+                setTimeout(() => {
+                    const fileInputs = iframe.contentDocument.querySelectorAll('input[type="file"]');
+                    console.log(`Found ${fileInputs.length} file input(s):`, fileInputs);
+                    
+                    // Check if FileHandler exists
+                    console.log('window.FileHandler:', iframe.contentWindow.FileHandler);
+                    console.log('window.treeFileHandler:', iframe.contentWindow.treeFileHandler);
+                    
+                    // Check for errors in console
+                    const consoleErrors = [];
+                    const originalConsoleError = iframe.contentWindow.console.error;
+                    iframe.contentWindow.console.error = (...args) => {
+                        consoleErrors.push(args);
+                        originalConsoleError.apply(iframe.contentWindow.console, args);
+                    };
+                    
+                    setTimeout(() => {
+                        console.log('Console errors:', consoleErrors);
+                    }, 1000);
+                }, 2000);
+            };
+            document.body.appendChild(iframe);
+        });
+    </script>
+</body>
+</html>

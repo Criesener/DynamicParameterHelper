@@ -460,5 +460,3 @@ if (typeof module !== 'undefined' && module.exports) {
     window.DocumentParserError = DocumentParserError;
 }
 
-// ES module export
-export { DocumentParser, DocumentParserError };

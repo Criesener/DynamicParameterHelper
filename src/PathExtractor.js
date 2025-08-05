@@ -431,5 +431,3 @@ if (typeof module !== 'undefined' && module.exports) {
     window.PathExtractorError = PathExtractorError;
 }
 
-// ES module export
-export { PathExtractor, PathExtractorError };

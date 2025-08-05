@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Debug File Input</title>
+</head>
+<body>
+    <h1>Debug File Input Test</h1>
+    <button onclick="testFileInput()">Test File Input Creation</button>
+    <button onclick="checkFileInput()">Check if File Input Exists</button>
+    <div id="output"></div>
+
+    <script>
+        // Copy the FileHandler class from dist/index.html
+        let treeFileHandler = null;
+        
+        function log(message) {
+            const output = document.getElementById('output');
+            output.innerHTML += '<div>' + new Date().toISOString() + ': ' + message + '</div>';
+            console.log(message);
+        }
+        
+        function testFileInput() {
+            log('Testing file input creation...');
+            
+            // Simulate FileHandler constructor logic
+            try {
+                log('Creating file input element...');
+                const inputElement = document.createElement('input');
+                inputElement.type = 'file';
+                inputElement.style.display = 'none';
+                inputElement.accept = '.xml,.json,.txt';
+                inputElement.multiple = false;
+                
+                log('Appending to document body...');
+                document.body.appendChild(inputElement);
+                
+                log('File input created successfully! ID: ' + inputElement.id + ', Type: ' + inputElement.type);
+                log('File input in DOM: ' + document.body.contains(inputElement));
+                
+                treeFileHandler = { fileInput: inputElement };
+                
+            } catch (error) {
+                log('ERROR creating file input: ' + error.message);
+            }
+        }
+        
+        function checkFileInput() {
+            log('Checking for file input in DOM...');
+            const fileInputs = document.querySelectorAll('input[type="file"]');
+            log('Found ' + fileInputs.length + ' file input(s)');
+            
+            fileInputs.forEach((input, index) => {
+                log('Input ' + index + ': display=' + input.style.display + ', accept=' + input.accept + ', parent=' + input.parentNode.tagName);
+            });
+            
+            if (treeFileHandler && treeFileHandler.fileInput) {
+                log('treeFileHandler.fileInput exists: ' + (treeFileHandler.fileInput !== null));
+                log('treeFileHandler.fileInput in DOM: ' + document.body.contains(treeFileHandler.fileInput));
+            } else {
+                log('treeFileHandler.fileInput is null or undefined');
+            }
+        }
+    </script>
+</body>
+</html>
+<body>
+    <button onclick="testFunction()">Test Button</button>
+    <div id="output"></div>
+    
+    <script>
+        function testFunction() {
+            document.getElementById('output').innerHTML = 'Button works!';
+            console.log('Button clicked successfully');
+        }
+        
+        // Test if our built functions exist
+        window.addEventListener('load', () => {
+            console.log('Page loaded');
+            console.log('loadSampleXML exists:', typeof window.loadSampleXML);
+            console.log('openTreeFileDialog exists:', typeof window.openTreeFileDialog);
+        });
+    </script>
+</body>
+</html>

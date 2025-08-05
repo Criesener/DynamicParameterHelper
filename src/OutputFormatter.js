@@ -39,7 +39,7 @@ class OutputFormatter {
         
         // Format validation rules for SAP CI
         this.validationRules = {
-            maxPathLength: 1000,
+            maxPathLength: 5000, // Increased to accommodate new format with element names
             maxNamespaceLength: 2000,
             forbiddenChars: /[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/g // Control characters
         };
@@ -100,7 +100,7 @@ class OutputFormatter {
 
     /**
      * Format paths for DynamicCustomHeader field
-     * @param {Array} paths - Array of XPath/JSONPath strings
+     * @param {Array} paths - Array of XPath/JSONPath strings or objects with path and displayName
      * @param {Object} options - Formatting options
      * @returns {string} Formatted header value
      */
@@ -109,19 +109,39 @@ class OutputFormatter {
             return '';
         }
         
-        // Apply escaping if enabled
-        let processedPaths = paths;
-        if (this.options.escapeSpecialChars) {
-            processedPaths = paths.map(path => this._escapeSAPExpression(path));
-        }
+        // Process paths to extract element names and format them
+        const formattedEntries = paths.map(pathItem => {
+            let path, elementName;
+            
+            // Handle both string paths and objects with metadata
+            if (typeof pathItem === 'string') {
+                path = pathItem;
+                // Extract element name from path
+                elementName = this._extractElementNameFromPath(path);
+            } else if (pathItem && typeof pathItem === 'object') {
+                path = pathItem.path || pathItem;
+                elementName = pathItem.displayName || pathItem.elementName || this._extractElementNameFromPath(path);
+            } else {
+                return ''; // Skip invalid entries
+            }
+            
+            // Skip empty paths or element names
+            if (!path || !elementName || path.trim() === '' || elementName.trim() === '') {
+                return '';
+            }
+            
+            // Apply escaping if enabled
+            if (this.options.escapeSpecialChars) {
+                path = this._escapeSAPExpression(path);
+                elementName = this._escapeSAPExpression(elementName);
+            }
+            
+            // Format as {{ElementName}},{{Path}}
+            return `{{${elementName}}},{{${path}}}`;
+        }).filter(entry => entry); // Remove empty entries
         
-        // Apply format - line-separated (SAP CI requirement) or comma-separated
-        const format = options.lineFormat || this.options.lineFormat;
-        if (format === 'multiline') {
-            return processedPaths.join('\n');
-        } else {
-            return processedPaths.join(',');
-        }
+        // Join with semicolons as separator
+        return formattedEntries.join(';');
     }
 
     /**
@@ -380,12 +400,49 @@ Metadata:
 - Valid: ${output.metadata.valid}
 ${output.metadata.errors.length > 0 ? `- Errors: ${output.metadata.errors.join(', ')}` : ''}`;
     }
+
+    /**
+     * Extract element name from XPath or JSONPath
+     * @private
+     */
+    _extractElementNameFromPath(path) {
+        if (!path || path.trim() === '') return '';
+        
+        // Handle JSONPath
+        if (path.startsWith('$')) {
+            const segments = path.split(/[\[\].]+/);
+            const lastSegment = segments[segments.length - 1].replace(/['"]/g, '');
+            return lastSegment || 'root';
+        }
+        
+        // Handle XPath
+        const segments = path.split('/').filter(s => s);
+        if (segments.length === 0) return 'root';
+        
+        let lastSegment = segments[segments.length - 1];
+        
+        // Handle special cases
+        if (lastSegment.startsWith('@')) {
+            // Attribute - return the attribute name
+            return lastSegment;
+        }
+        
+        if (lastSegment === 'text()') {
+            // Text node - use parent element name
+            return segments.length > 1 ? segments[segments.length - 2].split('[')[0] + '_text' : 'text';
+        }
+        
+        // Remove array indices and namespace prefixes
+        lastSegment = lastSegment.split('[')[0];
+        if (lastSegment.includes(':')) {
+            lastSegment = lastSegment.split(':')[1];
+        }
+        
+        return lastSegment;
+    }
 }
 
 // Export for use in other modules
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = OutputFormatter;
 }
-
-// ES module export
-export { OutputFormatter };

@@ -56,7 +56,7 @@ describe('OutputFormatter', () => {
         });
 
         test('should configure validation rules', () => {
-            expect(formatter.validationRules.maxPathLength).toBe(1000);
+            expect(formatter.validationRules.maxPathLength).toBe(5000);
             expect(formatter.validationRules.maxNamespaceLength).toBe(2000);
             expect(formatter.validationRules.forbiddenChars).toBeInstanceOf(RegExp);
         });
@@ -72,7 +72,7 @@ describe('OutputFormatter', () => {
             expect(result).toHaveProperty('DynamicCustomHeader');
             expect(result).toHaveProperty('DynamicCustomHeaderXMLNamespace');
             expect(result).toHaveProperty('metadata');
-            expect(result.DynamicCustomHeader).toBe('/root/element1\n/root/element2');
+            expect(result.DynamicCustomHeader).toBe('{{element1}},{{/root/element1}};{{element2}},{{/root/element2}}');
             expect(result.DynamicCustomHeaderXMLNamespace).toBe('ex=http://example.com');
             expect(result.metadata.pathCount).toBe(2);
             expect(result.metadata.namespaceCount).toBe(1);
@@ -98,7 +98,7 @@ describe('OutputFormatter', () => {
             const paths = ['$.store.book[0].title', '$.store.book[*].author'];
             const result = formatter.formatForSAP(paths);
             
-            expect(result.DynamicCustomHeader).toBe('$.store.book[0].title\n$.store.book[*].author');
+            expect(result.DynamicCustomHeader).toBe('{{title}},{{$.store.book[0].title}};{{author}},{{$.store.book[*].author}}');
             expect(result.metadata.pathCount).toBe(2);
         });
 
@@ -132,18 +132,21 @@ describe('OutputFormatter', () => {
     });
 
     describe('formatDynamicHeader', () => {
-        test('should format paths with multiline format', () => {
+        test('should format paths with element names in new format', () => {
             const paths = ['/root/item1', '/root/item2', '/root/item3'];
             const result = formatter.formatDynamicHeader(paths);
             
-            expect(result).toBe('/root/item1\n/root/item2\n/root/item3');
+            expect(result).toBe('{{item1}},{{/root/item1}};{{item2}},{{/root/item2}};{{item3}},{{/root/item3}}');
         });
 
-        test('should format paths with comma format', () => {
-            const paths = ['/root/item1', '/root/item2'];
-            const result = formatter.formatDynamicHeader(paths, { lineFormat: 'comma' });
+        test('should format paths with metadata objects', () => {
+            const paths = [
+                { path: '/root/item1', displayName: 'First Item' },
+                { path: '/root/item2', elementName: 'Second Item' }
+            ];
+            const result = formatter.formatDynamicHeader(paths);
             
-            expect(result).toBe('/root/item1,/root/item2');
+            expect(result).toBe('{{First Item}},{{/root/item1}};{{Second Item}},{{/root/item2}}');
         });
 
         test('should handle empty array', () => {
@@ -155,7 +158,7 @@ describe('OutputFormatter', () => {
             const paths = ["/root/item[@attr='value\"with\\quotes']"];
             const result = formatter.formatDynamicHeader(paths);
             
-            expect(result).toBe("/root/item[@attr=\\'value\\\"with\\\\quotes\\']");
+            expect(result).toBe("{{item}},{{/root/item[@attr=\\'value\\\"with\\\\quotes\\']}}");
         });
 
         test('should not escape when disabled', () => {
@@ -163,15 +166,28 @@ describe('OutputFormatter', () => {
             const paths = ["/root/item[@attr='value\"with\\quotes']"];
             const result = noEscapeFormatter.formatDynamicHeader(paths);
             
-            expect(result).toBe("/root/item[@attr='value\"with\\quotes']");
+            expect(result).toBe("{{item}},{{/root/item[@attr='value\"with\\quotes']}}");
         });
 
         test('should handle JSONPath expressions', () => {
             const paths = ['$.store.book[0].title', '$.users[?(@.age > 25)].name'];
             const result = formatter.formatDynamicHeader(paths);
             
-            expect(result).toContain('$.store.book[0].title');
-            expect(result).toContain('$.users[?(@.age > 25)].name');
+            expect(result).toBe('{{title}},{{$.store.book[0].title}};{{name}},{{$.users[?(@.age > 25)].name}}');
+        });
+
+        test('should handle XPath attributes', () => {
+            const paths = ['/root/element/@attribute'];
+            const result = formatter.formatDynamicHeader(paths);
+            
+            expect(result).toBe('{{@attribute}},{{/root/element/@attribute}}');
+        });
+
+        test('should handle text nodes', () => {
+            const paths = ['/root/element/text()'];
+            const result = formatter.formatDynamicHeader(paths);
+            
+            expect(result).toBe('{{element_text}},{{/root/element/text()}}');
         });
     });
 
@@ -256,7 +272,7 @@ describe('OutputFormatter', () => {
         });
 
         test('should detect header length violation', () => {
-            const longPath = '/very/long/path'.repeat(100); // Create a very long path
+            const longPath = '/very/long/path'.repeat(350); // Create a very long path (> 5000 chars with new format)
             const paths = [longPath];
             const result = formatter.formatForSAP(paths);
             
@@ -314,7 +330,7 @@ describe('OutputFormatter', () => {
             const success = await formatter.copyToClipboard('header');
             
             expect(success).toBe(true);
-            expect(global.navigator.clipboard.writeText).toHaveBeenCalledWith('/test/path1\n/test/path2');
+            expect(global.navigator.clipboard.writeText).toHaveBeenCalledWith('{{path1}},{{/test/path1}};{{path2}},{{/test/path2}}');
         });
 
         test('should copy namespace to clipboard', async () => {
@@ -472,7 +488,7 @@ describe('OutputFormatter', () => {
                 hasOutput: true,
                 pathCount: 2,
                 namespaceCount: 1,
-                headerLength: '/path1\n/path2'.length,
+                headerLength: '{{path1}},{{/path1}};{{path2}},{{/path2}}'.length,
                 namespaceLength: 'ex=http://example.com'.length,
                 isValid: true,
                 errors: [],
@@ -637,13 +653,12 @@ describe('OutputFormatter', () => {
             
             // Mixed empty and valid paths
             const result = formatter.formatDynamicHeader(['', '/valid/path', '']);
-            expect(result).toContain('/valid/path');
+            expect(result).toBe('{{path}},{{/valid/path}}');
             
             // Special unicode characters
             const unicodePaths = ['/root/元素', '/root/элемент'];
             const unicodeResult = formatter.formatDynamicHeader(unicodePaths);
-            expect(unicodeResult).toContain('元素');
-            expect(unicodeResult).toContain('элемент');
+            expect(unicodeResult).toBe('{{元素}},{{/root/元素}};{{элемент}},{{/root/элемент}}');
         });
     });
 
@@ -662,8 +677,9 @@ describe('OutputFormatter', () => {
             
             const result = formatter.formatForSAP(xpaths, namespaces);
             
-            // Verify complete structure
-            expect(result.DynamicCustomHeader).toContain('/soap:Envelope/soap:Body');
+            // Verify complete structure with new format (with escaped quotes)
+            expect(result.DynamicCustomHeader).toContain('{{Data}},{{/soap:Envelope/soap:Body/req:Request/req:Data[@type=\\"input\\"]}}');
+            expect(result.DynamicCustomHeader).toContain('{{ProcessingInfo}},{{/soap:Envelope/soap:Body/req:Request/req:Metadata/req:ProcessingInfo}}');
             expect(result.DynamicCustomHeaderXMLNamespace).toContain('soap=');
             expect(result.DynamicCustomHeaderXMLNamespace).toContain('req=');
             expect(result.metadata.pathCount).toBe(2);

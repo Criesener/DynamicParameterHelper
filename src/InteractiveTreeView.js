@@ -740,7 +740,13 @@ class InteractiveTreeView {
         }
         
         const selectedNodes = this.selectionManager.getSelectedNodes();
-        const selectedPaths = selectedNodes.map(node => node.path);
+        
+        // Pass node objects with metadata instead of just paths
+        const selectedPathsWithMetadata = selectedNodes.map(node => ({
+            path: node.path,
+            displayName: node.metadata ? node.metadata.displayName : null,
+            elementName: node.metadata ? node.metadata.displayName : null
+        }));
         
         // Get namespace information for XML documents
         let namespaces = new Map();
@@ -764,7 +770,7 @@ class InteractiveTreeView {
         }
         
         // Use OutputFormatter for proper SAP CI formatting
-        const formattedOutput = this.outputFormatter.formatForSAP(selectedPaths, namespaces);
+        const formattedOutput = this.outputFormatter.formatForSAP(selectedPathsWithMetadata, namespaces);
         
         // Return legacy format for backward compatibility
         return {
